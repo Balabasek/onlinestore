@@ -1,0 +1,254 @@
+.main-one {
+  padding: 25px 0 25px 0;
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  column-gap: 20px;
+}
+
+.main-one__left {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
+
+.filter__item {
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  padding: 0 0 20px 0;
+  border: 1px solid $mainColor;
+  background-color: $mainColor;
+}
+
+.filter__item-name {
+  color: #FFF;
+  align-self: center;
+  margin: 5px;
+}
+
+.filter__item-container {
+  padding: 5px;
+  background-color: #FFF;
+  max-height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  div {
+    padding: 2px 0;
+    display: flex;
+    column-gap: 3px;
+    span {
+      margin-left: auto;
+    }
+  }
+}
+
+.filter__item-container-scroll {
+  overflow-y: scroll;
+}
+
+.filter__stock {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 10px;
+}
+
+.filter__item-data {
+  width: 100%;
+  justify-content: space-around;
+}
+
+.main-one__right {
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  border: 1px solid $mainColor;
+  background-color: $mainColor;
+  padding: 20px 0;
+}
+
+.right__list {
+  height: 100%;
+  padding: 5px;
+  background-color: #FFF;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+}
+
+.right__view {
+  padding: 0 10px 10px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.view__visible {
+  display: flex;
+  column-gap: 10px;
+}
+
+.visible__item {
+  cursor: pointer;
+  display: block;
+  width: 30px;
+  height: 30px;
+  background-color: green;
+}
+
+.view__sort {
+  cursor: pointer;
+  outline: none;
+  font-weight: 700;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.view__find-count {
+  color: #FFF;
+}
+
+.view__search {
+  cursor: pointer;
+  outline: none;
+  font-weight: 700;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.cardlist__item {
+  width: 235px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  border: 1px solid $mainColor;
+  background-color: $mainColor;
+  padding: 0 0 10px 0;
+}
+
+.card__name {
+  color: #FFF;
+  font-weight: 700;
+  font-size: 16px;
+  align-self: center;
+  padding: 5px 0;
+}
+
+.card__btn {
+  padding: 15px 5px 0 5px;
+  display: flex;
+  column-gap: 5px;
+  justify-content: space-between;
+}
+
+.card__info {
+  cursor: pointer;
+  position: relative;
+  height: 250px;
+}
+
+.card__info-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card__data {
+  color: #FFF;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 0 0 5px 0;
+  padding: 5px;
+}
+
+.range-slider {
+  position: relative;
+  width: 80%;
+  height: 25px;
+  float: left;
+  text-align: center;
+}
+
+.range-slider input[type=range] {
+  -webkit-appearance: none;
+  height: 20px;
+  pointer-events: none;
+  padding: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 20px;
+  width: 100%;
+  border-radius: 14px;
+  border: 1px solid $mainColor;
+  background: none;
+}
+
+.range-slider input[type=range]:focus, .range-slider input[type=range]:active {
+  outline: none;
+}
+
+.range-slider input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  box-sizing: content-box;
+  width: 20px;
+  height: 20px;
+  border: none;
+  pointer-events: auto;
+  border-radius: 14px;
+  background-color: $mainColor;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+}
+
+.range-slider input[type=range]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: none;
+  pointer-events: auto;
+  border-radius: 14px;
+  background-color: $mainColor;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+}
+
+.range-slider input[type=range]::-ms-thumb {
+  width: 20px;
+  height: 20px;
+  border: none;
+  pointer-events: auto;
+  border-radius: 14px;
+  background-color: green;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+}
+
+.range-slider input[type=range]::-moz-range-track {
+  -moz-appearance: none;
+  background: none;
+}
+
+.range-slider input[type=range]::-ms-track {
+  border-color: transparent;
+  color: transparent;
+  background: transparent;
+}
+
+.range-slider input[type=range]::-ms-fill-upper {
+  background: transparent;
+}
+
+.range-slider input[type=range]::-ms-fill-lower {
+  background: transparent;
+}
+
+.range-slider input[type=range]::-ms-tooltip {
+  display: none;
+}

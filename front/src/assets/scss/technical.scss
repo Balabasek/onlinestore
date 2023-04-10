@@ -1,0 +1,96 @@
+/* Общие и технические классы */
+
+h1 {
+  color: #000;
+  font-size: 32px;
+}
+
+h2 {
+  color: #000;
+  font-size: 24px;
+}
+
+h3 {
+  color: #000;
+  font-size: 20px;
+}
+
+p {
+  font-size: 16px;
+}
+
+._main-container {
+  background-color: $white;
+  overflow: hidden;
+  max-width: 100%;
+  padding: 0 12px;
+}
+
+@media (max-width: $md1) {
+  ._main-container {
+    padding: 0 7px;
+  }
+}
+
+@media (max-width: $md2) {
+  ._main-container {
+    padding: 0 5px;
+  }
+}
+
+._container {
+  overflow: hidden;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+@media (max-width: $md1) {
+  ._container {
+    max-width: 1340px;
+  }
+}
+
+._btn {
+  display: block;
+  font-family: 'Roboto', sans-serif;
+  width: 120px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 22.4px;
+  color: $mainColor;
+  padding: 5px 3px;
+  text-transform: uppercase;
+  border-radius: 25px;
+  transition: all 0.5s;
+  background: rgb(242, 242, 242);
+  border: 1px solid rgb(242, 242, 242);
+  cursor: pointer;
+  &:hover {
+    color: #FFF;
+    border: 1px solid rgb(242, 242, 242);;
+    background: $mainColor;
+  }
+  &:active {
+    background: #4B9200;;
+  }
+  &:disabled {
+    background: $secondColor;
+    opacity: 0.5;
+    cursor: default;
+  }
+}
+
+._ftxt {
+  font-size: 20px;
+  line-height: 40px;
+  background-color: rgba(0, 0, 0, .5);
+  padding: 3px 18px;
+  outline: none;
+  &::placeholder {
+    font-size: 20px;
+  }
+}
+
+._bodyNotScroll {
+  overflow-y: clip;
+}
