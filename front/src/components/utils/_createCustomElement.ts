@@ -1,14 +1,21 @@
-export default class CustomElement<Tag extends keyof HTMLElementTagNameMap> {
-  element: HTMLElementTagNameMap[Tag];
+ /* eslint-disable */ 
+import {stringObject} from '../typingTS/_type'
 
-  constructor(tagName: Tag, options?: Partial<HTMLElementTagNameMap[Tag]>) {
-    this.element = document.createElement(tagName);
+class CustomElement {
+
+  createElement(tagName: string = 'div', options?: stringObject) {
+    const element = document.createElement(tagName);
     if (options) {
-      Object.assign(this.element, options);
+      Object.assign(element, options);
     }
+    return element
   }
 
-  addChildren(children: (Node | string)[]) {
-    this.element.append(...children);
+  addChildren(Father: HTMLElement, children: (HTMLElement | string)[]) {
+    Father.append(...children);
   }
 }
+
+export default CustomElement 
+
+ /* eslint-enable */ 
