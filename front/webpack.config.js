@@ -20,6 +20,7 @@ const config = {
 
   output: {
     path: path.resolve(__dirname, "dist"),
+    publicPath:'/',
     clean: true,
     filename: '[name].[contenthash].js',
     assetModuleFilename: 'assets/[name][ext]',
@@ -30,12 +31,13 @@ const config = {
   devServer: {
     open: true,
     host: "localhost",
+    historyApiFallback: true,
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'index.html'), // шаблон
       filename: 'index.html', // название выходного файла
-      chunks: ['index'], // здесь от названия страницы, добавляем именно тот js файл, который должен быть к ней привязан можно привязать через js
+      chunks: ['index'], // здесь от названия страницы, ты добавляешь именно тот js файл, который должен быть к ней привязан можно привязать через js
       inject: 'body',
     }),
     new EslingPlugin({ extensions: ['ts', 'js'] })

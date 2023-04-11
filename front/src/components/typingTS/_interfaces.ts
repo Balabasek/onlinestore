@@ -16,10 +16,11 @@ interface IitemDATA {
 
 
   interface IFilter {
-    category: stringObject;
-    brand: stringObject;
+    category: string[];
+    brand: string[];
     price: number[];
     stock: number[];
+    search: string[];
 }
 
 

@@ -1,16 +1,10 @@
-
-// type template = HTMLTemplateElement | null
-
-// type option = {
-//     [x: string]: string;
-// };
-
-// type callbackVoid = <T>(arg: T) => void;
-
-
 type stringObject = {
-  [x: string]: boolean;
+  [x: string]: string;
+}
+
+type stringArrayObject = {
+  [x: string]: number[];
 }
 
 
-export { stringObject }
+export { stringObject, stringArrayObject }
