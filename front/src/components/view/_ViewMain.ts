@@ -1,61 +1,50 @@
-import ControllerMain from "../controller/_ControllerMain";
-import Router from "../router";
+import CustomElement from '../utils/_createCustomElement';
+import ControllerMain from '../controller/_ControllerMain';
+import { stringArrayObject } from '../typingTS/_type';
 
 class ViewMain {
+  mainCheckList: HTMLElement
+  customElement: CustomElement
   _controller: ControllerMain;
-  _router: Router;
-  root: HTMLElement;
+  startCategoryData: stringArrayObject
 
   constructor() {
-    this.root = document.body;
     this._controller = new ControllerMain();
-    this._router = new Router()
+    this.startCategoryData = this._controller.startCategoryData;
+    this.customElement = new CustomElement();
+    this.mainCheckList = this.customElement.createElement('div', { className: 'filter__item-container category__container filter__item-container-scroll'});
 
-    this._router.startRouteListenner()
-    this._router.handleLocation()
-
-    // this._controller.router.startRouteListenner()
-    // console.log("this._controller.router.count",this._controller.router.count)
+    this.create();
   }
 
-  createFooter() {
 
-    const footer: HTMLElement = document.createElement("footer")
+  create(data: stringArrayObject = this.startCategoryData) {
+    console.log(this.startCategoryData)
+    const filterCategory = this.customElement.createElement('div', { className: 'filter__item filter__category category filter__item-scroll'});
 
-    footer.innerHTML = `<footer class="page-footer _main-container">
-  <section class="footer _container">
-    <div class="footer__item github">
-      <div class="footer__link-container">
-        <div class="footer__link-container-item">
-          <a href="https://github.com/Balabasek" class="footer__link footer__github"></a>
-          <p class="footer__author">Balabasek</p>
-        </div>
-        <div class="footer__link-container-item">
-          <a href="https://github.com/LjeDmitriy" class="footer__link footer__github"></a>
-          <p class="footer__author">LjeDmitriy</p>
-        </div>
-      </div>
-    </div>
-    <p class="footer__item date-relese">2023</p>
-    <div class="footer__item sibsutis">
-      <a href="https://sibsutis.ru/" class="footer__link footer__sibsutis"></a>
-    </div>
-  </section>
-</footer>`
+    const filterItemName = this.customElement.createElement('h3', { className: 'filter__item-name category__name', textContent: 'Category'});
+    this.customElement.addChildren(filterCategory,[filterItemName, this.mainCheckList]);
 
-footer.onclick = () => {this._router.pushState('/product')}
+    for (const key in data) {
+      const item = this.customElement.createElement('div');
+      console.log()
+      const input = this.customElement.createElement('input', { type: 'checkbox', id: key});
+      const label = this.customElement.createElement('label', { textContent: key});
+      label.setAttribute('for', key)
+      this.customElement.addChildren(item,[input, label]);
+      this.customElement.addChildren(this.mainCheckList,[item]);
+    }
 
-    this.root.append(footer)
+    document.body.append(filterCategory)
   }
 
-  createMain() {
-    console.log("1")
+
+  headerListeners() {
+    this.mainCheckList.addEventListener('click', this.onheaderBasketClick);
   }
 
-  init() {
-    this.createFooter()
-    // this._controller.router.startRouteListenner()
-
+  private onheaderBasketClick = () => {
+    console.log('123');
   }
 
 }

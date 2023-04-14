@@ -2,7 +2,7 @@
  import CustomElement from '../utils/_createCustomElement';
  import basket from '../../assets/img/png/basket.png'
 
- class Header {
+ class ViewHeader {
    headerTotalPrice: HTMLElement
    headerBasket: HTMLElement
    headerBasketCount: HTMLElement
@@ -57,6 +57,6 @@
 
  }
 
- export default Header
+ export default ViewHeader
 
  /* eslint-enable */ 
