@@ -5,12 +5,8 @@ class Router {
       routesPage: (x: string) => void;
     }
   };
-  count: number;
 
   constructor() {
-    this.count = 0;
-
-
 
     this.routes = {
       '/page404': {
@@ -39,7 +35,7 @@ class Router {
     // console.log("this.count", this.count)
 
     if (name !== 'Home') {
-            // window.history.pushState({}, '', '/')
+      // window.history.pushState({}, '', '/')
       // const path = window.location.pathname;
       // window.history.pushState({}, '', path)
       // window.location.reload()
@@ -48,7 +44,7 @@ class Router {
       div.textContent = name;
       document.body.replaceChildren(div);
       // console.log('111111111111111111')
-    } 
+    }
     else {
 
       // const div = document.createElement('div');
@@ -57,7 +53,7 @@ class Router {
       // window.history.pushState({}, '', '/')
       // window.location.reload()
     }
- 
+
   }
   startRouteListenner() {
     window.onpopstate = this.handleLocation;
@@ -66,6 +62,9 @@ class Router {
   pushState(path:string) {
 
     window.location.assign(`${window.location.origin}${path}`)
+
+    // window.history.pushState({}, '', path)
+    // window.location.reload()
   }
 
 
@@ -75,7 +74,7 @@ class Router {
     const path = window.location.pathname;
     // console.log("path 111===", path)
     const route = this.routes[path] || this.routes['/page404'];
-        // console.log("route", route)
+    // console.log("route", route)
     route.routesPage(route.name);
     // document.title = `Store - ${route.name}`;
     // preventDefault()

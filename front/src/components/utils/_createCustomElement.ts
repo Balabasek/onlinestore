@@ -1,5 +1,5 @@
- /* eslint-disable */ 
 import {stringObject} from '../typingTS/_type'
+
 
 class CustomElement {
 
@@ -17,5 +17,3 @@ class CustomElement {
 }
 
 export default CustomElement 
-
- /* eslint-enable */ 
