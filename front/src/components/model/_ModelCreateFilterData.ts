@@ -39,8 +39,6 @@ class CreateFilterData {
 
 
         this.FILTER.category.push("smartphones")
-
-        console.log("this._FILTER",this._FILTER)
     }
 // ссылка на класс Базы данных
     public get baseData() {
@@ -114,10 +112,8 @@ class CreateFilterData {
             })
         })
 
-        console.log("result",result)
         filter.category.forEach((item) => {
 
-            console.log("result[item]",result[item])
 
             //  result[item][0] +=1
         })
