@@ -1,6 +1,4 @@
-import { stringObject} from './_type'
 
-import { stringObject} from './_type'
 
 interface IitemDATA {
     id: number;

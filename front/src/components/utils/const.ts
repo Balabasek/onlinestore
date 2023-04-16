@@ -1,21 +1,8 @@
-import { stringArrayObject } from '../typingTS/_type';
+import CustomElement from '../utils/_createCustomElement';
+const customElement = new CustomElement();
 
-// Функция получения HTML элемента из строки
-const createElement = (template: string): HTMLElement => {
-    const newElement = document.createElement('div');
-    newElement.innerHTML = template;
+const HEADER = customElement.createElement('header', {className: "page-header _main-container"});
+const MAIN = customElement.createElement('main');
+const FOOTER = customElement.createElement('footer', {className: "page-footer _main-container"});
 
-    return newElement.firstElementChild as HTMLElement
-};
-
-const itemFilterCheckbox = (name: string, data: number[]): HTMLElement  => {
-    const temp = `<div>
-    <input type="checkbox" id=${name}>
-    <label for=${name}>${name}</label>
-    <div>(${data[0]}/${data[1]})</div>
-  </div>`
-
-    return createElement(temp)
-}
-
-export { itemFilterCheckbox }
+export { HEADER, MAIN, FOOTER }
