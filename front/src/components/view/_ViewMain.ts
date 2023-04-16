@@ -67,6 +67,29 @@ class ViewMain {
     }
     this.customElement.addChildren(mainLeft,[filterBrand]);
 
+    // Создание Price
+    const filterPrice = this.customElement.createElement('div', { className: 'filter__item filter__price price'});
+    this.customElement.addChildren(mainLeft,[filterPrice]);
+
+    const filterPriceItemName = this.customElement.createElement('h3', { className: 'filter__item-name price__name', textContent: 'Price'});
+    const filterPriceContainer = this.customElement.createElement('div', { className: 'filter__item-container price__container'});
+    this.customElement.addChildren(filterPrice,[filterPriceItemName, filterPriceContainer]);
+
+    const itemPriceNumberContainer = this.customElement.createElement('div', { className: 'filter__item-data item-price'});
+    const itemPriceInputContainer = this.customElement.createElement('div', { className: 'range-slider'});
+    this.customElement.addChildren(filterPriceContainer,[itemPriceNumberContainer, itemPriceInputContainer]);
+
+    const itemPriceNumberFrom = this.customElement.createElement('div', { className: 'item-price__from', textContent: '0'});
+    const itemPriceNumberMid = this.customElement.createElement('div', { textContent: '⟷'});
+    const itemPriceNumberTo = this.customElement.createElement('div', { className: 'item-price__to', textContent: '100'});
+    this.customElement.addChildren(itemPriceNumberContainer,[itemPriceNumberFrom, itemPriceNumberMid, itemPriceNumberTo]);
+
+    const itemPriceInputOne = this.customElement.createElement('input', { type: 'range', step: '1', min: '0', max:'100', id:'slider1'});
+    itemPriceInputOne.setAttribute('value', '0')
+    const itemPriceInputTwo = this.customElement.createElement('input', { type: 'range', step: '1', min: '0', max:'100', id:'slider2'});
+    itemPriceInputTwo.setAttribute('value', '100')
+    this.customElement.addChildren(itemPriceInputContainer,[itemPriceInputOne, itemPriceInputTwo]);
+
     // const main = document.querySelector('main') as HTMLElement ;
     // Закинуть в мейн filterCategory, filterBrand
     // main.append(filterCategory)
