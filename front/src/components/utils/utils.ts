@@ -10,7 +10,7 @@ const createElement = (template: string): HTMLElement => {
 
 const itemFilterCheckbox = (name: string, data: number[]): HTMLElement  => {
     const temp = `<div>
-    <input type="checkbox" id=${name} ${!data[2] ? '' : 'checked'}>
+    <input type="checkbox" id=${name}>
     <label for=${name}>${name}</label>
     <div>(${data[0]}/${data[1]})</div>
   </div>`
