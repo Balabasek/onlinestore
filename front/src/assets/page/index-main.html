@@ -7,260 +7,261 @@
   <title>Store</title>
 </head>
 <body>
-  <header class="page-header _main-container">
-    <section class="header _container">
-      <a href="#" class="header__logo logo">
-        <h1 class="logo__title">Online Store</h1>
-      </a>
+<header class="page-header _main-container">
+  <section class="header _container">
+    <a href="#" class="header__logo logo">
+      <h1 class="logo__title">Online Store</h1>
+    </a>
 
-      <p class="header__total">Total: $<span class="header__total-span">1234</span></p>
+    <p class="header__total">Total: $<span class="header__total-span">1234</span></p>
 
-      <div class="header__basket">
-        <img class="header__basket-img" src="./src/assets/img/png/basket.png">
-        <span class="header__basket-count">12</span>
+    <div class="header__basket">
+      <img class="header__basket-img" src="./src/assets/img/png/basket.png">
+      <span class="header__basket-count">12</span>
+    </div>
+  </section>
+</header>
+<main class="page-main-one _main-container">
+  <section class="main-one _container">
+    <div class="main-one__left filter">
+      <div class="filter__stock stock">
+        <button class="stock__reset _btn">Reset Filter</button>
+        <button class="stock__copy _btn">Copy Link</button>
       </div>
-    </section>
-  </header>
-  <main class="page-main-one _main-container">
-    <section class="main-one _container">
-      <div class="main-one__left filter">
-        <div class="filter__stock stock">
-          <button class="stock__reset _btn">Reset Filter</button>
-          <button class="stock__copy _btn">Copy Link</button>
-        </div>
-        <div class="filter__item filter__category category filter__item-scroll">
-          <h3 class="filter__item-name category__name">Category</h3>
-          <div class="filter__item-container category__container filter__item-container-scroll">
-            <div>
-              <input type="checkbox" id="One" name="One">
-              <label for="One">One</label>
-              <span>(5/10)</span>
-            </div>
-            <div>
-              <input type="checkbox" id="Two" name="Two">
-              <label for="Two">Two</label>
-              <span>(5/10)</span>
-            </div>
-            <div>
-              <input type="checkbox" id="Three" name="Three">
-              <label for="Three">Three</label>
-              <span>(5/10)</span>
-            </div>
+      <div class="filter__item filter__category category filter__item-scroll">
+        <h3 class="filter__item-name category__name">Category</h3>
+        <div class="filter__item-container category__container filter__item-container-scroll">
+          <div>
+            <input type="checkbox" id="One" name="One">
+            <label for="One">One</label>
+            <span>(5/10)</span>
           </div>
-        </div>
-        <div class="filter__item filter__brand brand filter__item-scroll">
-          <h3 class="filter__item-name brand__name">Brand</h3>
-          <div class="filter__item-container brand__container filter__item-container-scroll">
-            <div>
-              <input type="checkbox" id="Four" name="Four">
-              <label for="Four">Four</label>
-              <span>(5/10)</span>
-            </div>
-            <div>
-              <input type="checkbox" id="Five" name="Five">
-              <label for="Five">Five</label>
-              <span>(5/10)</span>
-            </div>
-            <div>
-              <input type="checkbox" id="Six" name="Six">
-              <label for="Six">Six</label>
-              <span>(5/10)</span>
-            </div>
+          <div>
+            <input type="checkbox" id="Two" name="Two">
+            <label for="Two">Two</label>
+            <span>(5/10)</span>
           </div>
-        </div>
-        <div class="filter__item filter__price price">
-          <h3 class="filter__item-name price__name">Price</h3>
-          <div class="filter__item-container price__container">
-            <div class="filter__item-data item-price">
-              <div class="item-price__from">111</div>
-              <div>⟷</div>
-              <div class="item-price__to">222</div>
-            </div>
-            <div class="range-slider">
-              <input type="range" step="1" min="0" max="1000" value='0' id="slider1">
-              <input type="range" step="1" min="0" max="1000" value='1000' id="slider2">
-            </div>
-          </div>
-        </div>
-        <div class="filter__item filter__stock-slider stock-slider">
-          <h3 class="filter__item-name stock-slider__name">Stock</h3>
-          <div class="filter__item-container stock-slider__container">
-            <div class="filter__item-data item-stock-slider">
-              <div class="item-stock-slider__from">11</div>
-              <div>⟷</div>
-              <div class="item-stock-slider__to">44</div>
-            </div>
-            <div class="range-slider">
-              <input type="range" step="1" min="0" max="100" value='0' id="slider3">
-              <input type="range" step="1" min="0" max="100" value='100' id="slider4">
-            </div>
+          <div>
+            <input type="checkbox" id="Three" name="Three">
+            <label for="Three">Three</label>
+            <span>(5/10)</span>
           </div>
         </div>
       </div>
-
-      <div class="main-one__right right">
-        <div class="right__view view">
-          <select class="view__sort">
-            <option>Sort by ABC</option>
-            <option>Sort by Price</option>
-            <option>Sort by Rating</option>
-          </select>
-          <p class="view__find-count">Found:<span>123</span></p>
-          <input class="view__search" type="search" placeholder="Search product">
-          <div class="view__visible visible">
-            <div class="visible__item"></div>
-            <div class="visible__item"></div>
+      <div class="filter__item filter__brand brand filter__item-scroll">
+        <h3 class="filter__item-name brand__name">Brand</h3>
+        <div class="filter__item-container brand__container filter__item-container-scroll">
+          <div>
+            <input type="checkbox" id="Four" name="Four">
+            <label for="Four">Four</label>
+            <span>(5/10)</span>
           </div>
-        </div>
-        <div class="right__list cardlist">
-          <div class="cardlist__item card">
-            <h4 class="card__name">Name</h4>
-            <div class="card__info">
-              <img class="card__info-img" src="./src/assets/img/jpg/test-item.jpg">
-              <div class="card__data i-data">
-                <p>Category: <span class="i-data__category">Woman</span></p>
-                <p>Brand: <span class="i-data__brand">Apple</span></p>
-                <p>Price: $<span class="i-data__price">300</span></p>
-                <p>Discount: <span class="i-data__discount">20</span></p>
-                <p>Rating: <span class="i-data__rating">4.85</span></p>
-                <p>Stock: <span class="i-data__stock">30</span></p>
-              </div>
-            </div>
-            <div class="card__btn">
-              <button class="card__btn-button _btn">Add to card</button>
-              <button class="card__btn-button _btn"> Detais</button>
-            </div>
+          <div>
+            <input type="checkbox" id="Five" name="Five">
+            <label for="Five">Five</label>
+            <span>(5/10)</span>
           </div>
-          <div class="cardlist__item card">
-            <h4 class="card__name">Name</h4>
-            <div class="card__info">
-              <img class="card__info-img" src="./src/assets/img/jpg/test-item.jpg">
-              <div class="card__data i-data">
-                <p>Category: <span class="i-data__category">Woman</span></p>
-                <p>Brand: <span class="i-data__brand">Apple</span></p>
-                <p>Price: $<span class="i-data__price">300</span></p>
-                <p>Discount: <span class="i-data__discount">20</span></p>
-                <p>Rating: <span class="i-data__rating">4.85</span></p>
-                <p>Stock: <span class="i-data__stock">30</span></p>
-              </div>
-            </div>
-            <div class="card__btn">
-              <button class="card__btn-button _btn">Add to card</button>
-              <button class="card__btn-button _btn"> Detais</button>
-            </div>
-          </div>
-          <div class="cardlist__item card">
-            <h4 class="card__name">Name</h4>
-            <div class="card__info">
-              <img class="card__info-img" src="./src/assets/img/jpg/test-item.jpg">
-              <div class="card__data i-data">
-                <p>Category: <span class="i-data__category">Woman</span></p>
-                <p>Brand: <span class="i-data__brand">Apple</span></p>
-                <p>Price: $<span class="i-data__price">300</span></p>
-                <p>Discount: <span class="i-data__discount">20</span></p>
-                <p>Rating: <span class="i-data__rating">4.85</span></p>
-                <p>Stock: <span class="i-data__stock">30</span></p>
-              </div>
-            </div>
-            <div class="card__btn">
-              <button class="card__btn-button _btn">Add to card</button>
-              <button class="card__btn-button _btn"> Detais</button>
-            </div>
-          </div>
-          <div class="cardlist__item card">
-            <h4 class="card__name">Name</h4>
-            <div class="card__info">
-              <img class="card__info-img" src="./src/assets/img/jpg/test-item.jpg">
-              <div class="card__data i-data">
-                <p>Category: <span class="i-data__category">Woman</span></p>
-                <p>Brand: <span class="i-data__brand">Apple</span></p>
-                <p>Price: $<span class="i-data__price">300</span></p>
-                <p>Discount: <span class="i-data__discount">20</span></p>
-                <p>Rating: <span class="i-data__rating">4.85</span></p>
-                <p>Stock: <span class="i-data__stock">30</span></p>
-              </div>
-            </div>
-            <div class="card__btn">
-              <button class="card__btn-button _btn">Add to card</button>
-              <button class="card__btn-button _btn"> Detais</button>
-            </div>
-          </div>
-          <div class="cardlist__item card">
-            <h4 class="card__name">Name</h4>
-            <div class="card__info">
-              <img class="card__info-img" src="./src/assets/img/jpg/test-item.jpg">
-              <div class="card__data i-data">
-                <p>Category: <span class="i-data__category">Woman</span></p>
-                <p>Brand: <span class="i-data__brand">Apple</span></p>
-                <p>Price: $<span class="i-data__price">300</span></p>
-                <p>Discount: <span class="i-data__discount">20</span></p>
-                <p>Rating: <span class="i-data__rating">4.85</span></p>
-                <p>Stock: <span class="i-data__stock">30</span></p>
-              </div>
-            </div>
-            <div class="card__btn">
-              <button class="card__btn-button _btn">Add to card</button>
-              <button class="card__btn-button _btn"> Detais</button>
-            </div>
-          </div>
-          <div class="cardlist__item card">
-            <h4 class="card__name">Name</h4>
-            <div class="card__info">
-              <img class="card__info-img" src="./src/assets/img/jpg/test-item.jpg">
-              <div class="card__data i-data">
-                <p>Category: <span class="i-data__category">Woman</span></p>
-                <p>Brand: <span class="i-data__brand">Apple</span></p>
-                <p>Price: $<span class="i-data__price">300</span></p>
-                <p>Discount: <span class="i-data__discount">20</span></p>
-                <p>Rating: <span class="i-data__rating">4.85</span></p>
-                <p>Stock: <span class="i-data__stock">30</span></p>
-              </div>
-            </div>
-            <div class="card__btn">
-              <button class="card__btn-button _btn">Add to card</button>
-              <button class="card__btn-button _btn"> Detais</button>
-            </div>
-          </div>
-          <div class="cardlist__item card">
-            <h4 class="card__name">Name</h4>
-            <div class="card__info">
-              <img class="card__info-img" src="./src/assets/img/jpg/test-item.jpg">
-              <div class="card__data i-data">
-                <p>Category: <span class="i-data__category">Woman</span></p>
-                <p>Brand: <span class="i-data__brand">Apple</span></p>
-                <p>Price: $<span class="i-data__price">300</span></p>
-                <p>Discount: <span class="i-data__discount">20</span></p>
-                <p>Rating: <span class="i-data__rating">4.85</span></p>
-                <p>Stock: <span class="i-data__stock">30</span></p>
-              </div>
-            </div>
-            <div class="card__btn">
-              <button class="card__btn-button _btn">Add to card</button>
-              <button class="card__btn-button _btn"> Detais</button>
-            </div>
-          </div>
-          <div class="cardlist__item card">
-            <h4 class="card__name">Name</h4>
-            <div class="card__info">
-              <img class="card__info-img" src="./src/assets/img/jpg/test-item.jpg">
-              <div class="card__data i-data">
-                <p>Category: <span class="i-data__category">Woman</span></p>
-                <p>Brand: <span class="i-data__brand">Apple</span></p>
-                <p>Price: $<span class="i-data__price">300</span></p>
-                <p>Discount: <span class="i-data__discount">20</span></p>
-                <p>Rating: <span class="i-data__rating">4.85</span></p>
-                <p>Stock: <span class="i-data__stock">30</span></p>
-              </div>
-            </div>
-            <div class="card__btn">
-              <button class="card__btn-button _btn">Add to card</button>
-              <button class="card__btn-button _btn"> Detais</button>
-            </div>
+          <div>
+            <input type="checkbox" id="Six" name="Six">
+            <label for="Six">Six</label>
+            <span>(5/10)</span>
           </div>
         </div>
       </div>
-    </section>
-  </main>
+      <div class="filter__item filter__price price">
+        <h3 class="filter__item-name price__name">Price</h3>
+        <div class="filter__item-container price__container">
+          <div class="filter__item-data item-price">
+            <div class="item-price__from">111</div>
+            <div>⟷</div>
+            <div class="item-price__to">222</div>
+          </div>
+          <div class="range-slider">
+            <input type="range" step="1" min="0" max="1000" value='0' id="slider1">
+            <input type="range" step="1" min="0" max="1000" value='1000' id="slider2">
+          </div>
+        </div>
+      </div>
+      <div class="filter__item filter__stock-slider stock-slider">
+        <h3 class="filter__item-name stock-slider__name">Stock</h3>
+        <div class="filter__item-container stock-slider__container">
+          <div class="filter__item-data item-stock-slider">
+            <div class="item-stock-slider__from">11</div>
+            <div>⟷</div>
+            <div class="item-stock-slider__to">44</div>
+          </div>
+          <div class="range-slider">
+            <input type="range" step="1" min="0" max="100" value='0' id="slider3">
+            <input type="range" step="1" min="0" max="100" value='100' id="slider4">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="main-one__right right">
+      <div class="right__view view">
+        <input class="view__sort" name="sort" list="sorting" placeholder="Sorting">
+        <datalist id="sorting">
+          <option value="SortABC"></option>
+          <option value="SortPrice"></option>
+          <option value="SortRating"></option>
+        </datalist>
+        <p class="view__find-count">Found:<span>123</span></p>
+        <input class="view__search" type="search" placeholder="Search product">
+        <div class="view__visible visible">
+          <div class="visible__item"></div>
+          <div class="visible__item"></div>
+        </div>
+      </div>
+      <div class="right__list cardlist">
+        <div class="cardlist__item card">
+          <h4 class="card__name">Name</h4>
+          <div class="card__info">
+            <img class="card__info-img" src="./src/assets/img/jpg/test-item.jpg">
+            <div class="card__data i-data">
+              <p>Category: <span class="i-data__category">Woman</span></p>
+              <p>Brand: <span class="i-data__brand">Apple</span></p>
+              <p>Price: $<span class="i-data__price">300</span></p>
+              <p>Discount: <span class="i-data__discount">20</span></p>
+              <p>Rating: <span class="i-data__rating">4.85</span></p>
+              <p>Stock: <span class="i-data__stock">30</span></p>
+            </div>
+          </div>
+          <div class="card__btn">
+            <button class="_btn">Add to card</button>
+            <button class="_btn"> Detais</button>
+          </div>
+        </div>
+        <div class="cardlist__item card">
+          <h4 class="card__name">Name</h4>
+          <div class="card__info">
+            <img class="card__info-img" src="./src/assets/img/jpg/test-item.jpg">
+            <div class="card__data i-data">
+              <p>Category: <span class="i-data__category">Woman</span></p>
+              <p>Brand: <span class="i-data__brand">Apple</span></p>
+              <p>Price: $<span class="i-data__price">300</span></p>
+              <p>Discount: <span class="i-data__discount">20</span></p>
+              <p>Rating: <span class="i-data__rating">4.85</span></p>
+              <p>Stock: <span class="i-data__stock">30</span></p>
+            </div>
+          </div>
+          <div class="card__btn">
+            <button class="_btn">Add to card</button>
+            <button class="_btn"> Detais</button>
+          </div>
+        </div>
+        <div class="cardlist__item card">
+          <h4 class="card__name">Name</h4>
+          <div class="card__info">
+            <img class="card__info-img" src="./src/assets/img/jpg/test-item.jpg">
+            <div class="card__data i-data">
+              <p>Category: <span class="i-data__category">Woman</span></p>
+              <p>Brand: <span class="i-data__brand">Apple</span></p>
+              <p>Price: $<span class="i-data__price">300</span></p>
+              <p>Discount: <span class="i-data__discount">20</span></p>
+              <p>Rating: <span class="i-data__rating">4.85</span></p>
+              <p>Stock: <span class="i-data__stock">30</span></p>
+            </div>
+          </div>
+          <div class="card__btn">
+            <button class="_btn">Add to card</button>
+            <button class="_btn"> Detais</button>
+          </div>
+        </div>
+        <div class="cardlist__item card">
+          <h4 class="card__name">Name</h4>
+          <div class="card__info">
+            <img class="card__info-img" src="./src/assets/img/jpg/test-item.jpg">
+            <div class="card__data i-data">
+              <p>Category: <span class="i-data__category">Woman</span></p>
+              <p>Brand: <span class="i-data__brand">Apple</span></p>
+              <p>Price: $<span class="i-data__price">300</span></p>
+              <p>Discount: <span class="i-data__discount">20</span></p>
+              <p>Rating: <span class="i-data__rating">4.85</span></p>
+              <p>Stock: <span class="i-data__stock">30</span></p>
+            </div>
+          </div>
+          <div class="card__btn">
+            <button class="_btn">Add to card</button>
+            <button class="_btn"> Detais</button>
+          </div>
+        </div>
+        <div class="cardlist__item card">
+          <h4 class="card__name">Name</h4>
+          <div class="card__info">
+            <img class="card__info-img" src="./src/assets/img/jpg/test-item.jpg">
+            <div class="card__data i-data">
+              <p>Category: <span class="i-data__category">Woman</span></p>
+              <p>Brand: <span class="i-data__brand">Apple</span></p>
+              <p>Price: $<span class="i-data__price">300</span></p>
+              <p>Discount: <span class="i-data__discount">20</span></p>
+              <p>Rating: <span class="i-data__rating">4.85</span></p>
+              <p>Stock: <span class="i-data__stock">30</span></p>
+            </div>
+          </div>
+          <div class="card__btn">
+            <button class="_btn">Add to card</button>
+            <button class="_btn"> Detais</button>
+          </div>
+        </div>
+        <div class="cardlist__item card">
+          <h4 class="card__name">Name</h4>
+          <div class="card__info">
+            <img class="card__info-img" src="./src/assets/img/jpg/test-item.jpg">
+            <div class="card__data i-data">
+              <p>Category: <span class="i-data__category">Woman</span></p>
+              <p>Brand: <span class="i-data__brand">Apple</span></p>
+              <p>Price: $<span class="i-data__price">300</span></p>
+              <p>Discount: <span class="i-data__discount">20</span></p>
+              <p>Rating: <span class="i-data__rating">4.85</span></p>
+              <p>Stock: <span class="i-data__stock">30</span></p>
+            </div>
+          </div>
+          <div class="card__btn">
+            <button class="_btn">Add to card</button>
+            <button class="_btn"> Detais</button>
+          </div>
+        </div>
+        <div class="cardlist__item card">
+          <h4 class="card__name">Name</h4>
+          <div class="card__info">
+            <img class="card__info-img" src="./src/assets/img/jpg/test-item.jpg">
+            <div class="card__data i-data">
+              <p>Category: <span class="i-data__category">Woman</span></p>
+              <p>Brand: <span class="i-data__brand">Apple</span></p>
+              <p>Price: $<span class="i-data__price">300</span></p>
+              <p>Discount: <span class="i-data__discount">20</span></p>
+              <p>Rating: <span class="i-data__rating">4.85</span></p>
+              <p>Stock: <span class="i-data__stock">30</span></p>
+            </div>
+          </div>
+          <div class="card__btn">
+            <button class="_btn">Add to card</button>
+            <button class="_btn"> Detais</button>
+          </div>
+        </div>
+        <div class="cardlist__item card">
+          <h4 class="card__name">Name</h4>
+          <div class="card__info">
+            <img class="card__info-img" src="./src/assets/img/jpg/test-item.jpg">
+            <div class="card__data i-data">
+              <p>Category: <span class="i-data__category">Woman</span></p>
+              <p>Brand: <span class="i-data__brand">Apple</span></p>
+              <p>Price: $<span class="i-data__price">300</span></p>
+              <p>Discount: <span class="i-data__discount">20</span></p>
+              <p>Rating: <span class="i-data__rating">4.85</span></p>
+              <p>Stock: <span class="i-data__stock">30</span></p>
+            </div>
+          </div>
+          <div class="card__btn">
+            <button class="_btn">Add to card</button>
+            <button class="_btn"> Detais</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
   <footer class="page-footer _main-container">
     <section class="footer _container">
       <div class="footer__item github">
