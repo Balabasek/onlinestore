@@ -40,7 +40,8 @@ class CreateFilterData {
             "stock": this.baseData.stock,
             // "price": [10, 1749],
             // "stock": [2, 150],
-            "search": ['']
+            "search": [''],
+            "sort":['Sort by Price low'],
         };
         this._FILTER = JSON.parse(JSON.stringify(this._startServerFILTER))
 
@@ -320,6 +321,22 @@ class CreateFilterData {
             return false
         })
         // console.log("777 =resultfilterData", resultfilterData)
+
+
+        resultfilterData.sort((product1, product2) => product1.title.toLowerCase() > product2.title.toLowerCase() ? 1:-1)
+        if (this.FILTER.sort[0] === "CBA") {resultfilterData.reverse()}
+        if (this.FILTER.sort[0] === "Sort by Price low")  {
+            resultfilterData.sort((product1, product2) => product1.price - product2.price)
+        }
+        if (this.FILTER.sort[0] === "Sort by Price up") {
+            resultfilterData.sort((product1, product2) => product2.price - product1.price)
+        }
+        if (this.FILTER.sort[0] === "Sort by Rating low") {
+            resultfilterData.sort((product1, product2) => product1.rating - product2.rating)
+        }
+        if (this.FILTER.sort[0] === "Sort by Rating up") {
+            resultfilterData.sort((product1, product2) => product2.rating - product1.rating)
+        }
 
         this._filtredData = resultfilterData
 

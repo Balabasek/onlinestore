@@ -21,6 +21,7 @@ interface IFilter {
     price: number[];
     stock: number[];
     search: string[];
+    sort: string[]
 }
 
 
