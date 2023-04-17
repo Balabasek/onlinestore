@@ -1,86 +1,18 @@
-class Router {
-  routes: {
-    [key: string]: {
-      name: string;
-      routesPage: (x: string) => void;
-    }
-  };
+import './_global.scss';
+import '../index.html';
+import './components/view/_ViewBlocks' // Отрисовка основных блоков, выше всех должно быть
+import './components/_add_favicon';
+// import './components/_CreateBaseData';
+// import './components/_ModelCreateFilterData'
+import './components/_add_rangeSlider';
 
-  constructor() {
+import ViewFooter from './components/view/_ViewFooter';
+import ViewHeader from './components/view/_ViewHeader';
+import ViewMain from './components/view/_ViewMain';
+import ViewItemCardPage from './components/view/_ViewItemCardPage';
 
-    this.routes = {
-      '/page404': {
-        name: 'Page not found',
-        routesPage: this.routesFuntion
-      },
-      '/product': {
-        name: 'Product details',
-        routesPage: this.routesFuntion
-      },
-      '/': {
-        name: 'Home',
-        routesPage: this.routesFuntion
-      },
-    };
-
-
-    // this.startRouteListenner();
-    // this.handleLocation();
-
-  }
-
-  routesFuntion(name: string) {
-    document.title = `Store - ${name}`;
-    // this.count = this.count + 1
-    // console.log("this.count", this.count)
-
-    if (name !== 'Home') {
-      // window.history.pushState({}, '', '/')
-      // const path = window.location.pathname;
-      // window.history.pushState({}, '', path)
-      // window.location.reload()
-      // console.log("path 555===", path)
-      const div = document.createElement('div');
-      div.textContent = name;
-      document.body.replaceChildren(div);
-      // console.log('111111111111111111')
-    }
-    else {
-
-      // const div = document.createElement('div');
-      // div.textContent = name;
-      // document.body.replaceChildren(div);
-      // window.history.pushState({}, '', '/')
-      // window.location.reload()
-    }
-
-  }
-  startRouteListenner() {
-    window.onpopstate = this.handleLocation;
-  }
-
-  pushState(path:string) {
-
-    window.location.assign(`${window.location.origin}${path}`)
-
-    // window.history.pushState({}, '', path)
-    // window.location.reload()
-  }
-
-
-  handleLocation() {
-    // const href = window.location.href
-    // console.log("href ===", href)
-    const path = window.location.pathname;
-    // console.log("path 111===", path)
-    const route = this.routes[path] || this.routes['/page404'];
-    // console.log("route", route)
-    route.routesPage(route.name);
-    // document.title = `Store - ${route.name}`;
-    // preventDefault()
-    // window.history.pushState({}, '', path)
-  }
-
-}
-
-export default Router
+// Отрисовка
+const viewHeader = new ViewHeader();
+const viewMain = new ViewMain(); // Запустит отрисовку основной секции main\
+const viewItemCardPage = new ViewItemCardPage(); // Запустит отрисовку страницы карточки товара
+const viewFooter = new ViewFooter();

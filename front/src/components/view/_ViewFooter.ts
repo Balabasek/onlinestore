@@ -13,18 +13,12 @@ class ViewFooter {
         this.root = document.body;
         this._controller = new ControllerMain();
         this.startCategoryData = this._controller.startCategoryData
-
-
-        // this.root.onclick = () => {console.log(this.startCategoryData)}
-
-
         this._router = new Router()
 
         this._router.startRouteListenner()
         this._router.handleLocation()
 
-        // this._controller.router.startRouteListenner()
-        // console.log("this._controller.router.count",this._controller.router.count)
+        this.createFooter();
     }
 
     createFooter() {

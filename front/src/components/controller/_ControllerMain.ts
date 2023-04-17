@@ -2,6 +2,7 @@ import CreateFilterData from '../model/_ModelCreateFilterData'
 import { stringArrayObject } from '../typingTS/_type'
 import { IitemDATA, IFilter } from '../typingTS/_interfaces'
 import FormatURL from '../utils/_formatUrl';
+import state from '../utils/state';
 // import Router from './router';
 
 class ControllerMain {
@@ -47,7 +48,9 @@ class ControllerMain {
     // this.router = new Router()
 
     // this.router.startRouteListenner()
-    console.log("this.FILTER",this.FILTER)
+    this._model.setSearchOfFILTER('ap')
+    console.log("this.FILTER 3000",this.FILTER)
+    console.log("state 3000",state)
     this.a = this._formatURL.createURLSearchParams(this.FILTER)
     console.log("200000",this._formatURL.createURLSearchParams(this.FILTER).toString())
     console.log(this._formatURL.createObjectFromURLSearchParams(this.a))

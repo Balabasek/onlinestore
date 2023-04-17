@@ -5,15 +5,7 @@ import { IitemDATA} from '../typingTS/_interfaces'
 import { createElement } from '../utils/utils';
 import { MAIN } from '../utils/const';
 
-// 1. Вынести в конструктор инпуты слайдеров и текст с количеством
-// 2. Разделить методы для create еа отдельные категории
-// 3. Отрисовать девок по данным this.startServerData
-// 4. Отрисовать поиск, сортировку по умолчанию
-// 5.1 Повесить слушатель на кнопку ADD CARD, который вызывает метод this.addCardInBasket(условно, покеа пустой)
-// 5.2 Повесить слушатель на всю карточку, который вызывает this.showPageProduct(условно, покеа пустой), туда он передаст свой e.target, а this.showPageProduct вызоввет this._controller.showProduct(e.target)
-// 6. Вынести в конструктор кнопку ADD и Всю карточку !!! КНОПКУ АДД НЕ ВЫНЕСТИ
-
-class ViewMain {
+class ViewMainPage {
   buttonReset: HTMLElement;
   buttonCopy: HTMLElement;
   itemPriceNumberFrom: HTMLElement;
@@ -74,7 +66,7 @@ class ViewMain {
     //------Right Bottom------//
     this.cardList = this.customElement.createElement('div', { className: 'right__list cardlist'}); // Контейнер с карточками
 
-    this.create();
+    // this.create();
   }
 
   create() {
@@ -296,4 +288,4 @@ class ViewMain {
 
 }
 
-export default ViewMain
+export default ViewMainPage

@@ -1,5 +1,6 @@
 import { IitemDATA, IFilter } from '../typingTS/_interfaces'
 import { stringObject, stringArrayObject } from '../typingTS/_type';
+import state from '../utils/state'
 
 import CreateBaseDate from "./_CreateBaseData"
 
@@ -33,17 +34,23 @@ class CreateFilterData {
 
         this._filtredData = this.baseData.data;
 
-        this._startServerFILTER = {
-            "category": [],
-            "brand": [],
-            "price": this.baseData.price,
-            "stock": this.baseData.stock,
-            // "price": [10, 1749],
-            // "stock": [2, 150],
-            "search": [''],
-            "sort":['Sort by Price low'],
-        };
-        this._FILTER = JSON.parse(JSON.stringify(this._startServerFILTER))
+        this._startServerFILTER =
+            {
+                "category": [],
+                "brand": [],
+                "price": this.baseData.price,
+                "stock": this.baseData.stock,
+                // "price": [10, 1749],
+                // "stock": [2, 150],
+                "search": [''],
+                "sort":[''],
+            };
+        this._FILTER = state
+        this._FILTER.price = this.baseData.price
+        this._FILTER.stock = this.baseData.stock,
+
+            console.log("this._FILTER",this._FILTER)
+        console.log("state",state)
 
         this._startPriceOfFILTER = this._startServerFILTER.price
         this._startStockOfFILTER = this._startServerFILTER.stock
@@ -54,8 +61,8 @@ class CreateFilterData {
         this._searchOfFILTER = this._FILTER.search
 
 
-        // this.setSearchOfFILTER('iPhone 9')
-        this.setFILTERcategory('groceries')
+        this.setSearchOfFILTER('iPhone 9')
+        // this.setFILTERcategory('groceries')
         // this.setPriceOfFILTER([500,900])
         // this.setStockOfFILTER([30,100])
         // this.updateFILTER_Price_Stock()
@@ -347,7 +354,14 @@ class CreateFilterData {
     // Метод очищающий Объект фильтра до стартового
     // и обновляющий отфильтрованный Объект c данными ПРОДУКТА
     clearFILTER() {
-        this._FILTER = JSON.parse(JSON.stringify(this._startServerFILTER))
+        this._FILTER.category = []
+        this._FILTER.brand = []
+        this._FILTER.price = this.baseData.price,
+            this._FILTER.stock = this.baseData.stock,
+            this._FILTER.search = ['']
+        this._FILTER.sort = ['']
+
+        // this._FILTER = JSON.parse(JSON.stringify(this._startServerFILTER))
         this.updateFiltredData()
     }
 
