@@ -1,4 +1,4 @@
-
+import { stringObject} from './_type'
 
 interface IitemDATA {
     id: number;
@@ -20,7 +20,7 @@ interface IFilter {
     brand: string[];
     price: number[];
     stock: number[];
-    search: string;
+    search: string[];
 }
 
 

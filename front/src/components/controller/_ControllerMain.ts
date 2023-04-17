@@ -1,28 +1,36 @@
 import CreateFilterData from '../model/_ModelCreateFilterData'
 import { stringArrayObject } from '../typingTS/_type'
-import { IitemDATA} from '../typingTS/_interfaces'
+import { IitemDATA, IFilter } from '../typingTS/_interfaces'
+import FormatURL from '../utils/_formatUrl';
 // import Router from './router';
 
 class ControllerMain {
   _model: CreateFilterData;
-  readonly startCategoryData: stringArrayObject
-  readonly startBrandData: stringArrayObject
-  readonly startServerData: IitemDATA[]
+  _formatURL: FormatURL;
+  FILTER: IFilter;
+
+  readonly startCategoryData: stringArrayObject;
+  readonly startBrandData: stringArrayObject;
+  readonly startServerData: IitemDATA[];
 
   readonly startPriceOfFILTER: number[];
   readonly startStockOfFILTER: number[];
-  readonly startSearchOfFILTER: string;
+  readonly startSearchOfFILTER: string[];
 
   readonly priceOfFILTER: number[];
   readonly stockOfFILTER: number[];
-  readonly searchOfFILTER: string;
-
+  readonly searchOfFILTER: string[];
 
   // router: Router;
 
+  a:URLSearchParams
 
   constructor() {
     this._model = new CreateFilterData()
+    this._formatURL = new FormatURL()
+
+    this.FILTER = this._model.FILTER
+
     this.startCategoryData = this._model.startCategoryData
     this.startBrandData = this._model.startBrandData
     this.startServerData = this._model.startServerData
@@ -39,6 +47,10 @@ class ControllerMain {
     // this.router = new Router()
 
     // this.router.startRouteListenner()
+    console.log("this.FILTER",this.FILTER)
+    this.a = this._formatURL.createURLSearchParams(this.FILTER)
+    console.log("200000",this._formatURL.createURLSearchParams(this.FILTER).toString())
+    console.log(this._formatURL.createObjectFromURLSearchParams(this.a))
   }
 
 

@@ -18,11 +18,11 @@ class CreateFilterData {
 
     protected readonly _startPriceOfFILTER: number[];
     protected readonly _startStockOfFILTER: number[];
-    protected readonly _startSearchOfFILTER: string;
+    protected readonly _startSearchOfFILTER: string[];
 
     protected readonly _priceOfFILTER: number[];
     protected readonly _stockOfFILTER: number[];
-    protected readonly _searchOfFILTER: string;
+    protected readonly _searchOfFILTER: string[];
 
     constructor() {
         this._baseData = new CreateBaseDate();
@@ -40,7 +40,7 @@ class CreateFilterData {
             "stock": this.baseData.stock,
             // "price": [10, 1749],
             // "stock": [2, 150],
-            "search": ''
+            "search": ['']
         };
         this._FILTER = JSON.parse(JSON.stringify(this._startServerFILTER))
 
@@ -54,12 +54,9 @@ class CreateFilterData {
 
 
         // this.setSearchOfFILTER('iPhone 9')
-        // this.setFILTERcategory('groceries')
-        this.setPriceOfFILTER([500,900])
+        this.setFILTERcategory('groceries')
+        // this.setPriceOfFILTER([500,900])
         // this.setStockOfFILTER([30,100])
-
-
-
         // this.updateFILTER_Price_Stock()
 
         this._startCategoryData = this.getCategoryAndBrandData(this.startCategoryArray, "category");
@@ -137,8 +134,8 @@ class CreateFilterData {
     }
 
     // метод Установки поиска товара фильтра
-    setSearchOfFILTER(data: string = this.startServerFILTER.search) {
-        this._FILTER.search = data;
+    setSearchOfFILTER(data: string = this.startServerFILTER.search[0]) {
+        this._FILTER.search[0] = data;
         this.updateFiltredData()
         this.updateFILTER_Price_Stock()
     }
@@ -308,7 +305,7 @@ class CreateFilterData {
 
         resultfilterData = resultfilterData.filter((product) => {
 
-            const text = this.FILTER.search
+            const text = this.FILTER.search[0]
 
             if (text === '') return true
             if (product.title.toLocaleLowerCase().includes(text.toLocaleLowerCase()) ||
