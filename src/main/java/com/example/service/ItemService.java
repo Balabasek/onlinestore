@@ -54,12 +54,17 @@ public class ItemService {
     public String updateStockItems(List<UpdateStockItemsDto> updateStockItemsDto) {
         for (UpdateStockItemsDto dto : updateStockItemsDto) {
             Item item = itemRepository.findItemById(dto.getId());
+            if (item == null) {
+                System.out.println("Item " + dto.getId() + " not found!");
+                continue;
+            }
 
-            if (item.getStock() >= dto.getCount()) {
+            if (item.getStock() >= dto.getCount() && dto.isBuy()) {
                 item.setStock(item.getStock() - dto.getCount());
                 itemRepository.save(item);
             } else {
-                return "Count of products " + item.getTitle() + " is exceeded";
+                item.setStock(item.getStock() + dto.getCount());
+                itemRepository.save(item);
             }
         }
         return "Ok";
