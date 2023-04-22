@@ -3,6 +3,8 @@ package com.example.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.UUID;
+
 @Document
 public class User {
 
@@ -19,8 +21,8 @@ public class User {
 
     private String password;
 
-    public User(String id, String firstName, String middleName, String secondName, String login, String password) {
-        this.id = id;
+    public User(String firstName, String middleName, String secondName, String login, String password) {
+        this.id = UUID.randomUUID().toString();
         this.firstName = firstName;
         this.middleName = middleName;
         this.secondName = secondName;
