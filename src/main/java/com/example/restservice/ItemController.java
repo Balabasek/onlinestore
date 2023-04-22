@@ -5,11 +5,10 @@ import com.example.dtos.item.UpdateStockItemsDto;
 import com.example.model.Item;
 import com.example.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -24,9 +23,10 @@ public class ItemController {
     public String loadAllItem() {
         try {
             return itemService.loadAllItem();
-        } catch (IOException e) {
+        } catch (Exception e) {
             System.err.println("Error occurred while load all item data");
             System.err.println(e.getMessage());
+            Arrays.stream(e.getStackTrace()).toList().forEach(System.err::println);
         }
         return "Error";
     }
@@ -39,9 +39,10 @@ public class ItemController {
     public Item createItem(@RequestBody Item item) {
         try {
             return itemService.createNewItem(item);
-        } catch (IllegalArgumentException | OptimisticLockingFailureException e) {
+        } catch (Exception e) {
             System.err.println("Error occurred while create new item!");
             System.err.println(e.getMessage());
+            Arrays.stream(e.getStackTrace()).toList().forEach(System.err::println);
         }
         return null;
     }
@@ -57,6 +58,7 @@ public class ItemController {
         } catch (Exception e) {
             System.err.println("Error occurred while delete item!");
             System.err.println(e.getMessage());
+            Arrays.stream(e.getStackTrace()).toList().forEach(System.err::println);
         }
         return null;
     }
@@ -72,6 +74,7 @@ public class ItemController {
         } catch (Exception e) {
             System.err.println("Error occurred while update stock item!");
             System.err.println(e.getMessage());
+            Arrays.stream(e.getStackTrace()).toList().forEach(System.err::println);
             return null;
         }
     }
