@@ -21,9 +21,10 @@
   "devDependencies": {
     "@babel/core": "^7.19.1",
     "@babel/preset-env": "^7.19.1",
-    "@typescript-eslint/eslint-plugin": "^5.57.1",
-    "@typescript-eslint/parser": "^5.57.1",
+    "@typescript-eslint/eslint-plugin": "^5.43.0",
+    "@typescript-eslint/parser": "^5.43.0",
     "@webpack-cli/generators": "^3.0.0",
+    "@webpack-cli/serve": "^2.0.2",
     "autoprefixer": "^10.4.12",
     "babel-loader": "^8.2.5",
     "css-loader": "^6.7.2",
@@ -47,5 +48,8 @@
     "webpack-cli": "^5.0.0",
     "webpack-dev-server": "^4.11.1",
     "workbox-webpack-plugin": "^6.5.4"
+  },
+  "dependencies": {
+    "nouislider": "^15.6.1"
   }
 }

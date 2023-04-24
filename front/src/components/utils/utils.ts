@@ -2,10 +2,10 @@ import { stringArrayObject } from '../typingTS/_type';
 
 // Функция получения HTML элемента из строки
 const createElement = (template: string): HTMLElement => {
-    const newElement = document.createElement('div');
-    newElement.innerHTML = template;
+  const newElement = document.createElement('div');
+  newElement.innerHTML = template;
 
-    return newElement.firstElementChild as HTMLElement
+  return newElement.firstElementChild as HTMLElement
 };
 
 export { createElement }

@@ -7,3 +7,19 @@
 @import "./assets/scss/footer.scss"; // Подвал проекта
 @import "./assets/scss/main-one.scss"; // Основная секция
 @import "./assets/scss/main-basket.scss"; // Корзина товаров
+@import "./assets/scss/main-itemCard.scss"; // Карточка товара
+
+@import "./assets/scss/main-notFound.scss"; // Страничка 404
+@import "./assets/scss/main-validation.scss"; // Страничка валидации карты
+
+
+
+
+.placeholder-red{
+  &::placeholder {
+    color: red;
+    font-size: 1.5em;
+  }
+}
+
+

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Store</title>
+</head>
+<body>
+  <header class="page-header _main-container">
+    <section class="header _container">
+      <a href="#" class="header__logo logo">
+        <h1 class="logo__title">Online Store</h1>
+      </a>
+
+      <p class="header__total">Total: $<span class="header__total-span">1234</span></p>
+
+      <div class="header__basket">
+        <img class="header__basket-img" src="./src/assets/img/png/basket.png">
+        <span class="header__basket-count">12</span>
+      </div>
+    </section>
+  </header>
+  <main>
+    <div class="page-main-basket _main-container">
+      <div class="popup-wrapper">
+        <div class="popup">
+          <div class="popup__block">
+            <div class="popup__dataInput">
+              <h3 class="popup__persona">Personal details</h3>
+              <input class="_inp popup__dataInput-phone" type="text" placeholder="Phone number">
+              <input class="_inp popup__dataInput-adress" type="text" placeholder="Adress">
+              <input class="_inp popup__dataInput-mail" type="mail" placeholder="E-mail">
+            </div>
+            <div class="popup__creditInput creditInput">
+              <h3 class="creditInput__title">Card Details</h3>
+              <div class="creditInput__cardNumber">
+                <div class="creditInput__image">
+                  <img src="./src/assets/img/png/master.png">
+                </div>
+                <input class="_inp creditInput__cardNumber-number" type="text" placeholder="Card number">
+              </div>
+              <div class="creditInput__cardSecret">
+                <input class="_inp creditInput__cardNumber-date" type="text" placeholder="Date">
+                <input class="_inp creditInput__cardNumber-cvv" type="text" placeholder="CVV">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer class="page-footer _main-container">
+    <section class="footer _container">
+      <div class="footer__item github">
+        <div class="footer__link-container">
+          <div class="footer__link-container-item">
+            <a href="https://github.com/Balabasek" class="footer__link footer__github"></a>
+            <p class="footer__author">Balabasek</p>
+          </div>
+          <div class="footer__link-container-item">
+            <a href="https://github.com/LjeDmitr" class="footer__link footer__github"></a>
+            <p class="footer__author">LjeDmitr</p>
+          </div>
+        </div>
+      </div>
+      <p class="footer__item date-relese">2023</p>
+      <div class="footer__item sibsutis">
+        <a href="https://sibsutis.ru/" class="footer__link footer__sibsutis"></a>
+      </div>
+    </section>
+  </footer>
+</body>
+</html>

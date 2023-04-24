@@ -26,28 +26,10 @@ p {
   padding: 0 12px;
 }
 
-@media (max-width: $md1) {
-  ._main-container {
-    padding: 0 7px;
-  }
-}
-
-@media (max-width: $md2) {
-  ._main-container {
-    padding: 0 5px;
-  }
-}
-
 ._container {
   overflow: hidden;
   max-width: 1600px;
   margin: 0 auto;
-}
-
-@media (max-width: $md1) {
-  ._container {
-    max-width: 1340px;
-  }
 }
 
 ._btn {
@@ -80,14 +62,16 @@ p {
   }
 }
 
-._ftxt {
+._inp {
   font-size: 20px;
   line-height: 40px;
-  background-color: rgba(0, 0, 0, .5);
   padding: 3px 18px;
+  width: 100%;
   outline: none;
+  border: 1px solid $mainColor;
+  border-radius: 5px;
   &::placeholder {
-    font-size: 20px;
+    font-size: 18px;
   }
 }
 

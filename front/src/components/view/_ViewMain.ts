@@ -21,7 +21,6 @@ class ViewMainPage {
   viewSort: HTMLElement;
   viewSearch: HTMLElement;
   findCount: HTMLElement;
-  viewBlock: HTMLElement;
   viewList: HTMLElement;
   cardList: HTMLElement;
   customElement: CustomElement;
@@ -61,7 +60,6 @@ class ViewMainPage {
     this.viewSort = this.customElement.createElement('input', { className: 'view__sort', name: 'sort', placeholder: 'Sorting'}); // Сортировка
     this.findCount = this.customElement.createElement('span', { className: 'view__find-count-span', textContent: '100' }); // Число найденных совпадений
     this.viewSearch = this.customElement.createElement('input', { className: 'view__search', type:'search', placeholder: 'Search product' }); // Поиск
-    this.viewBlock = this.customElement.createElement('div', { className: 'visible__item viewBlock'}); // Вид для блочной модели
     this.viewList = this.customElement.createElement('div', { className: 'visible__item viewList'}); // Вид для строчной модели
     //------Right Bottom------//
     this.cardList = this.customElement.createElement('div', { className: 'right__list cardlist'}); // Контейнер с карточками
@@ -116,13 +114,6 @@ class ViewMainPage {
     //Число найденных товров
     const viewFindCount = this.customElement.createElement('p', { className: 'view__find-count', textContent: 'Found:'});
     this.customElement.addChildren(viewFindCount,[this.findCount]);
-
-    //Вид карточек
-    const viewVisible = this.customElement.createElement('div', { className: 'view__visible visible'});
-    this.customElement.addChildren(viewVisible,[this.viewBlock, this.viewList]);
-
-    // Добавление в правый вернхнюю правую секцию
-    this.customElement.addChildren(rightView,[this.viewSort, viewFindCount, this.viewSearch, viewVisible]);
 
     // Создание ПРАВОЙ НИЖНЕЙ СЕКЦИИ!!!
     this.customElement.addChildren(this.cardList,[...this.createItemCard()]);
