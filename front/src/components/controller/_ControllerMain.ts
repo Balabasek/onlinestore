@@ -223,7 +223,7 @@ class ControllerMain {
     if (document.querySelector('.noUi-base') === null) {
       // console.log('this.MAIN.firstChild третья ветка', this.MAIN.firstChild)
       this.fnSliderPrice(); // Создание noUISlider на цену
-      this.fnSliderStock(); // Создание noUISlider на количество 
+      this.fnSliderStock(); // Создание noUISlider на количество
       // const inputs = [this.ViewMainPAGE.itemPriceNumberFrom,  this.ViewMainPAGE.itemPriceNumberTo];
 
     } else {
@@ -276,8 +276,8 @@ class ControllerMain {
     //   pages: 2,
     // }
     // console.log('50 =basketObject1', basketObject1)
-    //    const params: URLSearchParams = this._formatURL.createURLSearchParamsBasket(basketObject1)
-    //        window.history.pushState({}, '', `/basket?${params}`)
+    //  const params: URLSearchParams = this._formatURL.createURLSearchParamsBasket(basketObject1)
+    //  window.history.pushState({}, '', `/basket?${params}`)
 
     // // Логика из корзины временно тут
 

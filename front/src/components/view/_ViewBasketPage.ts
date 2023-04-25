@@ -67,8 +67,8 @@ class ViewBasketPage {
     console.log('DATA КРЕАТЕ КОРЗИНЫ',data)
     console.log('basketItem КОРЗИНЫ',basketItem)
 
-    this.numberPage = basketItem.pages;
-    this.numberItem = basketItem.items;
+    this.numberPage = basketItem.pages || this.numberPage;
+    this.numberItem = basketItem.items || this.numberItem;
     console.log('this.numberItem КОРЗИНЫ',this.numberItem)
     console.log('this.numberPage КОРЗИНЫ',this.numberPage)
 
@@ -173,7 +173,7 @@ class ViewBasketPage {
     const summaryInfoDataProducts = this.customElement.createElement('p', { className: 'summaryInfo-data__products', textContent: 'Products: 6' });
     const summaryInfoDataTotal = this.customElement.createElement('p', { className: 'summaryInfo__total', textContent: 'Total: $10.000' });
     const summaryInfoDataSearch = this.customElement.createElement('input', { className: 'summaryInfo__search', type: 'search', placeholder: 'Search promocode' });
-    const summaryInfoDataProme = this.customElement.createElement('p', { className: 'summaryInfo__name', textContent: 'Test promo: Balabasek, LjeDmitr' });
+    const summaryInfoDataProme = this.customElement.createElement('p', { className: 'summaryInfo__name', textContent: 'Test promo: Jik, Sydery' });
     // const summaryInfoDataButton = this.customElement.createElement('button', { className: 'card__btn-button _btn', textContent: 'Buy now' });
 
     itemContainer.push(summaryInfoDataProducts, summaryInfoDataTotal, summaryInfoDataSearch, summaryInfoDataProme, this.summaryInfoDataButton)
@@ -188,7 +188,7 @@ class ViewBasketPage {
     this.pagesCurrent.textContent = String(this.numberPage);
     (this.productItemsInputView as HTMLInputElement).value = String(this.numberItem);
     console.log(this.numberItem)
-    
+
     this.maxPage = Math.ceil(this.serverData.length / this.numberItem);
     if (this.numberPage > this.maxPage) {
       this.numberPage = this.maxPage;
@@ -211,21 +211,21 @@ class ViewBasketPage {
       if (target.classList.contains('product__pages-btnNext')) {
         this.numberPage += 1;
       }
-    } 
-    
+    }
+
     if (this.numberPage <= this.maxPage && this.numberPage > 1) {
       if (target.classList.contains('product__pages-btnPrev')) {
         this.numberPage -= 1;
-      } 
+      }
     }
-    
+
     this.changeItemsForList();
   }
 
   changeNumberItems(event:Event) {
     const target = event.target as HTMLInputElement
     if (target.value === '') { // Проверка на ввод пустого значения
-      return 
+      return
     }
 
     this.numberItem = Number(target.value); // Перезапишем количество указанных карточек

@@ -98,7 +98,7 @@ class ViewItemCardPage {
     // Заполнение itemCardGalery
     for (const key in product.images) {
       const itemCardImage = this.itemFilterCheckbox(product.images[key]); // Функция получение разметки определенной карточки
-      itemCardImage.addEventListener('click', (e) => this.changeItemCardImagePhotoImg(e))
+      itemCardImage.addEventListener('mouseover', (e) => this.changeItemCardImagePhotoImg(e))
       this.customElement.addChildren(itemCardGalery, [itemCardImage]);
     }
 

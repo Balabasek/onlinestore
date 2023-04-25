@@ -36,11 +36,11 @@ class ViewMainPage {
   EVENT: { [x: string]: Event }
 
   constructor(startServerData: IitemDATA[],
-    startCategoryData: stringArrayObject,
-    startBrandData: stringArrayObject,
-    startPriceOfFILTER: number[],
-    startStockOfFILTER: number[],
-    startSortOfFILTER: string[]) {
+              startCategoryData: stringArrayObject,
+              startBrandData: stringArrayObject,
+              startPriceOfFILTER: number[],
+              startStockOfFILTER: number[],
+              startSortOfFILTER: string[]) {
 
     // console.log("200 = startSortOfFILTER КОНСТРУКТОР МАЙН ПАЙДЖ", startSortOfFILTER)
 
@@ -86,7 +86,7 @@ class ViewMainPage {
       clickOnCategoryMain: new Event('clickOnCategoryMain', { bubbles: true }),
       clickOnBrandMain: new Event('clickOnBrandMain', { bubbles: true }),
       changeOnSearchMain: new Event('changeOnSearchMain', { bubbles: true }),
-      choiceOnSortMain: new Event('choiceOnSortMain', { bubbles: true }),// в процессе 
+      choiceOnSortMain: new Event('choiceOnSortMain', { bubbles: true }),// в процессе
       clickOnСardListMain: new Event('clickOnСardListMain', { bubbles: true }),// Клик на контейнере с Карточками
       clickOnProductAddInBascetMain: new Event('clickOnProductAddInBascetMain', { bubbles: true }),// Клик на кнопке добавить с Карточками
       clickOnbuttonResetMain: new Event('clickOnbuttonResetMain', { bubbles: true }),// Клик на кнопке сброса
@@ -127,7 +127,7 @@ class ViewMainPage {
       // console.log('addToCard >',addToCard,'<')
       if (card && !addToCard) {
         card.dispatchEvent(this.EVENT.clickOnСardListMain)
-        // console.log('card >',card,'<')      
+        // console.log('card >',card,'<')
       } else {
         addToCard?.dispatchEvent(this.EVENT.clickOnProductAddInBascetMain)
       }
@@ -135,7 +135,11 @@ class ViewMainPage {
 
     // cлушаетль на кнопке копирования адресса
     this.buttonCopy.addEventListener('click', (e) => {
+
       this.copyPageUrl()
+      setTimeout(() => {
+        this.buttonCopy.textContent = 'Copy Link'
+      }, 1500);
     })
 
     // cлушаетль на кнопке сброса ФИЛЬТРОВ
@@ -147,20 +151,19 @@ class ViewMainPage {
   async copyPageUrl() {
     try {
       await navigator.clipboard.writeText(location.href);
-      console.log('URL страницы скопирован в буфер обмена');
+      this.buttonCopy.textContent = 'Copied'
+      // console.log('URL страницы скопирован в буфер обмена');
     } catch (err) {
       console.error('Не удалось скопировать: ', err);
     }
   }
 
-
-
   create(startServerData: IitemDATA[] = this.startServerData,
-    startCategoryData: stringArrayObject = this.startCategoryData,
-    startBrandData: stringArrayObject = this.startBrandData,
-    startPriceOfFILTER: number[] = this.startPriceOfFILTER,
-    startStockOfFILTER: number[] = this.startStockOfFILTER,
-    startSortOfFILTER: string[]) {
+         startCategoryData: stringArrayObject = this.startCategoryData,
+         startBrandData: stringArrayObject = this.startBrandData,
+         startPriceOfFILTER: number[] = this.startPriceOfFILTER,
+         startStockOfFILTER: number[] = this.startStockOfFILTER,
+         startSortOfFILTER: string[]) {
 
     // console.log('700 = startSortOfFILTER из create МАИН ПАДЖЕ', startSortOfFILTER)
     // Создание основной секции
@@ -182,7 +185,7 @@ class ViewMainPage {
     //Добавление Category
     // this.customElement.addChildren(this.filterCategoryMain, [...this.renderCategoryBlock(startCategoryData)]);
 
-    // Добавление Brand 
+    // Добавление Brand
     // this.customElement.addChildren(this.filterBrandMain, [...this.renderBrandBlock(startBrandData)]);
 
     // Добавление всего в левую часть
@@ -206,16 +209,16 @@ class ViewMainPage {
     this.viewSort.setAttribute('list', 'sorting');
 
     [{ value: "SortABC", textContent: "SortABC" },
-    { value: "SortCBA", textContent: "SortCBA" },
-    { value: "SortByPriceLow", textContent: "SortByPriceLow" },
-    { value: "SortByPriceUp", textContent: "SortByPriceUp" },
-    { value: "SortByRatingLow", textContent: "SortByRatingLow" },
-    { value: "SortByRatingUp", textContent: "SortByRatingUp" }].forEach((atributs) => {
-const option = this.customElement.createElement('option', atributs)
-if ((option as HTMLOptionElement).value === startSortOfFILTER[0]) {
-  (option as HTMLOptionElement).selected = true
-}
-this.customElement.addChildren(this.viewSort, [option])
+      { value: "SortCBA", textContent: "SortCBA" },
+      { value: "SortByPriceLow", textContent: "SortByPriceLow" },
+      { value: "SortByPriceUp", textContent: "SortByPriceUp" },
+      { value: "SortByRatingLow", textContent: "SortByRatingLow" },
+      { value: "SortByRatingUp", textContent: "SortByRatingUp" }].forEach((atributs) => {
+      const option = this.customElement.createElement('option', atributs)
+      if ((option as HTMLOptionElement).value === startSortOfFILTER[0]) {
+        (option as HTMLOptionElement).selected = true
+      }
+      this.customElement.addChildren(this.viewSort, [option])
     })
 
 
@@ -225,9 +228,6 @@ this.customElement.addChildren(this.viewSort, [option])
     this.findCount.textContent = `${startServerData.length}`
     this.customElement.addChildren(viewFindCount, [this.findCount]);
 
-
-    // Создание ПРАВОЙ НИЖНЕЙ СЕКЦИИ!!!
-    // this.customElement.addChildren(this.cardList, [...this.renderItemCard(startServerData)]);
     this.customElement.addChildren(mainRight, [this.cardList]);
 
 
@@ -314,9 +314,10 @@ this.customElement.addChildren(this.viewSort, [option])
     return filterStock
   }
 
-
+  // No products found 😏
   // Создание ItemCard (девок)
   renderItemCard(dataServerItem: IitemDATA[] = this.startServerData) {
+    if (dataServerItem.length === 0) {this.cardList.textContent = 'No products found 😏'} else {this.cardList.textContent = ''}
     const itemContainer: HTMLElement[] = [];
 
     for (const item of dataServerItem) {
