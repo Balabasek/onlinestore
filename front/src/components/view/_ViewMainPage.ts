@@ -22,6 +22,8 @@ class ViewMainPage {
   viewSort: HTMLElement;
   viewSearch: HTMLElement;
   findCount: HTMLElement;
+  viewBlock: HTMLElement;
+  viewList: HTMLElement;
   cardList: HTMLElement;
   filterPrice: HTMLElement;
   silderPrice: HTMLElement;
@@ -32,6 +34,7 @@ class ViewMainPage {
   startPriceOfFILTER: number[];
   startStockOfFILTER: number[];
   startSortOfFILTER: string[];
+  startViewOfFILTER: string[];
   startServerData: IitemDATA[];
   EVENT: { [x: string]: Event }
 
@@ -40,7 +43,9 @@ class ViewMainPage {
               startBrandData: stringArrayObject,
               startPriceOfFILTER: number[],
               startStockOfFILTER: number[],
-              startSortOfFILTER: string[]) {
+              startSortOfFILTER: string[],
+              startViewOfFILTER: string[],
+  ) {
 
     // console.log("200 = startSortOfFILTER КОНСТРУКТОР МАЙН ПАЙДЖ", startSortOfFILTER)
 
@@ -50,6 +55,7 @@ class ViewMainPage {
     this.startPriceOfFILTER = startPriceOfFILTER;
     this.startStockOfFILTER = startStockOfFILTER;
     this.startSortOfFILTER = startSortOfFILTER;
+    this.startViewOfFILTER = startViewOfFILTER;
 
     this.customElement = new CustomElement();
 
@@ -79,6 +85,8 @@ class ViewMainPage {
     this.viewSort = this.customElement.createElement('select', { className: 'view__sort', name: 'sort', placeholder: 'Sorting', id: "sorting" }) as HTMLSelectElement; // Сортировка
     this.findCount = this.customElement.createElement('span', { className: 'view__find-count-span', textContent: `${this.startServerData.length}` }); // Число найденных совпадений
     this.viewSearch = this.customElement.createElement('input', { className: 'view__search', type: 'search', placeholder: 'Search product' }); // Поиск
+    this.viewBlock = this.customElement.createElement('div', { className: 'visible__item viewBlock' , textContent: 'Big'}); // Вид для блочной модели
+    this.viewList = this.customElement.createElement('div', { className: 'visible__item viewList', textContent: 'Small' }); // Вид для строчной модели
     //------Right Bottom------//
     this.cardList = this.customElement.createElement('div', { className: 'right__list cardlist' }); // Контейнер с карточками
 
@@ -90,72 +98,10 @@ class ViewMainPage {
       clickOnСardListMain: new Event('clickOnСardListMain', { bubbles: true }),// Клик на контейнере с Карточками
       clickOnProductAddInBascetMain: new Event('clickOnProductAddInBascetMain', { bubbles: true }),// Клик на кнопке добавить с Карточками
       clickOnbuttonResetMain: new Event('clickOnbuttonResetMain', { bubbles: true }),// Клик на кнопке сброса
+      clickOnbuttonViewBlockMain: new Event('clickOnbuttonViewBlockMain', { bubbles: true }),// Клик на кнопке больших карточек
+      // clickOnbuttonRViewListMain: new Event('clickOnbuttonRViewListMain', { bubbles: true }),// Клик на кнопке маленьких карточек
     }
     this.listenersMainPage();
-  }
-
-  listenersMainPage() {
-    this.filterCategoryMain.addEventListener('click', (e) => {
-      const target = e.target as HTMLElement;
-      if (target.getAttribute('type') === "checkbox") {
-        target.dispatchEvent(this.EVENT.clickOnCategoryMain)
-      }
-    })
-
-    this.filterBrandMain.addEventListener('click', (e) => {
-      const target = e.target as HTMLElement;
-      if (target.getAttribute('type') === "checkbox") {
-        target.dispatchEvent(this.EVENT.clickOnBrandMain)
-      }
-    })
-
-    this.viewSearch.addEventListener('input', (e) => {
-      const target = e.target as HTMLInputElement;
-      if (target) {
-        target.dispatchEvent(this.EVENT.changeOnSearchMain)
-      }
-
-      // this.viewSort.addEventListener('change', (e) => {
-      //   console.log(this.viewSort)
-      // })
-    })
-
-    this.cardList.addEventListener('click', (e) => {
-      const target = e.target as HTMLElement;
-      const card = target.closest('.cardlist__item')
-      const addToCard = target.closest('._btn_add-to-card')
-      // console.log('addToCard >',addToCard,'<')
-      if (card && !addToCard) {
-        card.dispatchEvent(this.EVENT.clickOnСardListMain)
-        // console.log('card >',card,'<')
-      } else {
-        addToCard?.dispatchEvent(this.EVENT.clickOnProductAddInBascetMain)
-      }
-    })
-
-    // cлушаетль на кнопке копирования адресса
-    this.buttonCopy.addEventListener('click', (e) => {
-
-      this.copyPageUrl()
-      setTimeout(() => {
-        this.buttonCopy.textContent = 'Copy Link'
-      }, 1500);
-    })
-
-    // cлушаетль на кнопке сброса ФИЛЬТРОВ
-    this.buttonReset.addEventListener('click', (e) => {
-      this.buttonReset.dispatchEvent(this.EVENT.clickOnbuttonResetMain)
-    })
-  }
-
-  async copyPageUrl() {
-    try {
-      await navigator.clipboard.writeText(location.href);
-      this.buttonCopy.textContent = 'Copied'
-      // console.log('URL страницы скопирован в буфер обмена');
-    } catch (err) {
-      console.error('Не удалось скопировать: ', err);
-    }
   }
 
   create(startServerData: IitemDATA[] = this.startServerData,
@@ -163,8 +109,11 @@ class ViewMainPage {
          startBrandData: stringArrayObject = this.startBrandData,
          startPriceOfFILTER: number[] = this.startPriceOfFILTER,
          startStockOfFILTER: number[] = this.startStockOfFILTER,
-         startSortOfFILTER: string[]) {
+         startSortOfFILTER: string[] = this.startSortOfFILTER,
+         startViewOfFILTER: string[] = this.startViewOfFILTER,
+  ) {
 
+    this.startViewOfFILTER = startViewOfFILTER
     // console.log('700 = startSortOfFILTER из create МАИН ПАДЖЕ', startSortOfFILTER)
     // Создание основной секции
     // const pageMain = this.customElement.createElement('div', { className: 'page-main-one _main-container' });
@@ -228,7 +177,21 @@ class ViewMainPage {
     const viewFindCount = this.customElement.createElement('p', { className: 'view__find-count', textContent: 'Found:' });
     this.findCount.textContent = `${startServerData.length}`
     this.customElement.addChildren(viewFindCount, [this.findCount]);
-    
+
+    //Вид карточек
+    const viewVisible = this.customElement.createElement('div', { className: 'view__visible visible' });
+    this.customElement.addChildren(viewVisible, [this.viewBlock, this.viewList]);
+
+    // Добавление в правый вернхнюю правую секцию
+    this.customElement.addChildren(rightView, [this.viewSort, viewFindCount, this.viewSearch, viewVisible]);
+
+    // Создание ПРАВОЙ НИЖНЕЙ СЕКЦИИ!!!
+    // this.customElement.addChildren(this.cardList, [...this.renderItemCard(startServerData)]);
+
+
+    // this.updateCardList(startServerData)
+
+
     this.customElement.addChildren(mainRight, [this.cardList]);
 
 
@@ -242,6 +205,84 @@ class ViewMainPage {
 
     return this.pageMain
   }
+
+  listenersMainPage() {
+
+    this.viewBlock.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      target.dispatchEvent(this.EVENT.clickOnbuttonViewBlockMain)
+    })
+    this.viewList.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      target.dispatchEvent(this.EVENT.clickOnbuttonViewBlockMain)
+    })
+
+
+
+    this.filterCategoryMain.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      if (target.getAttribute('type') === "checkbox") {
+        target.dispatchEvent(this.EVENT.clickOnCategoryMain)
+      }
+    })
+
+    this.filterBrandMain.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      if (target.getAttribute('type') === "checkbox") {
+        target.dispatchEvent(this.EVENT.clickOnBrandMain)
+      }
+    })
+
+    this.viewSearch.addEventListener('input', (e) => {
+      const target = e.target as HTMLInputElement;
+      if (target) {
+        target.dispatchEvent(this.EVENT.changeOnSearchMain)
+      }
+
+      // this.viewSort.addEventListener('change', (e) => {
+      //   console.log(this.viewSort)
+      // })
+    })
+
+    this.cardList.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      const card = target.closest('.cardlist__item')
+      const addToCard = target.closest('._btn_add-to-card')
+      // console.log('addToCard >',addToCard,'<')
+      if (card && !addToCard) {
+        card.dispatchEvent(this.EVENT.clickOnСardListMain)
+        // console.log('card >',card,'<')
+      } else {
+        addToCard?.dispatchEvent(this.EVENT.clickOnProductAddInBascetMain)
+      }
+    })
+
+    // cлушаетль на кнопке копирования адресса
+    this.buttonCopy.addEventListener('click', (e) => {
+
+      this.copyPageUrl()
+      setTimeout(() => {
+        this.buttonCopy.textContent = 'Copy Link'
+      }, 1500);
+    })
+
+    // cлушаетль на кнопке сброса ФИЛЬТРОВ
+    this.buttonReset.addEventListener('click', (e) => {
+      this.buttonReset.dispatchEvent(this.EVENT.clickOnbuttonResetMain)
+    })
+  }
+
+  async copyPageUrl() {
+    try {
+      await navigator.clipboard.writeText(location.href);
+      this.buttonCopy.textContent = 'Copied'
+      // console.log('URL страницы скопирован в буфер обмена');
+    } catch (err) {
+      console.error('Не удалось скопировать: ', err);
+    }
+  }
+
+
 
   // Создание Category
   renderCategoryBlock(dataFilterCategory: stringArrayObject = this.startCategoryData): HTMLElement[] {
@@ -280,7 +321,7 @@ class ViewMainPage {
 
   // Создание Price
   renderPriceBlock(dataFilterPrice: number[] = this.startPriceOfFILTER): HTMLElement {
-    this.filterPrice.innerHTML=''
+    this.filterPrice.innerHTML = ''
     // const filterPrice = this.customElement.createElement('div', { className: 'filter__item filter__price price' });
     const filterPriceItemName = this.customElement.createElement('h3', { className: 'filter__item-name price__name', textContent: 'Price' });
     const filterPriceContainer = this.customElement.createElement('div', { className: 'inputRange_container price__container' });
@@ -317,8 +358,8 @@ class ViewMainPage {
 
   // No products found 😏
   // Создание ItemCard (девок)
-  renderItemCard(dataServerItem: IitemDATA[] = this.startServerData) {
-    if (dataServerItem.length === 0) {this.cardList.textContent = 'No products found 😏'} else {this.cardList.textContent = ''}
+  renderItemCard(dataServerItem: IitemDATA[] = this.startServerData, view = this.startViewOfFILTER) {
+    if (dataServerItem.length === 0) { this.cardList.textContent = 'No products found 😏' } else { this.cardList.textContent = '' }
     const itemContainer: HTMLElement[] = [];
 
     for (const item of dataServerItem) {
@@ -344,8 +385,22 @@ class ViewMainPage {
 
       //Заполнение cardInfo
       const cardImg = this.customElement.createElement('img', { className: 'card__info-img', src: `${item.images[0]}` });
+
       const cardData = this.customElement.createElement('div', { className: 'card__data i-data' });
-      this.customElement.addChildren(cardInfo, [cardImg, cardData]);
+      console.log('view',view)
+      if (view[0] === 'Big') {
+        this.customElement.addChildren(cardInfo, [cardImg, cardData]);
+        card.classList.add('cardlist__item-two');
+        this.viewBlock.classList.remove('visible__item-active');
+        this.viewList.classList.remove('visible__item-active');
+        this.viewBlock.classList.add('visible__item-active');
+      } else {
+        this.customElement.addChildren(cardInfo, [cardImg]);
+        card.classList.remove('cardlist__item-two');
+        this.viewBlock.classList.remove('visible__item-active');
+        this.viewList.classList.remove('visible__item-active');
+        this.viewList.classList.add('visible__item-active');
+      }
 
       //Заполнение cardData
       const cardDataСategory = this.customElement.createElement('p', { textContent: `Category: ${item.category}` });
@@ -368,10 +423,10 @@ class ViewMainPage {
     (this.viewSearch as HTMLInputElement).value = search
   }
 
-  updateCardList(data: IitemDATA[] = this.startServerData) {
+  updateCardList(data: IitemDATA[] = this.startServerData, view = this.startViewOfFILTER) {
     this.cardList.innerHTML = ''
     this.findCount.textContent = `${data.length}`
-    this.customElement.addChildren(this.cardList, [...this.renderItemCard(data)]);
+    this.customElement.addChildren(this.cardList, [...this.renderItemCard(data, view)]);
   }
 
   updateCategoryBlock(data: stringArrayObject = this.startCategoryData) {

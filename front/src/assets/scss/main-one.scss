@@ -101,9 +101,21 @@
 .visible__item {
   cursor: pointer;
   display: block;
-  width: 30px;
-  height: 30px;
-  background-color: green;
+  width: 80px;
+  background-color: $mainColor;
+  text-align: center;
+  padding: 10px;
+  font-weight: 700;
+  border: 1px solid #FFF;
+  border-radius: 5px;
+  color: #FFF;
+  &:active {
+    background-color: green;
+  }
+}
+
+.visible__item-active {
+  background-color: red;
 }
 
 .view__sort {
