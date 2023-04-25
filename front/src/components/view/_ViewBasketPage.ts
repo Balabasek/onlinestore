@@ -17,6 +17,10 @@ class ViewBasketPage {
   productList: HTMLElement;
   summaryInfo: HTMLElement;
   productItemsInputView: HTMLElement;
+
+  summaryInfoSpanTotal:HTMLSpanElement;
+  summaryInfoSpanTotalProducts:HTMLSpanElement;
+
   EVENT: { [x: string]: Event };
   objectItemsPages: { [x: string]: number };
   serverData: IitemDATA[];
@@ -24,7 +28,7 @@ class ViewBasketPage {
   maxPage: number;
   _formatURL: FormatURL;
 
-  constructor(serverData: IitemDATA[], objectItemPage:{ [x: string]: number } = { items: 3, pages: 1} ) {
+  constructor(serverData: IitemDATA[], objectItemPage: { [x: string]: number } = { items: 3, pages: 1 }) {
     // this._controller = new ControllerMain();
     this.customElement = new CustomElement();
     this._formatURL = new FormatURL();
@@ -38,6 +42,10 @@ class ViewBasketPage {
     this.pagesButtonNext = this.customElement.createElement('button', { className: 'product__pages-btnNext product__pages-btn', textContent: '+' }); // Кнопка странички СЛЕДУЮЩАЯ
     this.pagesCurrent = this.customElement.createElement('p', { className: 'product__pages-current', textContent: '2' }); // Лист карточек
     this.summaryInfo = this.customElement.createElement('div', { className: 'summary__info summaryInfo' }); // Итоговая информация
+
+    this.summaryInfoSpanTotal = this.customElement.createElement('span', { className: 'summaryInfo__total_span', textContent: '0' }) as HTMLSpanElement;
+    this.summaryInfoSpanTotalProducts = this.customElement.createElement('span', { className: 'summaryInfo__total-products_span', textContent: '0' }) as HTMLSpanElement;
+
 
     this.EVENT = {
       // inputOnItemsVisible: new Event('inputOnItemsVisible', { bubbles: true }),
@@ -62,11 +70,11 @@ class ViewBasketPage {
     })
   }
 
-  create(data: IitemDATA[], basketItem:{ [x: string]: number } = { items: 3, pages: 3}) {
-    console.log('DATA КРЕАТЕ КОРЗИНЫ',data)
-    console.log('basketItem КОРЗИНЫ',basketItem)
+  create(data: IitemDATA[], basketItem: { [x: string]: number } = { items: 3, pages: 3 }) {
+    console.log('DATA КРЕАТЕ КОРЗИНЫ', data)
+    console.log('basketItem КОРЗИНЫ', basketItem)
 
-    this.objectItemsPages = {... basketItem};
+    this.objectItemsPages = { ...basketItem };
 
     console.log('this.numberItem КОРЗИНЫ', this.objectItemsPages.items)
     console.log('this.numberPage КОРЗИНЫ', this.objectItemsPages.pages)
@@ -75,6 +83,8 @@ class ViewBasketPage {
     this.productList.innerHTML = '';
     this.summaryInfo.innerHTML = '';
     this.serverData = [...data]; // Запишем входящие данные, чтобы не потерять
+
+
 
     // Отрисовка контейнера (для попапа и секции)
     // const pageMainBasket = this.customElement.createElement('div', { className: 'page-main-basket _main-container' });
@@ -128,7 +138,7 @@ class ViewBasketPage {
 
     for (const item of dataServerItem) {
       // Обертка карточки
-      const itemBasket = this.customElement.createElement('div', { className: 'product__itemBasket itemBasket', id:`${item.id}` });
+      const itemBasket = this.customElement.createElement('div', { className: 'product__itemBasket itemBasket', id: `${item.id}` });
 
       // Создание itemBasket
       const itemNumberBasket = this.customElement.createElement('div', { className: 'itemBasket__numberBasket', textContent: '1' });
@@ -173,8 +183,11 @@ class ViewBasketPage {
   renderSummary() {
     const itemContainer: HTMLElement[] = [];
 
-    const summaryInfoDataProducts = this.customElement.createElement('p', { className: 'summaryInfo-data__products', textContent: 'Products: 6' });
-    const summaryInfoDataTotal = this.customElement.createElement('p', { className: 'summaryInfo__total', textContent: 'Total: $10.000' });
+    const summaryInfoDataProducts = this.customElement.createElement('p', { className: 'summaryInfo-data__products', textContent: 'Products: ' });
+    this.customElement.addChildren(summaryInfoDataProducts, [this.summaryInfoSpanTotalProducts])
+    const summaryInfoDataTotal = this.customElement.createElement('p', { className: 'summaryInfo__total', textContent: 'Total: $ ' });
+
+    this.customElement.addChildren(summaryInfoDataTotal, [this.summaryInfoSpanTotal])
     const summaryInfoDataSearch = this.customElement.createElement('input', { className: 'summaryInfo__search', type: 'search', placeholder: 'Search promocode' });
     const summaryInfoDataProme = this.customElement.createElement('p', { className: 'summaryInfo__name', textContent: 'Test promo: Balabasek, LjeDmitr' });
     // const summaryInfoDataButton = this.customElement.createElement('button', { className: 'card__btn-button _btn', textContent: 'Buy now' });
@@ -210,12 +223,12 @@ class ViewBasketPage {
 
   // Пушим в историю адресной строки
   pushState() {
-    console.log('this.objectItemsPages',this.objectItemsPages)
+    console.log('this.objectItemsPages', this.objectItemsPages)
     const params: URLSearchParams = this._formatURL.createURLSearchParamsBasket(this.objectItemsPages);
     window.history.pushState({}, '', `/basket?${params}`)
   }
 
-  changeNumberPage(event:Event) {
+  changeNumberPage(event: Event) {
     const target = event.target as HTMLElement
     this.maxPage = Math.ceil(this.serverData.length / this.objectItemsPages.items);
 
@@ -236,17 +249,18 @@ class ViewBasketPage {
     this.changeItemsForList();
   }
 
-  changeNumberItems(event:Event) {
+  changeNumberItems(event: Event) {
     const target = event.target as HTMLInputElement
     // Проверка на ввод пустого значения
-    if (target.value === '') {
+    if (target.value === '' || ((Number(target.value) > this.serverData.length))) {
+      target.value = this.objectItemsPages.items.toString()
       return
     }
 
     // Перезапишем количество указанных карточек
     this.objectItemsPages.items = Number(target.value);
 
-    if (this.objectItemsPages.items < this.serverData.length) {
+    if (this.objectItemsPages.items <= this.serverData.length) {
       this.pushState()
     }
 

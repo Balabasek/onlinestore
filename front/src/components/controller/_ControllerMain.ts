@@ -43,7 +43,7 @@ class ControllerMain {
   ViewItemCardPAGE: ViewItemCardPage;
   ViewBASKETPAGE: ViewBasketPage;
   ViewNotFound: ViewNotFound;
-  ViewValidation:ViewValidation;
+  ViewValidation: ViewValidation;
 
   _formatURL: FormatURL;
 
@@ -66,6 +66,7 @@ class ControllerMain {
   protected stockOfFILTER: number[];
   readonly searchOfFILTER: string[];
   sortOfFILTER: string[];
+  viewOfFILTER: string[];
 
   constructor() {
 
@@ -108,13 +109,16 @@ class ControllerMain {
     this.stockOfFILTER = this.MODEL.stockOfFILTER
     this.searchOfFILTER = this.MODEL.searchOfFILTER
     this.sortOfFILTER = this.MODEL.sortOfFILTER
+    this.viewOfFILTER = this.MODEL.viewOfFILTER
 
     this.ViewMainPAGE = new ViewMainPage(this.startServerData,
         this.startCategoryData,
         this.startBrandData,
         this.startPriceOfFILTER,
         this.startStockOfFILTER,
-        this.sortOfFILTER);
+        this.sortOfFILTER,
+        this.viewOfFILTER
+    );
     this.ViewItemCardPAGE = new ViewItemCardPage(this.startServerData[0]);
     this.ViewBASKETPAGE = new ViewBasketPage(this.startServerData)
 
@@ -176,13 +180,15 @@ class ControllerMain {
     this.HEADER.append(this.ViewHEADER.create())
     this.FOOTER.append(this.ViewFOOTER.create())
 
-    this.ViewHEADER.updateHeaderBasketCount(this.BascetLocalStorage.length)
-    const summTotal = this.BascetLocalStorage.reduce((summ, el) => summ + el.price * el.count, 0)// возможно эти 2 надо вынести в отельный метод
-    this.ViewHEADER.updateHeaderTotalPrice(summTotal)// возможно эти 2 надо вынести в отельный метод
+    this.updateBascetCountAndTotaPriseHeader()
+
+    // this.ViewHEADER.updateHeaderBasketCount(this.BascetLocalStorage.length)
+    // const summTotal = this.BascetLocalStorage.reduce((summ, el) => summ + el.price * el.count, 0)// возможно эти 2 надо вынести в отельный метод
+    // this.ViewHEADER.updateHeaderTotalPrice(summTotal)// возможно эти 2 надо вынести в отельный метод
   }
 
   // Рендер Validation страницы из роутера
-  renderValidation(name: string){
+  renderValidation(name: string) {
     document.title = `Store - ${name}`;
     this.MAIN.innerHTML = '';
     this.MAIN.append(this.ViewValidation.create())
@@ -191,10 +197,11 @@ class ControllerMain {
 
   // Рендер главной страницы из роутера
   renderMainPageFromRouter(name: string) {
+    console.log('renderMainPageFromRouter')
     document.title = `Store - ${name}`;
     const search = new URLSearchParams(window.location.search);
     const filter = this._formatURL.createObjectFromURLSearchParams(search)
-    // console.log('ИЗ ЛОВЛИ РОУТЕРА ФИЛЬТЕР С АДРЕСНОЙ СТРОКИ', filter)
+    console.log('ИЗ ЛОВЛИ РОУТЕРА ФИЛЬТЕР С АДРЕСНОЙ СТРОКИ', filter)
     this.MODEL.setFILTER(filter)
     this.rerenderMainPageComponents()
   }
@@ -217,7 +224,9 @@ class ControllerMain {
           this.MODEL.filtredBrandData,
           this.priceOfFILTER,
           this.stockOfFILTER,
-          this.sortOfFILTER))
+          this.sortOfFILTER,
+          this.viewOfFILTER,
+      ))
     }
 
     if (document.querySelector('.noUi-base') === null) {
@@ -243,7 +252,9 @@ class ControllerMain {
     this.sortOfFILTER = this.MODEL.sortOfFILTER
     this.priceOfFILTER = this.MODEL.priceOfFILTER
     this.stockOfFILTER = this.MODEL.stockOfFILTER
-    this.ViewMainPAGE.updateCardList(this.MODEL.filtredData)
+    this.viewOfFILTER = this.MODEL.viewOfFILTER
+    console.log('this.viewOfFILTER из viewMainPAGEupdate()', this.viewOfFILTER)
+    this.ViewMainPAGE.updateCardList(this.MODEL.filtredData, this.viewOfFILTER)
     this.ViewMainPAGE.updateBrandBlock(this.MODEL.filtredBrandData)
     this.ViewMainPAGE.updateCategoryBlock(this.MODEL.filtredCategoryData)
     this.ViewMainPAGE.updateSearchValue(this.MODEL.searchOfFILTER[0])
@@ -306,7 +317,7 @@ class ControllerMain {
   }
 
 
-  updateBascetFROMLocalStorage(){
+  updateBascetFROMLocalStorage() {
     const readlocalStorage = localStorage.getItem('BascetLocalStorage')
     if (readlocalStorage) {
       this.BascetLocalStorage = JSON.parse(readlocalStorage)
@@ -426,28 +437,33 @@ class ControllerMain {
 
     })
 
+    // Клик по кнопкам отображения View CARD Мейна
+    this.MAIN.addEventListener('clickOnbuttonViewBlockMain', (e) => {
+      const target = e.target as HTMLSelectElement;
+      console.log('target.textContent', target.textContent)
+      if (target.textContent) {
+        this.MODEL.setViewOfFILTER(target.textContent)
+      }
+      this.rerenderMainPageComponents()
+      this.pushStateFilter()
+
+    })
+
     // Клик по корзине из Хедера и запуск страницы корзины
     this.BODY.addEventListener('clickOnBacket', (e) => {
-
-
       // const search = new URLSearchParams(window.location.search);
       // console.log('60 =window.location.search!!!!', window.location.search)
       // console.log('70 =search', search.toString())
-
       // const basketObject = search.toString() ? this._formatURL.createFromURLSearchParams(search) : {
       const basketObject = {
         items: 3,
         pages: 1,
       }
-
-
       const params: URLSearchParams = this._formatURL.createURLSearchParamsBasket(basketObject)
-
       window.history.pushState({}, '', `/basket?${params}`)
       // console.log('300 =search!!!!!!!!', search)
       // const returnbasketObject = this._formatURL.createFromURLSearchParams(search)
       // console.log('400 = returnbasketObject!!!!!!!!', returnbasketObject)
-
       this.renderBacket()
       // this.MAIN.innerHTML = ''
       // // console.log('this.generateProductsForBascet()====',this.generateProductsForBascet())
@@ -495,11 +511,13 @@ class ControllerMain {
     })
   }
 
-  updateBascetCountAndTotaPriseHeader(){
+  updateBascetCountAndTotaPriseHeader() {
     this.updateBascetFROMLocalStorage()
     this.ViewHEADER.updateHeaderBasketCount(this.BascetLocalStorage.length)
     const summTotal = this.BascetLocalStorage.reduce((summ, el) => summ + el.price * el.count, 0)// возможно эти 2 надо вынести в отельный метод
     this.ViewHEADER.updateHeaderTotalPrice(summTotal)// возможно эти 2 надо вынести в отельный метод
+    this.ViewBASKETPAGE.summaryInfoSpanTotal.textContent = summTotal.toString()
+    this.ViewBASKETPAGE.summaryInfoSpanTotalProducts.textContent = this.BascetLocalStorage.length.toString()
   }
 
 
