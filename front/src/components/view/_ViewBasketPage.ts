@@ -54,8 +54,8 @@ class ViewBasketPage {
 
   listenersMain() {
     this.productItemsInputView.addEventListener('input', (event) => this.changeNumberItems(event));
-    this.pagesButtonPrev.addEventListener('click', (event) => this.changeNumberPage(event))
-    this.pagesButtonNext.addEventListener('click', (event) => this.changeNumberPage(event))
+    this.pagesButtonPrev.addEventListener('click', (event) => this.changeNumberPage(event));
+    this.pagesButtonNext.addEventListener('click', (event) => this.changeNumberPage(event));
 
     this.summaryInfoDataButton.addEventListener('click', (e) => {
       this.summaryInfoDataButton.dispatchEvent(this.EVENT.clickOnProductAddInBascetBuy)
@@ -128,7 +128,7 @@ class ViewBasketPage {
 
     for (const item of dataServerItem) {
       // Обертка карточки
-      const itemBasket = this.customElement.createElement('div', { className: 'product__itemBasket itemBasket' });
+      const itemBasket = this.customElement.createElement('div', { className: 'product__itemBasket itemBasket', id:`${item.id}` });
 
       // Создание itemBasket
       const itemNumberBasket = this.customElement.createElement('div', { className: 'itemBasket__numberBasket', textContent: '1' });
@@ -156,8 +156,12 @@ class ViewBasketPage {
 
       // Создание itemDataCount
       const basketDataBtnMinus = this.customElement.createElement('button', { className: 'basket-data__count-btnMinus basket-data__count-btn', textContent: '-' });
-      const itemDataCurrent = this.customElement.createElement('p', { className: 'basket-data__count-current', textContent: '9' });
+      const itemDataCurrent = this.customElement.createElement('p', { className: 'basket-data__count-current', textContent: '1' });
       const basketDataBtnPlus = this.customElement.createElement('button', { className: 'basket-data__count-btnPlus basket-data__count-btn', textContent: '+' });
+
+      basketDataBtnPlus.addEventListener('click', (e) => this.countItemPlus(e, item));
+      basketDataBtnMinus.addEventListener('click', (e) => this.countItemMinus(e, item));
+
       this.customElement.addChildren(itemDataCount, [basketDataBtnMinus, itemDataCurrent, basketDataBtnPlus]);
 
       itemContainer.push(itemBasket)
@@ -249,6 +253,33 @@ class ViewBasketPage {
     this.changeItemsForList();
   }
 
+  countItemPlus(e: Event, itemData: IitemDATA) {
+    const itemCard = (e.target as HTMLElement).closest('.product__itemBasket');
+    const itemCardCount = itemCard?.querySelector('.basket-data__count-current');
+
+    // Проверка чтобы не было больше чем наличие
+    if (itemCardCount && itemCardCount.textContent && itemData.stock > Number(itemCardCount.textContent)) {
+      itemCardCount.textContent = String(Number(itemCardCount.textContent) + 1);
+    }
+  }
+
+  countItemMinus(e: Event, itemData: IitemDATA) {
+    const itemCard = (e.target as HTMLElement).closest('.product__itemBasket');
+    const itemCardCount = itemCard?.querySelector('.basket-data__count-current');
+
+    //Проверка на то, чтобы не падало меньше 1
+    if (itemCardCount && itemCardCount.textContent && Number(itemCardCount.textContent) > 1) {
+      itemCardCount.textContent = String(Number(itemCardCount.textContent) - 1);
+      // Что делаем если указан 1 и кликаем минус
+    } else if (itemCardCount && itemCardCount.textContent && Number(itemCardCount.textContent) > 0) {
+      const newServerData = this.serverData.filter(item => item.id !== itemData.id);
+      this.serverData = [...newServerData]
+      this.changeItemsForList();
+    }
+  }
+
 }
 
 export default ViewBasketPage
+
+// 1. Есть небольшой баг, не пушится последняя страница...
