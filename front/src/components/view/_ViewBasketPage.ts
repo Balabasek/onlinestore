@@ -172,7 +172,7 @@ class ViewBasketPage {
     const summaryInfoDataProducts = this.customElement.createElement('p', { className: 'summaryInfo-data__products', textContent: 'Products: 6' });
     const summaryInfoDataTotal = this.customElement.createElement('p', { className: 'summaryInfo__total', textContent: 'Total: $10.000' });
     const summaryInfoDataSearch = this.customElement.createElement('input', { className: 'summaryInfo__search', type: 'search', placeholder: 'Search promocode' });
-    const summaryInfoDataProme = this.customElement.createElement('p', { className: 'summaryInfo__name', textContent: 'Test promo: Jik, Sydery' });
+    const summaryInfoDataProme = this.customElement.createElement('p', { className: 'summaryInfo__name', textContent: 'Test promo: Balabasek, LjeDmitr' });
     // const summaryInfoDataButton = this.customElement.createElement('button', { className: 'card__btn-button _btn', textContent: 'Buy now' });
 
     itemContainer.push(summaryInfoDataProducts, summaryInfoDataTotal, summaryInfoDataSearch, summaryInfoDataProme, this.summaryInfoDataButton)
@@ -202,8 +202,11 @@ class ViewBasketPage {
       this.changeItemsForList();
     }
 
-    // Пушим в историю адресной строки
-    console.log(this.objectItemsPages)
+  }
+
+  // Пушим в историю адресной строки
+  pushState() {
+    console.log('this.objectItemsPages',this.objectItemsPages)
     const params: URLSearchParams = this._formatURL.createURLSearchParamsBasket(this.objectItemsPages);
     window.history.pushState({}, '', `/basket?${params}`)
   }
@@ -215,12 +218,14 @@ class ViewBasketPage {
     if (this.objectItemsPages.pages < this.maxPage && this.objectItemsPages.pages >= 1) {
       if (target.classList.contains('product__pages-btnNext')) {
         this.objectItemsPages.pages += 1;
+        this.pushState()
       }
     }
 
     if (this.objectItemsPages.pages <= this.maxPage && this.objectItemsPages.pages > 1) {
       if (target.classList.contains('product__pages-btnPrev')) {
         this.objectItemsPages.pages -= 1;
+        this.pushState()
       }
     }
 
@@ -236,6 +241,11 @@ class ViewBasketPage {
 
     // Перезапишем количество указанных карточек
     this.objectItemsPages.items = Number(target.value);
+
+    if (this.objectItemsPages.items < this.serverData.length) {
+      this.pushState()
+    }
+
     this.changeItemsForList();
   }
 
