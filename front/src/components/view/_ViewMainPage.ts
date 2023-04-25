@@ -182,12 +182,13 @@ class ViewMainPage {
     this.customElement.addChildren(mainLeft, [containerButtons]);
     this.customElement.addChildren(containerButtons, [this.buttonReset, this.buttonCopy]);
 
-    //Добавление Category
+    // Добавление Category
     // this.customElement.addChildren(this.filterCategoryMain, [...this.renderCategoryBlock(startCategoryData)]);
+    this.updateCategoryBlock(startCategoryData)
 
     // Добавление Brand
     // this.customElement.addChildren(this.filterBrandMain, [...this.renderBrandBlock(startBrandData)]);
-
+    this.updateBrandBlock(startBrandData)
     // Добавление всего в левую часть
     this.customElement.addChildren(mainLeft, [this.filterCategoryMain, this.filterBrandMain]);
 
@@ -227,7 +228,7 @@ class ViewMainPage {
     const viewFindCount = this.customElement.createElement('p', { className: 'view__find-count', textContent: 'Found:' });
     this.findCount.textContent = `${startServerData.length}`
     this.customElement.addChildren(viewFindCount, [this.findCount]);
-
+    
     this.customElement.addChildren(mainRight, [this.cardList]);
 
 
