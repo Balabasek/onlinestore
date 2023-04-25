@@ -2,6 +2,7 @@ import CustomElement from '../utils/_createCustomElement';
 // import ControllerMain from '../controller/_ControllerMain';
 // import { stringArrayObject } from '../typingTS/_type';
 import { IitemDATA } from '../typingTS/_interfaces';
+import FormatURL from '../utils/_formatUrl';
 // import { createElement } from '../utils/utils';
 
 
@@ -20,14 +21,13 @@ class ViewBasketPage {
   objectItemsPages: { [x: string]: number };
   serverData: IitemDATA[];
   summaryInfoDataButton: HTMLElement;
-  numberPage: number;
-  numberItem: number;
   maxPage: number;
-  // startServerData: IitemDATA[];
+  _formatURL: FormatURL;
 
   constructor(serverData: IitemDATA[], objectItemPage:{ [x: string]: number } = { items: 3, pages: 1} ) {
     // this._controller = new ControllerMain();
     this.customElement = new CustomElement();
+    this._formatURL = new FormatURL();
 
     this.pageMainBasket = this.customElement.createElement('div', { className: 'page-main-basket _main-container' });
     this.summaryInfoDataButton = this.customElement.createElement('button', { className: 'card__btn-button _btn', textContent: 'Buy now' });
@@ -46,9 +46,8 @@ class ViewBasketPage {
 
     this.serverData = [...serverData]; // Сюда будем перезаписывать данные
     this.objectItemsPages = { ...objectItemPage }; // Создадим копию нашего входящего объекта с инпутом и страничкой
-    this.numberPage = this.objectItemsPages.pages;
-    this.numberItem = this.objectItemsPages.items;
-    this.maxPage = this.serverData.length / this.numberItem;
+
+    this.maxPage = this.serverData.length / this.objectItemsPages.items;
 
     this.listenersMain();
   }
@@ -67,10 +66,10 @@ class ViewBasketPage {
     console.log('DATA КРЕАТЕ КОРЗИНЫ',data)
     console.log('basketItem КОРЗИНЫ',basketItem)
 
-    this.numberPage = basketItem.pages || this.numberPage;
-    this.numberItem = basketItem.items || this.numberItem;
-    console.log('this.numberItem КОРЗИНЫ',this.numberItem)
-    console.log('this.numberPage КОРЗИНЫ',this.numberPage)
+    this.objectItemsPages = {... basketItem};
+
+    console.log('this.numberItem КОРЗИНЫ', this.objectItemsPages.items)
+    console.log('this.numberPage КОРЗИНЫ', this.objectItemsPages.pages)
 
     this.pageMainBasket.innerHTML = '';
     this.productList.innerHTML = '';
@@ -182,40 +181,46 @@ class ViewBasketPage {
 
   changeItemsForList() {
     this.productList.innerHTML = '';
-    const newListElement = this.serverData.slice((this.numberPage - 1) * this.numberItem, Number(this.numberItem) * this.numberPage); // Создадим новый массив из старого
+    const newListElement = this.serverData.slice((this.objectItemsPages.pages - 1) * this.objectItemsPages.items, Number(this.objectItemsPages.items) * this.objectItemsPages.pages); // Создадим новый массив из старого
     this.customElement.addChildren(this.productList, [...this.renderProductCard(newListElement)]); // Рендер массив
 
-    this.pagesCurrent.textContent = String(this.numberPage);
-    (this.productItemsInputView as HTMLInputElement).value = String(this.numberItem);
-    console.log(this.numberItem)
+    // Обновляем данные, после изменения одним из методов
+    this.pagesCurrent.textContent = String(this.objectItemsPages.pages);
+    (this.productItemsInputView as HTMLInputElement).value = String(this.objectItemsPages.items);
 
-    this.maxPage = Math.ceil(this.serverData.length / this.numberItem);
-    if (this.numberPage > this.maxPage) {
-      this.numberPage = this.maxPage;
-      (this.productItemsInputView as HTMLInputElement).value = String(this.numberItem);
+    // Сравнение максимальной строки при перестроении отображаемых карточек, чтобы сбросилась, если максимум уменьшился
+    this.maxPage = Math.ceil(this.serverData.length / this.objectItemsPages.items);
+    if (this.objectItemsPages.pages > this.maxPage) {
+      this.objectItemsPages.pages = this.maxPage;
+      (this.productItemsInputView as HTMLInputElement).value = String(this.objectItemsPages.items);
       this.changeItemsForList();
     }
 
-    if (this.numberItem > this.serverData.length) {
-      this.numberItem = this.serverData.length;
+    // Сравнение введенных в инпут данных на число большее длины массива данных
+    if (this.objectItemsPages.items > this.serverData.length) {
+      this.objectItemsPages.items = this.serverData.length;
       this.changeItemsForList();
     }
 
+    // Пушим в историю адресной строки
+    console.log(this.objectItemsPages)
+    const params: URLSearchParams = this._formatURL.createURLSearchParamsBasket(this.objectItemsPages);
+    window.history.pushState({}, '', `/basket?${params}`)
   }
 
   changeNumberPage(event:Event) {
     const target = event.target as HTMLElement
-    this.maxPage = Math.ceil(this.serverData.length / this.numberItem);
+    this.maxPage = Math.ceil(this.serverData.length / this.objectItemsPages.items);
 
-    if (this.numberPage < this.maxPage && this.numberPage >= 1) {
+    if (this.objectItemsPages.pages < this.maxPage && this.objectItemsPages.pages >= 1) {
       if (target.classList.contains('product__pages-btnNext')) {
-        this.numberPage += 1;
+        this.objectItemsPages.pages += 1;
       }
     }
 
-    if (this.numberPage <= this.maxPage && this.numberPage > 1) {
+    if (this.objectItemsPages.pages <= this.maxPage && this.objectItemsPages.pages > 1) {
       if (target.classList.contains('product__pages-btnPrev')) {
-        this.numberPage -= 1;
+        this.objectItemsPages.pages -= 1;
       }
     }
 
@@ -224,11 +229,13 @@ class ViewBasketPage {
 
   changeNumberItems(event:Event) {
     const target = event.target as HTMLInputElement
-    if (target.value === '') { // Проверка на ввод пустого значения
+    // Проверка на ввод пустого значения
+    if (target.value === '') {
       return
     }
 
-    this.numberItem = Number(target.value); // Перезапишем количество указанных карточек
+    // Перезапишем количество указанных карточек
+    this.objectItemsPages.items = Number(target.value);
     this.changeItemsForList();
   }
 
