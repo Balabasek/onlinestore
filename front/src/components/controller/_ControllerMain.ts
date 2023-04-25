@@ -110,11 +110,11 @@ class ControllerMain {
     this.sortOfFILTER = this.MODEL.sortOfFILTER
 
     this.ViewMainPAGE = new ViewMainPage(this.startServerData,
-      this.startCategoryData,
-      this.startBrandData,
-      this.startPriceOfFILTER,
-      this.startStockOfFILTER,
-      this.sortOfFILTER);
+        this.startCategoryData,
+        this.startBrandData,
+        this.startPriceOfFILTER,
+        this.startStockOfFILTER,
+        this.sortOfFILTER);
     this.ViewItemCardPAGE = new ViewItemCardPage(this.startServerData[0]);
     this.ViewBASKETPAGE = new ViewBasketPage(this.startServerData)
 
@@ -181,7 +181,7 @@ class ControllerMain {
     this.ViewHEADER.updateHeaderTotalPrice(summTotal)// возможно эти 2 надо вынести в отельный метод
   }
 
-    // Рендер Validation страницы из роутера
+  // Рендер Validation страницы из роутера
   renderValidation(name: string){
     document.title = `Store - ${name}`;
     this.MAIN.innerHTML = '';
@@ -213,11 +213,11 @@ class ControllerMain {
       // console.log('300 =this.sortOfFILTER РЕНДЕР', this.sortOfFILTER)
       // console.log('400 =this.MODEL.FILTER РЕНДЕР', this.MODEL.FILTER)
       this.MAIN.append(this.ViewMainPAGE.create(this.MODEL.filtredData,
-        this.MODEL.filtredCategoryData,
-        this.MODEL.filtredBrandData,
-        this.priceOfFILTER,
-        this.stockOfFILTER,
-        this.sortOfFILTER))
+          this.MODEL.filtredCategoryData,
+          this.MODEL.filtredBrandData,
+          this.priceOfFILTER,
+          this.stockOfFILTER,
+          this.sortOfFILTER))
     }
 
     if (document.querySelector('.noUi-base') === null) {
@@ -269,7 +269,7 @@ class ControllerMain {
     // const search = new URLSearchParams(window.location.search);
     // console.log('search!!!!!!!!', this._formatURL.createIDFromURLSearchParams(search))
     // const id = this._formatURL.createIDFromURLSearchParams(search).id
-       
+
     // // Логика из корзины временно тут
     // const basketObject1 = {
     //   items: 5,
@@ -288,7 +288,7 @@ class ControllerMain {
     const basketObject = search.toString() ? this._formatURL.createFromURLSearchParams(search) : {
       items: 3,
       pages: 1,
-    } 
+    }
 
     // console.log('100 =basketObject!!!!!!', basketObject)
     // const params: URLSearchParams = this._formatURL.createURLSearchParamsBasket(basketObject)
@@ -307,12 +307,12 @@ class ControllerMain {
 
 
   updateBascetFROMLocalStorage(){
-      const readlocalStorage = localStorage.getItem('BascetLocalStorage')
-  if (readlocalStorage) {
-    this.BascetLocalStorage = JSON.parse(readlocalStorage)
-  } else {
-    this.BascetLocalStorage = []
-  }
+    const readlocalStorage = localStorage.getItem('BascetLocalStorage')
+    if (readlocalStorage) {
+      this.BascetLocalStorage = JSON.parse(readlocalStorage)
+    } else {
+      this.BascetLocalStorage = []
+    }
   }
 
 
@@ -433,22 +433,22 @@ class ControllerMain {
       // const search = new URLSearchParams(window.location.search);
       // console.log('60 =window.location.search!!!!', window.location.search)
       // console.log('70 =search', search.toString())
-  
+
       // const basketObject = search.toString() ? this._formatURL.createFromURLSearchParams(search) : {
       const basketObject = {
         items: 3,
         pages: 1,
-      } 
-  
-      console.log('100 =basketObject!!!!!!', basketObject)
+      }
+
+
       const params: URLSearchParams = this._formatURL.createURLSearchParamsBasket(basketObject)
-      console.log('150 =params!!!', params.toString())
+
       window.history.pushState({}, '', `/basket?${params}`)
       // console.log('300 =search!!!!!!!!', search)
       // const returnbasketObject = this._formatURL.createFromURLSearchParams(search)
       // console.log('400 = returnbasketObject!!!!!!!!', returnbasketObject)
 
-      this.renderBacket() 
+      this.renderBacket()
       // this.MAIN.innerHTML = ''
       // // console.log('this.generateProductsForBascet()====',this.generateProductsForBascet())
       // this.MAIN.append(this.ViewBASKETPAGE.create(this.generateProductsForBascet())) // НЕ ДОРАБОТАНО ПОЛУЧАТЬ ДАННЫЕ ИЗ ЛОКАЛ СТОРИДЖ
@@ -495,12 +495,12 @@ class ControllerMain {
     })
   }
 
-updateBascetCountAndTotaPriseHeader(){
-  this.updateBascetFROMLocalStorage()
-  this.ViewHEADER.updateHeaderBasketCount(this.BascetLocalStorage.length)
-  const summTotal = this.BascetLocalStorage.reduce((summ, el) => summ + el.price * el.count, 0)// возможно эти 2 надо вынести в отельный метод
-  this.ViewHEADER.updateHeaderTotalPrice(summTotal)// возможно эти 2 надо вынести в отельный метод
-}
+  updateBascetCountAndTotaPriseHeader(){
+    this.updateBascetFROMLocalStorage()
+    this.ViewHEADER.updateHeaderBasketCount(this.BascetLocalStorage.length)
+    const summTotal = this.BascetLocalStorage.reduce((summ, el) => summ + el.price * el.count, 0)// возможно эти 2 надо вынести в отельный метод
+    this.ViewHEADER.updateHeaderTotalPrice(summTotal)// возможно эти 2 надо вынести в отельный метод
+  }
 
 
   fnSliderPrice() {
@@ -511,12 +511,12 @@ updateBascetCountAndTotaPriseHeader(){
         tooltips: true,
         format: {
           to: function (value) {
-              return Math.ceil(+value);
+            return Math.ceil(+value);
           },
           from: function (value) {
             return Math.ceil(+value);
           }
-      },
+        },
         connect: true,
         step: 1,
         range: {
@@ -529,9 +529,9 @@ updateBascetCountAndTotaPriseHeader(){
       const inputs = [this.ViewMainPAGE.itemPriceNumberFrom, this.ViewMainPAGE.itemPriceNumberTo];
 
       (this.ViewMainPAGE.silderPrice as noUiSlider.target).noUiSlider?.on('update',
-        function (values: (string | number)[], handle: number): void {
-          inputs[handle].textContent = String(Math.round(Number(values[handle])));
-        });
+          function (values: (string | number)[], handle: number): void {
+            inputs[handle].textContent = String(Math.round(Number(values[handle])));
+          });
 
       (this.ViewMainPAGE.silderPrice as noUiSlider.target).noUiSlider?.on('set', (values, handle) => {
         const valueArray = values.map(el => Math.round(+el))
@@ -554,13 +554,13 @@ updateBascetCountAndTotaPriseHeader(){
         tooltips: true,
         format: {
           to: function (value) {
-              return Math.ceil(+value);
+            return Math.ceil(+value);
           },
 
           from: function (value) {
             return Math.ceil(+value);
           }
-      },
+        },
         connect: true,
         step: 1,
         range: {
@@ -572,10 +572,10 @@ updateBascetCountAndTotaPriseHeader(){
       const inputs = [this.ViewMainPAGE.itemStockNumberFrom, this.ViewMainPAGE.itemStockNumberTo];
 
       (this.ViewMainPAGE.silderStock as noUiSlider.target).noUiSlider?.on('update',
-        function (values: (string | number)[], handle: number): void {
-          inputs[handle].textContent = String(Math.round(Number(values[handle])));
+          function (values: (string | number)[], handle: number): void {
+            inputs[handle].textContent = String(Math.round(Number(values[handle])));
 
-        });
+          });
 
       (this.ViewMainPAGE.silderStock as noUiSlider.target).noUiSlider?.on('set', (values, handle) => {
         const valueArray = values.map(el => Math.round(+el))
@@ -593,7 +593,3 @@ updateBascetCountAndTotaPriseHeader(){
 }
 
 export default ControllerMain
-
-// export function processOrder(time: number): Promise<void> {
-//   return new Promise((res) => setTimeout(res, time));
-// }

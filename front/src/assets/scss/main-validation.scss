@@ -17,7 +17,7 @@
 .popup__block {
   position: relative;
   max-width: 600px;
-  background-color: #fff;
+  background-color: #ffffff;
   border-radius: 5px;
   display: flex;
   flex-direction: column;
@@ -31,7 +31,7 @@
   display: flex;
   img {
     object-fit: contain;
-    width: 100%;
+    width: 60px;
   }
 }
 
@@ -108,7 +108,7 @@
   bottom: -130%;
   // left: 200%;
   // bottom: -15%;
-    // &:hover {
+  // &:hover {
   //   display: none;
   // }
 }
@@ -122,12 +122,12 @@
   & .noUi-tooltip{
     display: block;
   }
-} 
+}
 .noUi-horizontal .noUi-handle-lower:hover{
   & .noUi-tooltip{
     display: block;
   }
-} 
+}
 
 .noUi-horizontal .noUi-handle-upper .noUi-tooltip{
   display: none;
@@ -138,12 +138,12 @@
   & .noUi-tooltip{
     display: block;
   }
-} 
+}
 .noUi-horizontal .noUi-handle-upper:hover{
   & .noUi-tooltip{
     display: block;
   }
-} 
+}
 
 .div__dataInput-name, .div__dataInput-phone, .div__dataInput-adress, .div__dataInput-mail, .div__InputCardNumber, .div__InputCardNumberDate, .div__InputCardNumberCVV {
   position: relative;
@@ -157,20 +157,6 @@
   color: red;
 }
 
-// .noUi-active .noUi-tooltip:hover {
-//   display: block;
-//   left: 260%;
-//   bottom: -120%;
+// .credit-img{
+//   width: 60px;
 // }
-
-
-// .inputRange_container .price__container .noUi-tooltip{
-//   left: 260%;
-//   bottom: -220%;
-// }
-
-// #sliderPrice, #sliderStock {
-// width: 75%;
-// }
-
-

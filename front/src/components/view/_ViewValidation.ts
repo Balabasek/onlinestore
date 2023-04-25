@@ -1,5 +1,5 @@
 import CustomElement from '../utils/_createCustomElement';
-// import { createElement } from '../utils/utils';.
+import defaultPic from './../../assets/img/png/defaultPic.jpg';
 import visa from './../../assets/img/png/visa.png';
 import mastercard from './../../assets/img/png/mastercard.png';
 import maestro from './../../assets/img/png/maestro.png';
@@ -13,10 +13,11 @@ class ViewValidation {
   InputAdress: HTMLInputElement;
   InputMail: HTMLInputElement;
 
-
   InputCardNumber: HTMLInputElement;
   InputCardNumberDate: HTMLInputElement;
   InputCardNumberCVV: HTMLInputElement;
+
+  creditInputImage: HTMLImageElement;
 
   spanDataInputName: HTMLElement;
   spanDataInputPhone: HTMLElement;
@@ -36,19 +37,22 @@ class ViewValidation {
 
     // ИНПУТЫ
     this.InputName = this.customElement.createElement('input',
-      { className: '_inp popup__dataInput-name', type: 'text', placeholder: 'Your Name: Lia Maf' }) as HTMLInputElement;
+        { className: '_inp popup__dataInput-name', type: 'text', placeholder: 'Your Name: Lia Maf' }) as HTMLInputElement;
     this.InputPhone = this.customElement.createElement('input',
-      { className: '_inp popup__dataInput-phone', type: 'text', placeholder: 'Phone number: +123456789' }) as HTMLInputElement;
+        { className: '_inp popup__dataInput-phone', type: 'text', placeholder: 'Phone number: +123456789' }) as HTMLInputElement;
     this.InputAdress = this.customElement.createElement('input',
-      { className: '_inp popup__dataInput-adress', type: 'text', placeholder: 'Adress: as1** **c/4 a*s*9' }) as HTMLInputElement;
+        { className: '_inp popup__dataInput-adress', type: 'text', placeholder: 'Adress: as1** **c/4 a*s*9' }) as HTMLInputElement;
     this.InputMail = this.customElement.createElement('input',
-      { className: '_inp popup__dataInput-mail', type: 'email', placeholder: 'E-mail' }) as HTMLInputElement;
+        { className: '_inp popup__dataInput-mail', type: 'email', placeholder: 'E-mail' }) as HTMLInputElement;
     this.InputCardNumber = this.customElement.createElement('input',
-      { className: '_inp creditInput__cardNumber-number', type: 'text', placeholder: 'Card number: 1111222233334444' }) as HTMLInputElement;
+        { className: '_inp creditInput__cardNumber-number', type: 'text', placeholder: 'Card: 1111222233334444' }) as HTMLInputElement;
     this.InputCardNumberDate = this.customElement.createElement('input',
-      { className: '_inp creditInput__cardNumber-date', type: 'text', placeholder: 'Date: 01/22' }) as HTMLInputElement;
+        { className: '_inp creditInput__cardNumber-date', type: 'text', placeholder: 'Date: 01/22' }) as HTMLInputElement;
     this.InputCardNumberCVV = this.customElement.createElement('input',
-      { className: '_inp creditInput__cardNumber-cvv', type: 'text', placeholder: 'CVV' }) as HTMLInputElement;
+        { className: '_inp creditInput__cardNumber-cvv', type: 'text', placeholder: 'CVV' }) as HTMLInputElement;
+
+    this.creditInputImage = this.customElement.createElement('img', { className: 'credit-img', src: defaultPic }) as HTMLImageElement;
+
 
 
     //СПАНЫ ДЛЯ ОШИБОК
@@ -71,221 +75,13 @@ class ViewValidation {
     this.listenersValidationPage();
   }
 
-  listenersValidationPage() {
-
-    this.confirmButton.addEventListener('click', (e) => {
-      e.preventDefault()
-      // this.confirmButton.dispatchEvent(this.EVENT.clickOnConfirm)
-
-      // console.log('isValidInputName() = ', this.isValidInputName())
-      // console.log('isValidInputPhone() = ', this.isValidInputPhone())
-      // console.log('isValidInputAdress() = ', this.isValidInputAdress())
-
-      if ([this.isValidInputName(),
-         this.isValidInputPhone(),
-        this.isValidInputAdress(),
-        this.isValidInputInputMail(),
-        this.isValidInputCardNumber(),
-        this.isValidInputCardNumberDate(),
-        this.isValidInputCardNumberCVV()].every((item) => item)) {
-
-        localStorage.removeItem('BascetLocalStorage');
-        this.confirmButton.disabled = true
-        this.confirmButton.textContent = 'Order paid'
-        setTimeout(() => {
-          this.confirmButton.dispatchEvent(this.EVENT.clickOnLogo)
-        }, 3000);
-
-      }
-    });
-
-
-    this.InputName.addEventListener('keyup', (e) => {
-      this.InputName.value = this.InputName.value.replace(/[^a-z^A-Z\s^А-ЯЁ^а-яё]/g, "")
-      if (this.isValidInputName()) {
-        this.InputName.style.borderColor = 'green';
-      } else {
-        this.InputName.style.borderColor = 'red';
-      }
-    })
-
-    this.InputPhone.addEventListener('keyup', (e) => {
-      this.InputPhone.value = this.InputPhone.value.replace(/[^0-9+]/g, '')
-      console.log('this.InputPhone.value.length', this.InputPhone.value.length)
-      if (this.isValidInputPhone()) {
-        this.InputPhone.style.borderColor = 'green';
-      } else {
-        this.InputPhone.style.borderColor = 'red';
-      }
-    })
-
-    this.InputAdress.addEventListener('keyup', (e) => {
-      if (this.isValidInputAdress()) {
-        this.InputAdress.style.borderColor = 'green';
-      } else {
-        this.InputAdress.style.borderColor = 'red';
-      }
-    })
-
-    this.InputMail.addEventListener('keyup', (e) => {
-      if (this.isValidInputInputMail()) {
-        this.InputMail.style.borderColor = 'green';
-      } else {
-        this.InputMail.style.borderColor = 'red';
-      }
-    })
-
-    this.InputCardNumber.addEventListener('input', (e) => {
-      const length = this.InputCardNumber.value.length;
-      this.InputCardNumber.value = this.InputCardNumber.value.replace(/[^0-9+]/g, '')
-      // if (((length === 4 ) ||
-      //  (length === 9) ||
-      //  (length === 14))) {
-      //   this.InputCardNumber.value = this.InputCardNumber.value + ' '
-      // }
-      if (length > 16) {
-        this.InputCardNumber.value = this.InputCardNumber.value.slice(0, 16)
-      }
-      if (this.isValidInputCardNumber()) {
-        this.InputCardNumber.style.borderColor = 'green';
-      } else {
-        this.InputCardNumber.style.borderColor = 'red';
-      }
-    })
-
-    this.InputCardNumberDate.addEventListener('input', (e) => {
-      const length = this.InputCardNumberDate.value.length;
-      this.InputCardNumberDate.value = this.InputCardNumberDate.value.replace(/[^0-9+/]/g, '')
-      if (length === 2) {
-        this.InputCardNumberDate.value = this.InputCardNumberDate.value + '/'
-      }
-      if (length > 5) {
-        this.InputCardNumberDate.value = this.InputCardNumberDate.value.slice(0, 5)
-      }
-      if (this.isValidInputCardNumberDate()) {
-        this.InputCardNumberDate.style.borderColor = 'green';
-      } else {
-        this.InputCardNumberDate.style.borderColor = 'red';
-      }
-    })
-
-    this.InputCardNumberCVV.addEventListener('keyup', (e) => {
-      this.InputCardNumberCVV.value = this.InputCardNumberCVV.value.replace(/[^0-9+]/g, '')
-      if (this.InputCardNumberCVV.value.length > 3) {
-        this.InputCardNumberCVV.value = this.InputCardNumberCVV.value.slice(0, 3)
-      }
-      if (this.isValidInputCardNumberCVV()) {
-        this.InputCardNumberCVV.style.borderColor = 'green';
-      } else {
-        this.InputCardNumberCVV.style.borderColor = 'red';
-      }
-    })
-
-  }
-
-  setDefauldValueInputs() {
-    this.InputName.value = '';
-    this.InputPhone.value = '';
-    this.InputAdress.value = '';
-    this.InputMail.value = '';
-    this.InputCardNumber.value = '';
-    this.InputCardNumberDate.value = '';
-    this.InputCardNumberCVV.value = ''
-  }
-
-  setDefauldTextSpanError() {
-    this.spanDataInputName.textContent = '';
-    this.spanDataInputPhone.textContent = '';
-    this.spanDataInputAdress.textContent = '';
-    this.spanDataInputMail.textContent = '';
-    this.spanInputCardNumber.textContent = '';
-    this.spanCardNumberDate.textContent = '';
-    this.spanCardNumberCVV.textContent = '';
-  }
-
-  isValidInputName() {
-    const array = this.InputName.value.split(' ').filter(item => item)
-    console.log('array', array)
-    if (array.length > 1 && array.every(item => item.length > 2)) {
-      this.spanDataInputName.textContent = '';
-      return true
-    }
-    this.spanDataInputName.textContent = 'ERROR';
-    return false
-  }
-
-  isValidInputPhone() {
-    if ((this.InputPhone.value[0] === '+') &&
-      (this.InputPhone.value.length > 9) &&
-      (this.InputPhone.value.replace(/['+']/g, '').length === (this.InputPhone.value.length - 1))) {
-      this.spanDataInputPhone.textContent = '';
-      return true
-    }
-    this.spanDataInputPhone.textContent = 'ERROR';
-    return false
-  }
-
-  isValidInputAdress() {
-    const array = this.InputAdress.value.split(' ').filter(item => item)
-    console.log('array', array)
-    if (array.length > 2 && array.every(item => item.length > 4)) {
-      this.spanDataInputAdress.textContent = '';
-      return true
-    }
-    this.spanDataInputAdress.textContent = 'ERROR';
-    return false
-  }
-
-  isValidInputInputMail() {
-    const EMAIL_REGEXP = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
-    if (EMAIL_REGEXP.test(this.InputMail.value)) {
-      this.spanDataInputMail.textContent = '';
-      return true
-    }
-    this.spanDataInputMail.textContent = 'ERROR';
-    return false
-  }
-
-  isValidInputCardNumber() {
-    const CardNumber_REGEXP = /(\d{4}([-]|)\d{4}([-]|)\d{4}([-]|)\d{4})/;
-    if (CardNumber_REGEXP.test(this.InputCardNumber.value)) {
-      this.spanInputCardNumber.textContent = '';
-      return true
-    }
-    this.spanInputCardNumber.textContent = 'ERROR';
-    return false
-
-  }
-
-  isValidInputCardNumberDate() {
-    const CardNumberDate_REGEXP = /^(0[1-9]|1[0-2])\/([0-9]{2})/;
-    if (CardNumberDate_REGEXP.test(this.InputCardNumberDate.value)) {
-      this.spanCardNumberDate.textContent = '';
-      return true
-    }
-    this.spanCardNumberDate.textContent = 'ERROR';
-    return false
-  }
-
-  isValidInputCardNumberCVV() {
-    const CardNumberCVV_REGEXP = /^\d{3}$/;
-    if (CardNumberCVV_REGEXP.test(this.InputCardNumberCVV.value)) {
-      this.spanCardNumberCVV.textContent = '';
-      return true
-    }
-    this.spanCardNumberCVV.textContent = 'ERROR';
-    return false
-  }
-
-
-
-
   create() {
     const pageMainValidation = this.customElement.createElement('div', { className: 'page-main-itemCard _main-container' }); // Основная cекция
     this.confirmButton.disabled = false;
     this.confirmButton.textContent = 'Confirm';
     this.setDefauldValueInputs();
     this.setDefauldTextSpanError();
+    this.creditInputImage.src = defaultPic;
 
 
     // Создание pageMainValidation
@@ -296,7 +92,7 @@ class ViewValidation {
     const popup = this.customElement.createElement('div', { className: 'popup' });
     this.customElement.addChildren(popupWrapper, [popup]);
 
-    // Создание popup 
+    // Создание popup
     const popupBlock = this.customElement.createElement('form', { className: 'popup__block' });
     this.customElement.addChildren(popup, [popupBlock]);
 
@@ -348,8 +144,8 @@ class ViewValidation {
     this.customElement.addChildren(creditInputCardNumber, [creditInputImage, divInputCardNumber]);
 
     // Создание creditInputImage
-    const creditInputImageImg = this.customElement.createElement('img', { src: visa });
-    this.customElement.addChildren(creditInputImage, [creditInputImageImg]);
+    // const creditInputImageImg = this.customElement.createElement('img', { src: defaultPic });
+    this.customElement.addChildren(creditInputImage, [this.creditInputImage]);
 
     // Создание creditInputCardSecret
     // const cardNumberDate = this.customElement.createElement('input', { className: '_inp creditInput__cardNumber-date', type: 'text', placeholder: 'Date' });
@@ -358,6 +154,254 @@ class ViewValidation {
 
     return pageMainValidation
   }
+
+  listenersValidationPage() {
+
+    this.confirmButton.addEventListener('click', (e) => {
+      e.preventDefault()
+      if ([this.isValidInputName(),
+        this.isValidInputPhone(),
+        this.isValidInputAdress(),
+        this.isValidInputInputMail(),
+        this.isValidInputCardNumber(),
+        this.isValidInputCardNumberDate(),
+        this.isValidInputCardNumberCVV()].every((item) => item)) {
+        localStorage.removeItem('BascetLocalStorage');
+        this.confirmButton.disabled = true
+        this.confirmButton.textContent = 'Order paid'
+        setTimeout(() => {
+          this.confirmButton.dispatchEvent(this.EVENT.clickOnLogo)
+        }, 3000);
+      }
+    });
+
+
+    this.InputName.addEventListener('keyup', (e) => {
+      this.InputName.value = this.InputName.value.replace(/[^a-z^A-Z\s^А-ЯЁ^а-яё]/g, "")
+      if (this.isValidInputName()) {
+        this.InputName.style.borderColor = 'green';
+      } else {
+        this.InputName.style.borderColor = 'red';
+      }
+      if (this.InputName.value.length === 0) {
+        this.spanDataInputName.textContent = '';
+        this.InputName.style.borderColor = 'black';
+      }
+    })
+
+    this.InputPhone.addEventListener('keyup', (e) => {
+      this.InputPhone.value = this.InputPhone.value.replace(/[^0-9+]/g, '')
+      console.log('this.InputPhone.value.length', this.InputPhone.value.length)
+      if (this.isValidInputPhone()) {
+        this.InputPhone.style.borderColor = 'green';
+      } else {
+        this.InputPhone.style.borderColor = 'red';
+      }
+      if (this.InputPhone.value.length === 0) {
+        this.spanDataInputPhone.textContent = '';
+        this.InputPhone.style.borderColor = 'black';
+      }
+    })
+
+    this.InputAdress.addEventListener('keyup', (e) => {
+      if (this.isValidInputAdress()) {
+        this.InputAdress.style.borderColor = 'green';
+      } else {
+        this.InputAdress.style.borderColor = 'red';
+      }
+      if (this.InputAdress.value.length === 0) {
+        this.spanDataInputAdress.textContent = '';
+        this.InputAdress.style.borderColor = 'black';
+      }
+    })
+
+    this.InputMail.addEventListener('keyup', (e) => {
+      if (this.isValidInputInputMail()) {
+        this.InputMail.style.borderColor = 'green';
+      } else {
+        this.InputMail.style.borderColor = 'red';
+      }
+      if (this.InputMail.value.length === 0) {
+        this.spanDataInputMail.textContent = '';
+        this.InputMail.style.borderColor = 'black';
+      }
+    })
+
+    this.InputCardNumber.addEventListener('input', (e) => {
+      const length = this.InputCardNumber.value.length;
+      this.InputCardNumber.value = this.InputCardNumber.value.replace(/[^0-9+]/g, '')
+
+      const fiкstLetter = this.InputCardNumber.value[0] ? this.InputCardNumber.value[0].toString() : ''
+
+      switch (fiкstLetter) {
+        case '3':
+          this.creditInputImage.src = maestro
+          break;
+        case '4':
+          this.creditInputImage.src = visa
+          break;
+        case '5':
+          this.creditInputImage.src = mastercard
+          break;
+        case '6':
+          this.creditInputImage.src = maestro
+          break;
+
+        default:
+          this.creditInputImage.src = defaultPic
+          break;
+      }
+
+      if (length > 16) {
+        this.InputCardNumber.value = this.InputCardNumber.value.slice(0, 16)
+      }
+      if (this.isValidInputCardNumber()) {
+        this.InputCardNumber.style.borderColor = 'green';
+      } else {
+        this.InputCardNumber.style.borderColor = 'red';
+      }
+      if (this.InputCardNumber.value.length === 0) {
+        this.spanInputCardNumber.textContent = '';
+        this.InputCardNumber.style.borderColor = 'black';
+      }
+    })
+
+    this.InputCardNumberDate.addEventListener('input', (e) => {
+      const length = this.InputCardNumberDate.value.length;
+      this.InputCardNumberDate.value = this.InputCardNumberDate.value.replace(/[^0-9+/]/g, '')
+      if (length === 2) {
+        this.InputCardNumberDate.value = this.InputCardNumberDate.value + '/'
+      }
+      if (length > 5) {
+        this.InputCardNumberDate.value = this.InputCardNumberDate.value.slice(0, 5)
+      }
+      if (this.isValidInputCardNumberDate()) {
+        this.InputCardNumberDate.style.borderColor = 'green';
+      } else {
+        this.InputCardNumberDate.style.borderColor = 'red';
+      }
+      if (this.InputCardNumberDate.value.length === 0) {
+        this.spanCardNumberDate.textContent = '';
+        this.InputCardNumberDate.style.borderColor = 'black';
+      }
+    })
+
+    this.InputCardNumberCVV.addEventListener('keyup', (e) => {
+      this.InputCardNumberCVV.value = this.InputCardNumberCVV.value.replace(/[^0-9+]/g, '')
+      if (this.InputCardNumberCVV.value.length > 3) {
+        this.InputCardNumberCVV.value = this.InputCardNumberCVV.value.slice(0, 3)
+      }
+      if (this.isValidInputCardNumberCVV()) {
+        this.InputCardNumberCVV.style.borderColor = 'green';
+      } else {
+        this.InputCardNumberCVV.style.borderColor = 'red';
+      }
+      if (this.InputCardNumberCVV.value.length === 0) {
+        this.spanCardNumberCVV.textContent = '';
+        this.InputCardNumberCVV.style.borderColor = 'black';
+      }
+    })
+  }
+
+  setDefauldValueInputs() {
+    this.InputName.value = '';
+    this.InputPhone.value = '';
+    this.InputAdress.value = '';
+    this.InputMail.value = '';
+    this.InputCardNumber.value = '';
+    this.InputCardNumberDate.value = '';
+    this.InputCardNumberCVV.value = ''
+  }
+
+  setDefauldTextSpanError() {
+    this.spanDataInputName.textContent = '';
+    this.spanDataInputPhone.textContent = '';
+    this.spanDataInputAdress.textContent = '';
+    this.spanDataInputMail.textContent = '';
+    this.spanInputCardNumber.textContent = '';
+    this.spanCardNumberDate.textContent = '';
+    this.spanCardNumberCVV.textContent = '';
+  }
+
+  isValidInputName() {
+    const array = this.InputName.value.split(' ').filter(item => item)
+    console.log('array', array)
+    if (array.length > 1 && array.every(item => item.length > 2)) {
+      this.spanDataInputName.textContent = '';
+      return true
+    }
+    this.spanDataInputName.textContent = 'ERROR';
+    return false
+  }
+
+  isValidInputPhone() {
+    if ((this.InputPhone.value[0] === '+') &&
+        (this.InputPhone.value.length > 9) &&
+        (this.InputPhone.value.replace(/['+']/g, '').length === (this.InputPhone.value.length - 1))) {
+      this.spanDataInputPhone.textContent = '';
+      return true
+    }
+    this.spanDataInputPhone.textContent = 'ERROR';
+    return false
+  }
+
+  isValidInputAdress() {
+    const array = this.InputAdress.value.split(' ').filter(item => item)
+    // console.log('array', array)
+    if (array.length > 2 && array.every(item => item.length > 4)) {
+      this.spanDataInputAdress.textContent = '';
+      return true
+    }
+    this.spanDataInputAdress.textContent = 'ERROR';
+    return false
+  }
+
+  isValidInputInputMail() {
+    const EMAIL_REGEXP = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
+    if (EMAIL_REGEXP.test(this.InputMail.value)) {
+      this.spanDataInputMail.textContent = '';
+      return true
+    }
+    this.spanDataInputMail.textContent = 'ERROR';
+    return false
+  }
+
+  isValidInputCardNumber() {
+    const CardNumber_REGEXP = /(\d{4}([-]|)\d{4}([-]|)\d{4}([-]|)\d{4})/;
+    if (CardNumber_REGEXP.test(this.InputCardNumber.value)) {
+      this.spanInputCardNumber.textContent = '';
+      return true
+    }
+    this.spanInputCardNumber.textContent = 'ERROR';
+    return false
+
+  }
+
+  isValidInputCardNumberDate() {
+    const CardNumberDate_REGEXP = /^(0[1-9]|1[0-2])\/([0-9]{2})/;
+
+    if (CardNumberDate_REGEXP.test(this.InputCardNumberDate.value)
+        &&
+        +this.InputCardNumberDate.value.split('/')[1] > 22
+    ) {
+      this.spanCardNumberDate.textContent = '';
+      return true
+    }
+    this.spanCardNumberDate.textContent = 'ERROR';
+    return false
+  }
+
+  isValidInputCardNumberCVV() {
+    const CardNumberCVV_REGEXP = /^\d{3}$/;
+    if (CardNumberCVV_REGEXP.test(this.InputCardNumberCVV.value)) {
+      this.spanCardNumberCVV.textContent = '';
+      return true
+    }
+    this.spanCardNumberCVV.textContent = 'ERROR';
+    return false
+  }
+
+
 
 
 
