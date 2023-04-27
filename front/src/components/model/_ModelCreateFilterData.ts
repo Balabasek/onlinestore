@@ -1,6 +1,6 @@
 import { IitemDATA, IFilter } from '../typingTS/_interfaces'
 import { stringObject, stringArrayObject } from '../typingTS/_type';
-import state from '../utils/state'
+// import state from '../utils/state'
 
 import CreateBaseDate from "./_CreateBaseData"
 
@@ -38,22 +38,23 @@ class CreateFilterData {
     this._filtredData = this.baseData.data;
 
     this._startServerFILTER =
-    {
-      "category": [],
-      "brand": [],
-      "price": this.baseData.price,
-      "stock": this.baseData.stock,
-      // "price": [10, 1749],
-      // "stock": [2, 150],
-      "search": [''],
-      "sort": [''],
-    };
-    this._FILTER = {...this._startServerFILTER}
+        {
+          "category": [],
+          "brand": [],
+          "price": this.baseData.price,
+          "stock": this.baseData.stock,
+          // "price": [10, 1749],
+          // "stock": [2, 150],
+          "search": [''],
+          "sort": [''],
+          "view": ['Big'],
+        };
+    this._FILTER = JSON.parse(JSON.stringify(this._startServerFILTER))
     this._FILTERpriceTEXT = [...this.baseData.price]
     this._FILTERstockTEXT = [...this.baseData.stock],
 
 
-    this._startPriceOfFILTER = this._startServerFILTER.price
+        this._startPriceOfFILTER = this._startServerFILTER.price
     this._startStockOfFILTER = this._startServerFILTER.stock
     this._startSearchOfFILTER = this._startServerFILTER.search
 
@@ -72,20 +73,25 @@ class CreateFilterData {
   public get baseData() {
     return this._baseData
   }
-  // ссылка на класс Базы данных
+  // метод возврата фильтра сотрировки
   public get sortOfFILTER() {
     // console.log('100 = this._FILTER.sort из СоРТ', this._FILTER.sort)
     return this._FILTER.sort
   }
+  // метод возврата фильтра view
+  public get viewOfFILTER() {
+    // console.log('100 = this._FILTER.sort из СоРТ', this._FILTER.sort)
+    return this._FILTER.view
+  }
 
-    // метод Установки Сортировки товара фильтра
-    setSortOfFILTER(data: string = this.startServerFILTER.sort[0]) {
-      // console.log('ОБНОВИЛАСЬ ЛИ СОРТИРОВКА ФИЛЬТДАТА', data)
-      this._FILTER.sort[0] = data;
-      console.log('600 = ОБНОВИЛАСЬ ЛИ this._FILTER.sort в конструкторе', this._FILTER.sort)
-      // this.updateFiltredData()
-      // this.updateFILTER_Price_Stock()
-    }
+  // метод Установки Сортировки товара фильтра
+  setSortOfFILTER(data: string = this.startServerFILTER.sort[0]) {
+    // console.log('ОБНОВИЛАСЬ ЛИ СОРТИРОВКА ФИЛЬТДАТА', data)
+    this._FILTER.sort[0] = data;
+    console.log('600 = ОБНОВИЛАСЬ ЛИ this._FILTER.sort в конструкторе', this._FILTER.sort)
+    // this.updateFiltredData()
+    // this.updateFILTER_Price_Stock()
+  }
 
   // медод обновляющий отфильтрованный Объект c данными ПРОДУКТА по измененному FILTER
   updateFiltredData(): IitemDATA[] {
@@ -145,13 +151,13 @@ class CreateFilterData {
 
       if (text === '') return true
       if (product.title.toLocaleLowerCase().includes(text.toLocaleLowerCase()) ||
-        product.description.toLocaleLowerCase().includes(text.toLocaleLowerCase()) ||
-        product.price.toString().includes(text) ||
-        product.discountPercentage.toString().includes(text) ||
-        product.rating.toString().includes(text) ||
-        product.stock.toString().includes(text) ||
-        product.brand.toLocaleLowerCase().includes(text.toLocaleLowerCase()) ||
-        product.category.toLocaleLowerCase().includes(text.toLocaleLowerCase())
+          product.description.toLocaleLowerCase().includes(text.toLocaleLowerCase()) ||
+          product.price.toString().includes(text) ||
+          product.discountPercentage.toString().includes(text) ||
+          product.rating.toString().includes(text) ||
+          product.stock.toString().includes(text) ||
+          product.brand.toLocaleLowerCase().includes(text.toLocaleLowerCase()) ||
+          product.category.toLocaleLowerCase().includes(text.toLocaleLowerCase())
       ) { return true }
       return false
     })
@@ -178,7 +184,7 @@ class CreateFilterData {
     }
 
     this._filtredData = resultfilterData
-// console.log('this._filtredData из модели',this._filtredData)
+    // console.log('this._filtredData из модели',this._filtredData)
 
     return this._filtredData
   }
@@ -205,13 +211,13 @@ class CreateFilterData {
         res.push(product.price)
         return res
       }, price).sort((a, b) => a - b)
-        .filter((item, index, arr) => index === 0 || index === (arr.length - 1))
+          .filter((item, index, arr) => index === 0 || index === (arr.length - 1))
 
       this._FILTERstockTEXT = data.reduce((res, product) => {
         res.push(product.stock)
         return res
       }, stock).sort((a, b) => a - b)
-        .filter((item, index, arr) => index === 0 || index === (arr.length - 1))
+          .filter((item, index, arr) => index === 0 || index === (arr.length - 1))
     }
     // console.log("DDDDDDDDDDthis._FILTERpriceTEXT", this._FILTERpriceTEXT)
     // console.log("DDDDDDDDDDDthis._FILTERstockTEXT", this._FILTERstockTEXT)
@@ -266,6 +272,20 @@ class CreateFilterData {
     // this.updateFILTER_Price_Stock()
   }
 
+  // метод Установки view фильтра
+  setViewOfFILTER(data: string = this.startServerFILTER.view[0]) {
+    console.log('this._FILTERview[0]Start=',this._FILTER.view[0])
+    if (data === 'Small') {this._FILTER.view[0] = 'Small'} else {
+      this._FILTER.view[0] = this.startServerFILTER.view[0].toString();
+    }
+    console.log('this._FILTERview[0]End=',this._FILTER.view[0])
+    console.log('this._FILTER=',this._FILTER)
+    console.log('this.startServerFILTER=',this.startServerFILTER)
+    // return
+    // this.updateFiltredData()
+    // this.updateFILTER_Price_Stock()
+  }
+
   setFILTER(filter: IFilter) {
     this.FILTER.brand = [...filter.brand]
     this.FILTER.category = [...filter.category]
@@ -273,8 +293,9 @@ class CreateFilterData {
     this.FILTER.stock = filter.stock.length ? [...filter.stock] : [...this.baseData.stock]
     this.FILTER.search = filter.search.length ? [...filter.search] : ['']
     this.FILTER.sort = filter.sort.length ? [...filter.sort] : ['']
+    this.FILTER.view = filter.sort.length ? [...filter.view] : ['Big']
     // console.log('this.FILTER.sort ЭТО ИЗ МОДЕЛИ',this.FILTER.sort)
-    // console.log('this.FILTER ЭТО ИЗ Конструктора',this.FILTER)
+    console.log('this.FILTER ЭТО ИЗ Конструктора', this.FILTER)
     // this.updateFiltredData()
   }
 
@@ -365,9 +386,9 @@ class CreateFilterData {
   // подметод для формирования стартовых Объектов категорий и бренда а также измененных
   // меняет по измененному filtredData
   private getCategoryAndBrandData(obj: string[],
-    key: "brand" | "category",
-    filtredData: IitemDATA[] = this.startServerData,
-    filter = this._FILTER) {
+                                  key: "brand" | "category",
+                                  filtredData: IitemDATA[] = this.startServerData,
+                                  filter = this._FILTER) {
     const result: stringArrayObject = {}
 
     obj.forEach((categoryValue) => {
@@ -408,10 +429,10 @@ class CreateFilterData {
     this._FILTER.category = []
     this._FILTER.brand = []
     this._FILTER.price = [...this.baseData.price],
-      this._FILTER.stock = [...this.baseData.stock],
-      this._FILTER.search = ['']
+        this._FILTER.stock = [...this.baseData.stock],
+        this._FILTER.search = ['']
     this._FILTER.sort = ['']
-
+    this._FILTER.view = ['Big']
     // this._FILTER = JSON.parse(JSON.stringify(this._startServerFILTER))
     this.updateFiltredData()
   }

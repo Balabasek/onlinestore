@@ -149,6 +149,11 @@
   padding: 0 0 10px 0;
 }
 
+.cardlist__item-two {
+  width: 40%;
+  height: auto;
+}
+
 .card__name {
   color: #FFF;
   font-weight: 700;
@@ -291,14 +296,14 @@
 }
 
 .noUi-handle:before, .noUi-handle:after {
-    content: "";
-    display: none !important;
-    position: absolute;
-    height: 14px;
-    width: 1px;
-    background: #E8E7E6;
-    left: 14px;
-    top: 6px;
+  content: "";
+  display: none !important;
+  position: absolute;
+  height: 14px;
+  width: 1px;
+  background: #E8E7E6;
+  left: 14px;
+  top: 6px;
 }
 
 .noUi-horizontal .noUi-handle {
@@ -306,4 +311,21 @@
   height: 25px !important;
   right: -12px !important;
   top: -5px !important;
+}
+
+.sale-redline {
+  position: relative;
+  &::before {
+    content: "";
+    position: absolute;
+    width: 120%;
+    height: 3px;
+    background-color: red;
+    top: 45%;
+    left: -10%;
+  }
+}
+
+.sale-newText {
+  display: none;
 }

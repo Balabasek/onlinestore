@@ -13,6 +13,7 @@ import ViewFooter from '../view/_ViewFooter';
 import ViewItemCardPage from '../view/_ViewItemCardPage';
 import ViewBasketPage from '../view/_ViewBasketPage';
 import ViewNotFound from '../view/_ViewNotFoundPage';
+import ViewNotBasket from '../view/_ViewNotBasketPage';
 import ViewValidation from '../view/_ViewValidation';
 
 // Служебные программки
@@ -43,6 +44,7 @@ class ControllerMain {
   ViewItemCardPAGE: ViewItemCardPage;
   ViewBASKETPAGE: ViewBasketPage;
   ViewNotFound: ViewNotFound;
+  ViewNotBasket: ViewNotBasket;
   ViewValidation: ViewValidation;
 
   _formatURL: FormatURL;
@@ -93,6 +95,7 @@ class ControllerMain {
     this.ViewHEADER = new ViewHeader();
     this.ViewFOOTER = new ViewFooter();
     this.ViewNotFound = new ViewNotFound();
+    this.ViewNotBasket = new ViewNotBasket();
     this.ViewValidation = new ViewValidation();
 
 
@@ -128,6 +131,10 @@ class ControllerMain {
       '/page404': {
         name: 'Page not found',
         routesPage: this.pageNotFound.bind(this)
+      },
+      '/nonbasket': {
+        name: 'Page not basket',
+        routesPage: this.pageNotBasket.bind(this)
       },
       '/product': {
         name: 'Product details',
@@ -171,6 +178,8 @@ class ControllerMain {
       id: id,
       price: this.MODEL.startServerData[id - 1].price,
       count: 1,
+      total: this.MODEL.startServerData[id - 1].price,
+      stock: this.MODEL.startServerData[id - 1].stock,
     }
   }
 
@@ -346,6 +355,14 @@ class ControllerMain {
     this.updateBascetCountAndTotaPriseHeader()
   }
 
+  pageNotBasket(name: string) {
+    document.title = `Store - ${name}`;
+    this.MAIN.innerHTML = ''
+    this.MAIN.append(this.ViewNotBasket.create())
+    window.history.pushState({}, '', `/nonbasket`)
+    this.updateBascetCountAndTotaPriseHeader()
+  }
+
   // Главыный слушаетль на кнопках АДРЕССНОЙ СТРОКИ
   startRouteListenner() {
     window.onpopstate = (event: PopStateEvent) => {
@@ -461,6 +478,7 @@ class ControllerMain {
       }
       const params: URLSearchParams = this._formatURL.createURLSearchParamsBasket(basketObject)
       window.history.pushState({}, '', `/basket?${params}`)
+      console.log('300 =params!!', params)
       // console.log('300 =search!!!!!!!!', search)
       // const returnbasketObject = this._formatURL.createFromURLSearchParams(search)
       // console.log('400 = returnbasketObject!!!!!!!!', returnbasketObject)
@@ -496,11 +514,53 @@ class ControllerMain {
     // Клик по карточке для добавления  продукта в КОРЗИНУ из Мейна
     this.MAIN.addEventListener('clickOnProductAddInBascetMain', (e) => {
       const target = e.target as HTMLElement;
+      console.log(target)
       const id = +target.id.split('|')[1]
       const key: boolean = target.id.split('|')[0] === 'button-buy' ? false : true
       this.updateBascetLocalStorage(id, key)
       this.updateBascetCountAndTotaPriseHeader()
+    })
 
+    // Клик по карточке для добавления копии продукта из КОРЗИНЫ
+    this.MAIN.addEventListener('clickOnProductPlus', (e) => {
+      const target = e.target as HTMLElement;
+      const card = target.closest('.itemBasket');
+      const cardId = Number(card?.id);
+
+      // Обновим LS и значение когда плюсуем
+      const oneLocalStorage = this.BascetLocalStorage.map((item) => {
+        if (cardId === item.id) {
+          if (item.stock > item.count) {
+            item.count = item.count + 1;
+          }
+        }
+        return item
+      });
+
+      localStorage.setItem('BascetLocalStorage', JSON.stringify(oneLocalStorage));
+      this.updateBascetCountAndTotaPriseHeader();
+    })
+
+    // Клик по карточке для уменьшения количества товаров или удаления
+    this.MAIN.addEventListener('clickOnProductMinus', (e) => {
+      const target = e.target as HTMLElement;
+      const card = target.closest('.itemBasket');
+      const cardId = Number(card?.id);
+
+      // Обновим LS и значение когда минусуем
+      const oneLocalStorage = this.BascetLocalStorage.map((item) => {
+        if (item.id === cardId) {
+          if (item.count >= 1) {
+            item.count = item.count - 1;
+          }
+        }
+        return item
+      });
+
+      // Обновим LS путем исключения удаленных
+      const twoLocalStorage = oneLocalStorage.filter((item) => item.count !== 0);
+      localStorage.setItem('BascetLocalStorage', JSON.stringify(twoLocalStorage));
+      this.updateBascetCountAndTotaPriseHeader();
     })
 
     // Клик по карточке для запуска страниц Validation из Мейна
@@ -513,11 +573,11 @@ class ControllerMain {
 
   updateBascetCountAndTotaPriseHeader() {
     this.updateBascetFROMLocalStorage()
-    this.ViewHEADER.updateHeaderBasketCount(this.BascetLocalStorage.length)
+    this.ViewHEADER.updateHeaderBasketCount(this.BascetLocalStorage.reduce((count, el) => count + el.count, 0))
     const summTotal = this.BascetLocalStorage.reduce((summ, el) => summ + el.price * el.count, 0)// возможно эти 2 надо вынести в отельный метод
     this.ViewHEADER.updateHeaderTotalPrice(summTotal)// возможно эти 2 надо вынести в отельный метод
     this.ViewBASKETPAGE.summaryInfoSpanTotal.textContent = summTotal.toString()
-    this.ViewBASKETPAGE.summaryInfoSpanTotalProducts.textContent = this.BascetLocalStorage.length.toString()
+    this.ViewBASKETPAGE.summaryInfoSpanTotalProducts.textContent = this.BascetLocalStorage.reduce((count, el) => count + el.count, 0).toString()
   }
 
 
