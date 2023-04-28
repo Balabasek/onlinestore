@@ -3,7 +3,7 @@ import CustomElement from '../utils/_createCustomElement';
 // import { stringArrayObject } from '../typingTS/_type';
 import { IitemDATA } from '../typingTS/_interfaces';
 import FormatURL from '../utils/_formatUrl';
-import { IBascetLocalStorage } from '../typingTS/_interfaces';
+import { IBascetLocalStorage, IPromoList } from '../typingTS/_interfaces';
 // import { createElement } from '../utils/utils';
 
 
@@ -14,8 +14,10 @@ class ViewBasketPage {
   pageMainBasket: HTMLElement;
   pagesButtonPrev: HTMLElement;
   pagesButtonNext: HTMLElement;
+  promoButtonAdd: HTMLElement;
   pagesCurrent: HTMLElement;
   productList: HTMLElement;
+  promolistActive: HTMLElement;
   summaryInfo: HTMLElement;
   productItemsInputView: HTMLElement;
   BascetLocalStorage: IBascetLocalStorage[];
@@ -48,6 +50,8 @@ class ViewBasketPage {
     this.productItemsInputView = this.customElement.createElement('input', { className: 'product__items-inputView', type: 'text', value: '4' }); // Количество отображаемых на странице карточек товара
     this.pagesButtonPrev = this.customElement.createElement('button', { className: 'product__pages-btnPrev product__pages-btn', textContent: '-' }); // Кнопка странички ПРЕДЫДУЩАЯ
     this.pagesButtonNext = this.customElement.createElement('button', { className: 'product__pages-btnNext product__pages-btn', textContent: '+' }); // Кнопка странички СЛЕДУЮЩАЯ
+    this.promoButtonAdd = this.customElement.createElement('button', { className: '_btn promo__div-btn', textContent: 'Add'}); // Кноппка применения промокода
+    this.promolistActive = this.customElement.createElement('div', { className: 'promolist promolist__hide'});
     this.pagesCurrent = this.customElement.createElement('p', { className: 'product__pages-current', textContent: '2' }); // Лист карточек
     this.summaryInfo = this.customElement.createElement('div', { className: 'summary__info summaryInfo' }); // Итоговая информация
 
@@ -117,7 +121,6 @@ class ViewBasketPage {
     this.customElement.addChildren(productPages, [productItemsPages, this.pagesButtonPrev, this.pagesCurrent, this.pagesButtonNext]);
 
     // Отрисовка Листа товаров корзины
-    // this.customElement.addChildren(this.productList, [...this.renderProductCard(data)]);
     this.changeItemsForList();
 
     // Отрисовка mainBasketSummary
@@ -196,22 +199,53 @@ class ViewBasketPage {
     return itemContainer
   }
 
+  renderPromoList() {
+    const itemContainer: HTMLElement[] = [];
+
+    for (let i = 0; i < 5;i++) {
+      const promoItem = this.customElement.createElement('div', { className: 'promoItem'});
+
+      const promoItemText = this.customElement.createElement('p', { className: 'promoItem__text', textContent: 'promoName'});
+      const promoItemSale = this.customElement.createElement('p', { className: 'promoItem__sale', textContent: 'promoSale'});
+      const promoItemButton = this.customElement.createElement('button', { className: 'promoItem__button _btn', textContent: 'drop'});
+
+      this.customElement.addChildren(promoItem, [promoItemText, promoItemSale, promoItemButton]);
+      itemContainer.push(promoItem)
+    }
+
+    return itemContainer
+  }
+
   renderSummary() {
     const itemContainer: HTMLElement[] = [];
 
     const summaryInfoDataProducts = this.customElement.createElement('p', { className: 'summaryInfo-data__products', textContent: 'Products: ' });
     this.customElement.addChildren(summaryInfoDataProducts, [this.summaryInfoSpanTotalProducts])
     const summaryInfoDataTotal = this.customElement.createElement('p', { className: 'summaryInfo__total sale-redline', textContent: 'Total: $ ' });
-    const summaryInfoDataTotalNew = this.customElement.createElement('p', { className: 'summaryInfo__total sale-newText', textContent: 'Total: $ НОВАЯ ЦЕНА' });
+    const summaryInfoDataTotalNew = this.customElement.createElement('p', { className: 'summaryInfo__total ', textContent: 'Total: $ НОВАЯ ЦЕНА' });
 
     this.customElement.addChildren(summaryInfoDataTotal, [this.summaryInfoSpanTotal])
     const summaryInfoDataSearch = this.customElement.createElement('input', { className: 'summaryInfo__search', type: 'search', placeholder: 'Search promocode' });
     const summaryInfoDataProme = this.customElement.createElement('p', { className: 'summaryInfo__name', textContent: 'Test promo: Balabasek, LjeDmitr' });
-    // const summaryInfoDataButton = this.customElement.createElement('button', { className: 'card__btn-button _btn', textContent: 'Buy now' });
 
-    itemContainer.push(summaryInfoDataProducts, summaryInfoDataTotal, summaryInfoDataTotalNew , summaryInfoDataSearch, summaryInfoDataProme, this.summaryInfoDataButton)
+    //Div Promo Add
+    const summaryInfoDataPromoAddDiv = this.customElement.createElement('div', { className: 'promoadd promoadd-hide'});
+    const promoAddText = this.customElement.createElement('p', { className: 'promodadd-txt', textContent: 'Promo Balabasek - 10%'});
+    this.customElement.addChildren(summaryInfoDataPromoAddDiv, [promoAddText, this.promoButtonAdd]);
+
+    //Active Promo List Father
+    const promolistActiveFather = this.customElement.createElement('div', { className: 'promolist-father'});
+    const promolistActiveText = this.customElement.createElement('p', { className: 'promolist_text', textContent: 'Applied codes'});
+    this.customElement.addChildren(promolistActiveFather, [promolistActiveText, this.promolistActive]);
+    //Active Promo List Item
+    this.customElement.addChildren(this.promolistActive, [...this.renderPromoList()]); // Рендер массив примененных промокодов
+
+
+    itemContainer.push(summaryInfoDataProducts, summaryInfoDataTotal, summaryInfoDataTotalNew , promolistActiveFather, summaryInfoDataSearch, summaryInfoDataProme, summaryInfoDataPromoAddDiv, this.summaryInfoDataButton)
     return itemContainer
   }
+
+
 
   changeItemsForList() {
     this.productList.innerHTML = '';

@@ -312,20 +312,3 @@
   right: -12px !important;
   top: -5px !important;
 }
-
-.sale-redline {
-  position: relative;
-  &::before {
-    content: "";
-    position: absolute;
-    width: 120%;
-    height: 3px;
-    background-color: red;
-    top: 45%;
-    left: -10%;
-  }
-}
-
-.sale-newText {
-  display: none;
-}

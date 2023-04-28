@@ -1,5 +1,5 @@
 import { IitemDATA, IFilter } from '../typingTS/_interfaces'
-import { stringObject, stringArrayObject } from '../typingTS/_type';
+import { stringObject, numberArrayObject } from '../typingTS/_type';
 // import state from '../utils/state'
 
 import CreateBaseDate from "./_CreateBaseData"
@@ -7,11 +7,11 @@ import CreateBaseDate from "./_CreateBaseData"
 class CreateFilterData {
   private readonly _baseData: CreateBaseDate;
   private readonly _startCategoryArray: string[];
-  private _startCategoryData: stringArrayObject;
-  protected _filtredCategoryData: stringArrayObject;
+  private _startCategoryData: numberArrayObject;
+  protected _filtredCategoryData: numberArrayObject;
   private readonly _startBrandArray: string[];
-  private _startBrandData: stringArrayObject;
-  protected _filtredBrandData: stringArrayObject;
+  private _startBrandData: numberArrayObject;
+  protected _filtredBrandData: numberArrayObject;
   private readonly _startServerData: IitemDATA[];
   private _filtredData: IitemDATA[];
   protected _FILTER: IFilter;
@@ -389,7 +389,7 @@ class CreateFilterData {
                                   key: "brand" | "category",
                                   filtredData: IitemDATA[] = this.startServerData,
                                   filter = this._FILTER) {
-    const result: stringArrayObject = {}
+    const result: numberArrayObject = {}
 
     obj.forEach((categoryValue) => {
       filtredData.forEach((product) => {

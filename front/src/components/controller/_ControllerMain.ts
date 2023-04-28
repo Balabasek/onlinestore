@@ -1,5 +1,5 @@
 // Типы интерфейсы
-import { stringArrayObject } from '../typingTS/_type'
+import { numberArrayObject } from '../typingTS/_type'
 import { IitemDATA, IFilter, IBascetLocalStorage } from '../typingTS/_interfaces'
 
 // Модель
@@ -56,8 +56,8 @@ class ControllerMain {
   MAIN: HTMLElement
   FOOTER: HTMLElement
 
-  readonly startCategoryData: stringArrayObject;
-  readonly startBrandData: stringArrayObject;
+  readonly startCategoryData: numberArrayObject;
+  readonly startBrandData: numberArrayObject;
   readonly startServerData: IitemDATA[];
 
   readonly startPriceOfFILTER: number[];
@@ -274,7 +274,7 @@ class ControllerMain {
     document.title = `Store - ${name}`;
     const search = new URLSearchParams(window.location.search);
     // console.log('search!!!!!!!!', this._formatURL.createFromURLSearchParams(search))
-    const id = this._formatURL.createFromURLSearchParams(search).id
+    const id = this._formatURL.createFromURLSearchParams<URLSearchParams>(search).id
     // const filter = this._formatURL.createObjectFromURLSearchParams(search)
     // this.MODEL.setFILTER(filter)
     // this.rerenderMainPageComponents()
@@ -305,7 +305,7 @@ class ControllerMain {
     // console.log('60 =window.location.search!!!!', window.location.search)
     // console.log('70 =search', search.toString())
 
-    const basketObject = search.toString() ? this._formatURL.createFromURLSearchParams(search) : {
+    const basketObject = search.toString() ? this._formatURL.createFromURLSearchParams<URLSearchParams>(search) : {
       items: 3,
       pages: 1,
     }

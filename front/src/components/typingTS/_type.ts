@@ -12,9 +12,17 @@ type stringObject = {
   [x: string]: string;
 }
 
-type stringArrayObject = {
+type numberObject = {
+  [x: string]: number;
+}
+
+type numberArrayObject = {
   [x: string]: number[];
 }
 
+type stringArrayObject = {
+  [x: string]: string[];
+}
 
-export { stringObject, stringArrayObject }
+
+export { stringObject, numberObject, numberArrayObject, stringArrayObject}

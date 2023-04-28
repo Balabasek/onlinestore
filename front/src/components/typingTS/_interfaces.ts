@@ -34,7 +34,13 @@ interface IBascetLocalStorage {
     total: number
     stock: number
 }
+
+interface IPromoList {
+    name: string
+    percent: string
+}
+
 // interface IFilter { [x: string]: string[] }
 
 
-export { IitemDATA, IFilter, IBascetLocalStorage}
+export { IitemDATA, IFilter, IBascetLocalStorage, IPromoList}

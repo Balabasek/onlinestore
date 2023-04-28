@@ -1,5 +1,5 @@
 import ControllerMain from "../controller/_ControllerMain";
-import { stringArrayObject } from '../typingTS/_type'
+import { numberArrayObject } from '../typingTS/_type'
 
 import { createElement } from '../utils/utils';
 
@@ -24,8 +24,8 @@ class ViewFooter {
       <a href="https://sibsutis.ru/" class="footer__link footer__sibsutis"></a>
     </div>
   </section>`
-  return createElement(footer)
-}
+    return createElement(footer)
+  }
 
 }
 

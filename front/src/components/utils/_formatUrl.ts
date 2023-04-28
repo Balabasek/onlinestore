@@ -1,5 +1,5 @@
 import { IFilter } from "../typingTS/_interfaces"
-import { stringObject } from "../typingTS/_type"
+import { stringObject, numberObject, stringArrayObject } from "../typingTS/_type"
 
 class FormatURL {
 
@@ -15,7 +15,7 @@ class FormatURL {
     return new URLSearchParams(result)
   }
 
-  createURLSearchParamsBasket(obj: {[x:string]: number}) {
+  createURLSearchParamsBasket(obj: numberObject) {
     const result: stringObject = {}
     let prop: keyof typeof obj
     for (prop in obj) {
@@ -26,16 +26,20 @@ class FormatURL {
     return new URLSearchParams(result)
   }
 
-  createFromURLSearchParams(params: URLSearchParams) {
-    const result: { [x: string]: number } = {}
-    for (const [key, value] of params.entries()) {
-      result[key] = +value
+  createFromURLSearchParams<T>(params: T) {
+    const result: numberObject = {}
+    if (params instanceof URLSearchParams) {
+      for (const [key, value] of params.entries()) {
+        result[key] = +value
+      }
+
     }
+
     return result
   }
 
   createObjectFromURLSearchParams(params: URLSearchParams) {
-    const result: { [x: string]: string[] } = {}
+    const result: stringArrayObject = {}
     for (const [key, value] of params.entries()) {
       result[key] = value.split("|")
     }
@@ -47,28 +51,29 @@ class FormatURL {
   // const result1: IFilter ={}
 
 
-  private strToNumber(obj: { [x: string]: string[] }) {
+  strToNumber(obj: { [x: string]: string[] }) {
     const result: IFilter = {
       "category": [],
       "brand": [],
       "price": [],
       "stock": [],
       "search": [],
-      "sort":[]
+      "sort":[],
+      "view":[],
     };
 
     let key: string
     for (key in obj) {
       if (key === "price" || key === "stock") {
         result[key] = obj[key].map((item) => +item)
-      } else 
+      } else
       if (key === "brand" || key === "category" ) {
         result[key] = obj[key][0] === '' ? [] : obj[key]
 
       }
-      if (key === "search" || key === "sort") {
+      if (key === "search" || key === "sort" || key === "view") {
         result[key] = obj[key]
-    }
+      }
     }
 
     return result
@@ -77,58 +82,3 @@ class FormatURL {
 }
 
 export default FormatURL
-
-// function returnObjForURLSearch(obj: IFilter) {
-//   const result: stringObject = {}
-//   let prop: keyof typeof obj
-//   for (prop in obj) {
-//     result[prop] = obj[prop].join("|")
-//   }
-//   return result
-// }
-
-
-
-// for (const [key, value] of params.entries()) {
-//   // console.log("100=", key, value)
-//   ABC[key] = value.split("|")
-// }
-
-
-
-
-
-
-// createObjectFromURLSearchParams(params: URLSearchParams) {
-//   const result: { [x: string]: string[] } = {}
-//   for (const [key, value] of params.entries()) {
-//     result[key] = value.split("|")
-//   }
-//   // console.log("100=", key, value)
-//   return result
-// }
-// const result1: IFilter ={}
-
-
-// strTonumbder(obj: { [x: string]: string[] }) {
-//   const result: IFilter = {
-//     "category": [],
-//     "brand": [],
-//     "price": [],
-//     "stock": [],
-//     "search": []
-//   };
-
-//   let key: string
-//   for (key in obj) {
-//     if (key === "price" || key === "stock") {
-//       result[key] = obj[key].map((item) => +item)
-//     }
-//     if (key === "search" || key === "brand" || key === "category" ) {
-//       result[key] = obj[key]
-//     }
-
-//   }
-
-//   return result
-// }

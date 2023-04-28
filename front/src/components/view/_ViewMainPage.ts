@@ -1,6 +1,6 @@
 import CustomElement from '../utils/_createCustomElement';
 // import ControllerMain from '../controller/_ControllerMain';
-import { stringArrayObject } from '../typingTS/_type';
+import { numberArrayObject } from '../typingTS/_type';
 import { IitemDATA } from '../typingTS/_interfaces'
 import { createElement } from '../utils/utils';
 // import { MAIN } from '../utils/const';
@@ -29,8 +29,8 @@ class ViewMainPage {
   silderPrice: HTMLElement;
   silderStock: HTMLElement;
   customElement: CustomElement;
-  startCategoryData: stringArrayObject;
-  startBrandData: stringArrayObject;
+  startCategoryData: numberArrayObject;
+  startBrandData: numberArrayObject;
   startPriceOfFILTER: number[];
   startStockOfFILTER: number[];
   startSortOfFILTER: string[];
@@ -39,8 +39,8 @@ class ViewMainPage {
   EVENT: { [x: string]: Event }
 
   constructor(startServerData: IitemDATA[],
-              startCategoryData: stringArrayObject,
-              startBrandData: stringArrayObject,
+              startCategoryData: numberArrayObject,
+              startBrandData: numberArrayObject,
               startPriceOfFILTER: number[],
               startStockOfFILTER: number[],
               startSortOfFILTER: string[],
@@ -105,8 +105,8 @@ class ViewMainPage {
   }
 
   create(startServerData: IitemDATA[] = this.startServerData,
-         startCategoryData: stringArrayObject = this.startCategoryData,
-         startBrandData: stringArrayObject = this.startBrandData,
+         startCategoryData: numberArrayObject = this.startCategoryData,
+         startBrandData: numberArrayObject = this.startBrandData,
          startPriceOfFILTER: number[] = this.startPriceOfFILTER,
          startStockOfFILTER: number[] = this.startStockOfFILTER,
          startSortOfFILTER: string[] = this.startSortOfFILTER,
@@ -285,7 +285,7 @@ class ViewMainPage {
 
 
   // Создание Category
-  renderCategoryBlock(dataFilterCategory: stringArrayObject = this.startCategoryData): HTMLElement[] {
+  renderCategoryBlock(dataFilterCategory: numberArrayObject = this.startCategoryData): HTMLElement[] {
     const itemContainer: HTMLElement[] = [];
     // this.filterCategoryMain.innerHTML = '';
 
@@ -302,7 +302,7 @@ class ViewMainPage {
   }
 
   // Создание Brand
-  renderBrandBlock(dataFilterBrand: stringArrayObject = this.startBrandData): HTMLElement[] {
+  renderBrandBlock(dataFilterBrand: numberArrayObject = this.startBrandData): HTMLElement[] {
     const itemContainer: HTMLElement[] = [];
     // this.filterBrandMain.innerHTML = '';
 
@@ -387,7 +387,6 @@ class ViewMainPage {
       const cardImg = this.customElement.createElement('img', { className: 'card__info-img', src: `${item.images[0]}` });
 
       const cardData = this.customElement.createElement('div', { className: 'card__data i-data' });
-      console.log('view',view)
       if (view[0] === 'Big') {
         this.customElement.addChildren(cardInfo, [cardImg, cardData]);
         card.classList.add('cardlist__item-two');
@@ -429,12 +428,12 @@ class ViewMainPage {
     this.customElement.addChildren(this.cardList, [...this.renderItemCard(data, view)]);
   }
 
-  updateCategoryBlock(data: stringArrayObject = this.startCategoryData) {
+  updateCategoryBlock(data: numberArrayObject = this.startCategoryData) {
     this.filterCategoryMain.innerHTML = '';
     this.customElement.addChildren(this.filterCategoryMain, [...this.renderCategoryBlock(data)]);
   }
 
-  updateBrandBlock(data: stringArrayObject = this.startBrandData) {
+  updateBrandBlock(data: numberArrayObject = this.startBrandData) {
     this.filterBrandMain.innerHTML = ''
     this.customElement.addChildren(this.filterBrandMain, [...this.renderBrandBlock(data)]);
   }

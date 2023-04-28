@@ -224,3 +224,64 @@
   font-size: 18px;
   padding: 15px 30px;
 }
+
+.sale-redline {
+  position: relative;
+  &::before {
+    content: "";
+    position: absolute;
+    width: 120%;
+    height: 3px;
+    background-color: red;
+    top: 45%;
+    left: -10%;
+  }
+}
+
+.sale-newText {
+  display: none;
+}
+
+.promoadd {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+}
+
+.promoItem {
+  display: flex;
+}
+
+.promoItem__button {
+  width: 60px;
+  height: 30px;
+  padding: 3px;
+}
+
+.promolist-father {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  border: 3px solid $mainColor;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.promolist_text {
+  font-weight: 700;
+}
+
+.promolist {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.promoItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
