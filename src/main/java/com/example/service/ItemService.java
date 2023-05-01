@@ -4,16 +4,14 @@ import com.example.dtos.item.DeleteItemDto;
 import com.example.dtos.item.UpdateStockItemsDto;
 import com.example.model.Item;
 import com.example.persistence.ItemRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.util.List;
 
 @Service
@@ -35,19 +33,21 @@ public class ItemService {
         return new DeleteItemDto(deletedItem.getId(), deletedItem.getTitle(), deletedItem.getCategory());
     }
 
-    public String loadAllItem() throws IOException {
+    public String loadAllItem() {
+        final String outFile = "front/src/components/DATA/_products.ts";
         List<Item> items = itemRepository.findAll();
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String products = gson.toJson(items);
 
-        ObjectMapper mapper = JsonMapper.builder()
-                .enable(SerializationFeature.INDENT_OUTPUT, SerializationFeature.WRITE_SINGLE_ELEM_ARRAYS_UNWRAPPED).build();
-        ObjectNode rootNode = mapper.createObjectNode();
-
-        for (int i = 0; i < items.size(); i++) {
-            ObjectNode itemNode = mapper.valueToTree(items.get(i));
-            rootNode.set("item" + (i + 1), itemNode);
+        try (RandomAccessFile file = new RandomAccessFile(outFile, "rw")) {
+            file.setLength(0);
+            file.write("import { IitemDATA } from \"../typingTS/_interfaces\";\n\n".getBytes());
+            file.write("export const products: Array<IitemDATA> = \n".getBytes());
+            file.write(products.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "Error load";
         }
-
-        mapper.writeValue(new File("front/src/components/DATA/products.json"), rootNode);
         return "Load successes";
     }
 
