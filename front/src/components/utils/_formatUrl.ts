@@ -8,9 +8,7 @@ class FormatURL {
     const result: stringObject = {}
     let prop: keyof typeof obj
     for (prop in obj) {
-      // if (obj[prop].length !== 0) {
       result[prop] = obj[prop].join("|")
-      // }
     }
     return new URLSearchParams(result)
   }
@@ -19,21 +17,19 @@ class FormatURL {
     const result: stringObject = {}
     let prop: keyof typeof obj
     for (prop in obj) {
-      // if (obj[prop].length !== 0) {
       result[prop] = obj[prop].toString()
-      // }
     }
     return new URLSearchParams(result)
   }
 
   createFromURLSearchParams<T>(params: T) {
     const result: numberObject = {}
-    if (params instanceof URLSearchParams) {
-      for (const [key, value] of params.entries()) {
-        result[key] = +value
-      }
+if (params instanceof URLSearchParams) {
+  for (const [key, value] of params.entries()) {
+    result[key] = +value
+  }
 
-    }
+}
 
     return result
   }
@@ -45,11 +41,6 @@ class FormatURL {
     }
     return this.strToNumber(result)
   }
-
-
-  // createIDFromURLSearchParams
-  // const result1: IFilter ={}
-
 
   strToNumber(obj: { [x: string]: string[] }) {
     const result: IFilter = {
@@ -66,14 +57,14 @@ class FormatURL {
     for (key in obj) {
       if (key === "price" || key === "stock") {
         result[key] = obj[key].map((item) => +item)
-      } else
+      } else 
       if (key === "brand" || key === "category" ) {
         result[key] = obj[key][0] === '' ? [] : obj[key]
 
       }
       if (key === "search" || key === "sort" || key === "view") {
         result[key] = obj[key]
-      }
+    }
     }
 
     return result

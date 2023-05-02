@@ -21,14 +21,14 @@
 }
 
 .filter__item-name {
-  color: #FFF;
+  color: #fff;
   align-self: center;
   margin: 5px;
 }
 
 .filter__item-container {
   padding: 5px;
-  background-color: #FFF;
+  background-color: #fff;
   max-height: 200px;
   display: flex;
   flex-direction: column;
@@ -44,8 +44,7 @@
 }
 
 .inputRange_container {
-  // height: 90px;
-  background-color: #FFF;
+  background-color: #fff;
   padding: 0 10px;
 }
 
@@ -79,7 +78,7 @@
 .right__list {
   height: 100%;
   padding: 5px;
-  background-color: #FFF;
+  background-color: #fff;
   display: flex;
   flex-wrap: wrap;
   gap: 15px;
@@ -106,9 +105,9 @@
   text-align: center;
   padding: 10px;
   font-weight: 700;
-  border: 1px solid #FFF;
+  border: 1px solid #fff;
   border-radius: 5px;
-  color: #FFF;
+  color: #fff;
   &:active {
     background-color: green;
   }
@@ -127,7 +126,7 @@
 }
 
 .view__find-count {
-  color: #FFF;
+  color: #fff;
 }
 
 .view__search {
@@ -141,6 +140,7 @@
 .cardlist__item {
   width: 235px;
   height: 340px;
+  margin-bottom: auto;
   display: flex;
   flex-direction: column;
   border-radius: 5px;
@@ -155,7 +155,7 @@
 }
 
 .card__name {
-  color: #FFF;
+  color: #fff;
   font-weight: 700;
   font-size: 16px;
   align-self: center;
@@ -182,7 +182,7 @@
 }
 
 .card__data {
-  color: #FFF;
+  color: #fff;
   position: absolute;
   left: 0;
   top: 0;
@@ -199,7 +199,7 @@
   text-align: center;
 }
 
-.range-slider input[type=range] {
+.range-slider input[type="range"] {
   -webkit-appearance: none;
   height: 20px;
   pointer-events: none;
@@ -214,11 +214,12 @@
   background: none;
 }
 
-.range-slider input[type=range]:focus, .range-slider input[type=range]:active {
+.range-slider input[type="range"]:focus,
+.range-slider input[type="range"]:active {
   outline: none;
 }
 
-.range-slider input[type=range]::-webkit-slider-thumb {
+.range-slider input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   box-sizing: content-box;
   width: 20px;
@@ -232,7 +233,7 @@
   z-index: 1;
 }
 
-.range-slider input[type=range]::-moz-range-thumb {
+.range-slider input[type="range"]::-moz-range-thumb {
   width: 20px;
   height: 20px;
   border: none;
@@ -244,7 +245,7 @@
   z-index: 1;
 }
 
-.range-slider input[type=range]::-ms-thumb {
+.range-slider input[type="range"]::-ms-thumb {
   width: 20px;
   height: 20px;
   border: none;
@@ -256,36 +257,35 @@
   z-index: 1;
 }
 
-.range-slider input[type=range]::-moz-range-track {
+.range-slider input[type="range"]::-moz-range-track {
   -moz-appearance: none;
   background: none;
 }
 
-.range-slider input[type=range]::-ms-track {
+.range-slider input[type="range"]::-ms-track {
   border-color: transparent;
   color: transparent;
   background: transparent;
 }
 
-.range-slider input[type=range]::-ms-fill-upper {
+.range-slider input[type="range"]::-ms-fill-upper {
   background: transparent;
 }
 
-.range-slider input[type=range]::-ms-fill-lower {
+.range-slider input[type="range"]::-ms-fill-lower {
   background: transparent;
 }
 
-.range-slider input[type=range]::-ms-tooltip {
+.range-slider input[type="range"]::-ms-tooltip {
   display: none;
 }
 
 .noUi-target {
   margin: 10px !important;
-  background: #FFF !important;
+  background: #fff !important;
 }
 
 .noUi-connect {
-
   background: $mainColor !important;
 }
 
@@ -295,13 +295,14 @@
   border: 1px solid $mainColor !important;
 }
 
-.noUi-handle:before, .noUi-handle:after {
+.noUi-handle:before,
+.noUi-handle:after {
   content: "";
   display: none !important;
   position: absolute;
   height: 14px;
   width: 1px;
-  background: #E8E7E6;
+  background: #e8e7e6;
   left: 14px;
   top: 6px;
 }
@@ -311,4 +312,8 @@
   height: 25px !important;
   right: -12px !important;
   top: -5px !important;
+}
+
+.red-bg {
+  background-color: red;
 }

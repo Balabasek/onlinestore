@@ -1,6 +1,3 @@
-import ControllerMain from "../controller/_ControllerMain";
-import { numberArrayObject } from '../typingTS/_type'
-
 import { createElement } from '../utils/utils';
 
 class ViewFooter {
@@ -14,8 +11,8 @@ class ViewFooter {
           <p class="footer__author">Balabasek</p>
         </div>
         <div class="footer__link-container-item">
-          <a href="https://github.com/LjeDmitr" class="footer__link footer__github"></a>
-          <p class="footer__author">LjeDmitr</p>
+          <a href="https://github.com/Ljedmitr" class="footer__link footer__github"></a>
+          <p class="footer__author">Ljedmitr</p>
         </div>
       </div>
     </div>
@@ -24,8 +21,8 @@ class ViewFooter {
       <a href="https://sibsutis.ru/" class="footer__link footer__sibsutis"></a>
     </div>
   </section>`
-    return createElement(footer)
-  }
+  return createElement(footer)
+}
 
 }
 
