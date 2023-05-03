@@ -1,4 +1,4 @@
-import {stringObject} from '../typingTS/_type'
+import { stringObject } from '../typingTS/_type'
 
 
 class CustomElement {

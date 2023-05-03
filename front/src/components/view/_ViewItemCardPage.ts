@@ -1,24 +1,28 @@
 import CustomElement from '../utils/_createCustomElement';
-import ControllerMain from '../controller/_ControllerMain';
-// import { stringArrayObject } from '../typingTS/_type';
 import { IitemDATA } from '../typingTS/_interfaces';
 import { createElement } from '../utils/utils';
-// import { MAIN } from '../utils/const';
+import { IBascetLocalStorage} from '../typingTS/_interfaces';
 
 class ViewItemCardPage {
   customElement: CustomElement;
-  // _controller: ControllerMain;
 
   pageMainItemCard: HTMLElement;
   itemCardImagePhotoImg: HTMLElement;
   cardBtnButtonAdd: HTMLElement;
   cardBtnButtonBuy: HTMLElement;
 
-  // startServerData: IitemDATA[];
-  startServerProduct: IitemDATA
+  startServerProduct: IitemDATA;
+  BascetLocalStorage: IBascetLocalStorage[];
   EVENT: { [x: string]: Event }
 
   constructor(product: IitemDATA) {
+    const readlocalStorage = localStorage.getItem('BascetLocalStorage')
+    if (readlocalStorage) {
+      this.BascetLocalStorage = JSON.parse(readlocalStorage)
+    } else {
+      this.BascetLocalStorage = []
+    }
+
     this.startServerProduct = product;
     this.customElement = new CustomElement();
     this.pageMainItemCard = this.customElement.createElement('div', { className: 'page-main-itemCard _main-container' }); // Основная сакция картчоки
@@ -39,11 +43,11 @@ class ViewItemCardPage {
   listenersCardPage() {
 
     this.cardBtnButtonAdd.addEventListener('click', (e) => {
-      this.cardBtnButtonAdd.dispatchEvent(this.EVENT.clickOnProductAddInBascetMain)
+      this.cardBtnButtonAdd.dispatchEvent(this.EVENT.clickOnProductAddInBascetMain);
+      this.addProductForButton(e);
     });
 
-    this.cardBtnButtonBuy.addEventListener('click', (e) => {
-      console.log('this.cardBtnButtonBuy')
+    this.cardBtnButtonBuy.addEventListener('click', () => {
       this.cardBtnButtonBuy.dispatchEvent(this.EVENT.clickOnProductAddInBascetMain)
       this.cardBtnButtonBuy.dispatchEvent(this.EVENT.clickOnProductAddInBascetBuy)
     })
@@ -52,13 +56,14 @@ class ViewItemCardPage {
 
   create(product: IitemDATA = this.startServerProduct) {
     this.pageMainItemCard.innerHTML = ''
+    this.updateBascetFROMLocalStorage();
     this.customElement.addChildren(this.pageMainItemCard, [this.renderCardBlock(product)]);
-    // this.customElement.addChildren(MAIN, [this.pageMainItemCard]);
     return this.pageMainItemCard
   }
 
   renderCardBlock(product: IitemDATA = this.startServerProduct): HTMLElement {
     // Создание основной секции
+    this.updateBascetFROMLocalStorage();
     const mainItemCard = this.customElement.createElement('section', { className: 'main-itemCard _container itemCard' })
     this.customElement.addChildren(this.pageMainItemCard, [mainItemCard]);
 
@@ -105,8 +110,6 @@ class ViewItemCardPage {
     // Заполнение itemCardMainPhoto
     const itemCardImagePhoto = this.customElement.createElement('div', { className: 'itemCard__imagePhoto' });
     this.itemCardImagePhotoImg.setAttribute('src', product.images[0])
-    // const itemCardImagePhotoImg = this.customElement.createElement('img', { className: 'itemCard__imagePhoto-img', src: product.images[0] });
-
     this.customElement.addChildren(itemCardImagePhoto, [this.itemCardImagePhotoImg]);
     this.customElement.addChildren(itemCardMainPhoto, [itemCardImagePhoto]);
 
@@ -152,8 +155,10 @@ class ViewItemCardPage {
       className: 'itemCard-data__price', textContent: `Price: $ ${product.price}`
     });
 
-    this.cardBtnButtonAdd.setAttribute('id', `button-add|${product.id}`)
-    this.cardBtnButtonBuy.setAttribute('id', `button-buy|${product.id}`)
+    this.cardBtnButtonAdd.setAttribute('id', `button-add|${product.id}`);
+    this.cardBtnButtonBuy.setAttribute('id', `button-buy|${product.id}`);
+
+    this.checkProductForButton(this.cardBtnButtonAdd);
     this.customElement.addChildren(itemCardSummary, [itemCardDataPrice, this.cardBtnButtonAdd, this.cardBtnButtonBuy]);
 
     return mainItemCard
@@ -174,7 +179,59 @@ class ViewItemCardPage {
       const newSrc = target.getAttribute('src')
       if (newSrc) this.itemCardImagePhotoImg.setAttribute('src', newSrc)
     }
+  }
 
+  updateBascetFROMLocalStorage() {
+    const readlocalStorage = localStorage.getItem('BascetLocalStorage')
+    if (readlocalStorage) {
+      this.BascetLocalStorage = JSON.parse(readlocalStorage)
+    } else {
+      this.BascetLocalStorage = []
+    }
+  }
+
+  addProductForButton(event: Event) {
+    this.updateBascetFROMLocalStorage();
+
+    const target = event.target as HTMLElement;
+    const taretId = +target.id.split('|')[1];
+
+    if (!this.BascetLocalStorage.length) {
+      target.classList.remove('red-bg');
+      target.textContent = 'Add to cart';
+    }
+
+    this.BascetLocalStorage.forEach((item) => {
+      if (item.id === taretId) {
+        target.classList.add('red-bg');
+        target.textContent = 'Drop cart';
+      } else {
+        target.classList.remove('red-bg');
+        target.textContent = 'Add to cart';
+      }
+    })
+  }
+
+  checkProductForButton(button: HTMLElement) {
+    this.updateBascetFROMLocalStorage();
+    if (this.BascetLocalStorage.length === 0) {
+      button.classList.remove('red-bg');
+      button.textContent = 'Add to cart';
+      return
+    }
+
+    const ButtonId = +button.id.split('|')[1];
+
+    for (let i = 0; i < this.BascetLocalStorage.length; i++) {
+      if (this.BascetLocalStorage[i].id === ButtonId) {
+        button.classList.add('red-bg');
+        button.textContent = 'Drop cart';
+        return
+      } else {
+        button.classList.remove('red-bg');
+        button.textContent = 'Add to cart';
+      }
+    }
   }
 }
 

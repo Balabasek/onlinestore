@@ -1,6 +1,4 @@
 import { IitemDATA } from '../typingTS/_interfaces'
-import { stringObject } from '../typingTS/_type';
-
 import { products } from '../DATA/_products'
 
 class CreateBaseDate {
@@ -39,10 +37,7 @@ class CreateBaseDate {
   createCategory() {
     const setCategory: Set<string> = new Set()
     this.data.forEach((product) => {
-      let keyItem: keyof IitemDATA
-      for (keyItem in product) {
         if (product.category) setCategory.add(product.category)
-      }
     })
     this._category = Array.from(setCategory)
 
@@ -52,10 +47,7 @@ class CreateBaseDate {
   createBrand() {
     const setBrand: Set<string> = new Set()
     this.data.forEach((product) => {
-      let keyItem: keyof IitemDATA
-      for (keyItem in product) {
         if (product.brand) setBrand.add(product.brand)
-      }
     })
     this._brand = Array.from(setBrand)
     return this.brand
@@ -70,15 +62,7 @@ class CreateBaseDate {
     resultArray.sort((a, b) => a - b).splice(1, (resultArray.length - 2))
     return resultArray
   }
-
-
-
-
 }
 
-
-// const www = new CreateBaseDate()
-// console.log(www.stock)
-// console.log(www.price)
 
 export default CreateBaseDate
