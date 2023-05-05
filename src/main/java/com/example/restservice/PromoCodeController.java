@@ -42,7 +42,7 @@ public class PromoCodeController {
         try {
             return promoCodeService.usePromoCode(usePromoCodeDto);
         } catch (Exception e) {
-            System.err.println("Error occurred while use promo code " + usePromoCodeDto.getId());
+            System.err.println("Error occurred while use promo code " + usePromoCodeDto.get_Id());
             System.err.println(e.getMessage());
             Arrays.stream(e.getStackTrace()).toList().forEach(System.err::println);
         }

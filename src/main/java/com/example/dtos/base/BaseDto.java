@@ -1,17 +1,17 @@
 package com.example.dtos.base;
 
 public class BaseDto {
-    private String id;
+    private String _id;
 
-    public BaseDto(String id) {
-        this.id = id;
+    public BaseDto(String _id) {
+        this._id = _id;
     }
 
-    public String getId() {
-        return id;
+    public String get_Id() {
+        return _id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void set_Id(String _id) {
+        this._id = _id;
     }
 }

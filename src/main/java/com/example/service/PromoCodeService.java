@@ -25,7 +25,7 @@ public class PromoCodeService {
     }
 
     public String usePromoCode(UsePromoCodeDto usePromoCodeDto) {
-        PromoCode promoCode = promoCodeRepository.findPromoCodeById(usePromoCodeDto.getId());
+        PromoCode promoCode = promoCodeRepository.findPromoCodeById(usePromoCodeDto.get_Id());
 
         for (String userId : promoCode.getUsersUsedList()) {
             if (userId.equals(usePromoCodeDto.getUser().getId())) {
@@ -36,6 +36,6 @@ public class PromoCodeService {
     }
 
     public PromoCode deletePromoCode(DeletePromoCodeDto deletePromoCodeDto) {
-        return promoCodeRepository.deletePromoCodeById(deletePromoCodeDto.getId());
+        return promoCodeRepository.deletePromoCodeById(deletePromoCodeDto.get_Id());
     }
 }
