@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.List;
@@ -41,6 +42,14 @@ public class ItemService {
     }
 
     public String loadAllItem() {
+        File folder = new File("front/src/components/DATA");
+        if (!folder.exists()) {
+           boolean isCreate = folder.mkdir();
+           if (!isCreate) {
+               return "Error load, DATA don't create";
+           }
+        }
+
         final String outFile = "front/src/components/DATA/_products.ts";
         List<Item> items = itemRepository.findAll();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
