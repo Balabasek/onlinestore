@@ -1,5 +1,6 @@
 package com.example.service;
 
+import com.example.dtos.item.CreateItemDto;
 import com.example.dtos.item.DeleteItemDto;
 import com.example.dtos.item.UpdateStockItemsDto;
 import com.example.model.Item;
@@ -23,14 +24,20 @@ public class ItemService {
         this.itemRepository = itemRepository;
     }
 
-    public Item createNewItem(Item item) throws IllegalArgumentException, OptimisticLockingFailureException {
+    public Item createNewItem(CreateItemDto createItemDto) throws IllegalArgumentException, OptimisticLockingFailureException {
+        long count = itemRepository.count();
+
+        Item item = new Item(count + 1, createItemDto.getTitle(), createItemDto.getDescription(), createItemDto.getPrice(),
+                createItemDto.getDiscountPercentage(), createItemDto.getRating(), createItemDto.getStock(), createItemDto.getBrand(),
+                createItemDto.getCategory(), createItemDto.getThumbnail(), createItemDto.getImages());
+
         return itemRepository.save(item);
     }
 
     public DeleteItemDto deleteItem(String itemId) {
         Item deletedItem = itemRepository.deleteItemById(itemId);
 
-        return new DeleteItemDto(deletedItem.getId(), deletedItem.getTitle(), deletedItem.getCategory());
+        return new DeleteItemDto(deletedItem.getUniqId(), deletedItem.getTitle(), deletedItem.getCategory());
     }
 
     public String loadAllItem() {
