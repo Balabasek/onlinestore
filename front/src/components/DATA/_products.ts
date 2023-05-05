@@ -66,9 +66,6 @@ import SkinBeautySerum1 from '../../assets/img/product/19/1.jpg'
 import SkinBeautySerum2 from '../../assets/img/product/19/2.jpg'
 import SkinBeautySerum3 from '../../assets/img/product/19/3.png'
 import SkinBeautySerum4 from '../../assets/img/product/19/4.jpg'
-import FreckleTreatment1 from '../../assets/img/product/20/1.jpg'
-import FreckleTreatment2 from '../../assets/img/product/20/2.jpg'
-import FreckleTreatment3 from '../../assets/img/product/20/3.jpg'
 
 
 
@@ -404,23 +401,6 @@ export const products: Array<IitemDATA> = [
       SkinBeautySerum2,
       SkinBeautySerum3,
       SkinBeautySerum4,
-    ]
-  },
-  {
-    "id": 20,
-    "title": "Freckle Treatment Cream- 15gm",
-    "description": "Fair & Clear is Pakistan's only pure Freckle cream which helpsfade Freckles, Darkspots and pigments. Mercury level is 0%, so there are no side effects.",
-    "price": 70,
-    "discountPercentage": 16.99,
-    "rating": 4.06,
-    "stock": 140,
-    "brand": "Fair & Clear",
-    "category": "skincare",
-    "thumbnail": "https://i.dummyjson.com/data/products/20/thumbnail.jpg",
-    "images": [
-      FreckleTreatment1,
-      FreckleTreatment2,
-      FreckleTreatment3,
     ]
   },
 ]

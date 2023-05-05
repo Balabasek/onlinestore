@@ -6,6 +6,7 @@ import visa from './../../assets/img/png/visa.png';
 import defaultPic from './../../assets/img/png/defaultPic.jpg';
 import mastercard from './../../assets/img/png/mastercard.png';
 import maestro from './../../assets/img/png/maestro.png';
+import {IBascetLocalStorage} from "../typingTS/_interfaces";
 
 
 class ViewValidation {
@@ -21,6 +22,7 @@ class ViewValidation {
   inputCardNumberCVV: HTMLInputElement;
 
   creditInputImage: HTMLImageElement;
+  BascetLocalStorage: IBascetLocalStorage[];
 
   spanDataInputName: HTMLElement;
   spanDataInputPhone: HTMLElement;
@@ -34,6 +36,15 @@ class ViewValidation {
 
   constructor() {
     this.customElement = new CustomElement();
+
+    const readlocalStorage = localStorage.getItem('BascetLocalStorage')
+    if (readlocalStorage) {
+      this.BascetLocalStorage = JSON.parse(readlocalStorage)
+      console.log(this.BascetLocalStorage);
+    } else {
+      this.BascetLocalStorage = []
+    }
+
     this.confirmButton = this.customElement.createElement('button', { className: '_btn confirm__button', type: "submit", textContent: 'Confirm' }) as HTMLButtonElement;
 
     // ИНПУТЫ
@@ -138,7 +149,7 @@ class ViewValidation {
 
   listenersValidationPage() {
 
-    this.confirmButton.addEventListener('click', (e) => {
+    this.confirmButton.addEventListener('click', async (e) => {
       e.preventDefault()
       if ([this.isValidInputName(),
         this.isValidInputPhone(),
@@ -150,6 +161,33 @@ class ViewValidation {
         localStorage.removeItem('BascetLocalStorage');
         this.confirmButton.disabled = true
         this.confirmButton.textContent = 'Order paid'
+        for (let i = 0; i < this.BascetLocalStorage.length; i++) {
+          const settings = {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: {
+              id: this.BascetLocalStorage[i].id,
+              isBuy: true,
+              count: this.BascetLocalStorage[i].count
+            }
+          };
+
+          let response = await fetch("localhost:8888/itemService/updateStockItems");
+
+          if (!response.ok) {
+            alert("Ошибка HTTP: " + response.status);
+          }
+        }
+
+        let response2 = await fetch("localhost:8888/itemService/load");
+
+        if (!response2.ok) {
+          alert("Ошибка HTTP: " + response2.status);
+        }
+
         setTimeout(() => {
           this.confirmButton.dispatchEvent(this.EVENT.clickOnLogo)
         }, 3000);

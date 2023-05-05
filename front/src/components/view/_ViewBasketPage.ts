@@ -44,6 +44,7 @@ class ViewBasketPage {
     const readlocalStorage = localStorage.getItem('BascetLocalStorage')
     if (readlocalStorage) {
       this.BascetLocalStorage = JSON.parse(readlocalStorage)
+      console.log(this.BascetLocalStorage);
     } else {
       this.BascetLocalStorage = []
     }
