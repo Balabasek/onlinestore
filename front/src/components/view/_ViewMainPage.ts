@@ -167,12 +167,8 @@ class ViewMainPage {
     this.findCount.textContent = `${startServerData.length}`
     this.customElement.addChildren(viewFindCount, [this.findCount]);
 
-    //Вид карточек
-    const viewVisible = this.customElement.createElement('div', { className: 'view__visible visible' });
-    this.customElement.addChildren(viewVisible, [this.viewBlock, this.viewList]);
-
     // Добавление в правый вернхнюю правую секцию
-    this.customElement.addChildren(rightView, [this.viewSort, viewFindCount, this.viewSearch, viewVisible]);
+    this.customElement.addChildren(rightView, [this.viewSort, viewFindCount, this.viewSearch]);
 
     // Создание ПРАВОЙ НИЖНЕЙ СЕКЦИИ!!!
     this.customElement.addChildren(mainRight, [this.cardList]);
@@ -187,15 +183,6 @@ class ViewMainPage {
   }
 
   listenersMainPage() {
-
-    this.viewBlock.addEventListener('click', (e) => {
-      const target = e.target as HTMLElement;
-      target.dispatchEvent(this.EVENT.clickOnbuttonViewBlockMain)
-    })
-    this.viewList.addEventListener('click', (e) => {
-      const target = e.target as HTMLElement;
-      target.dispatchEvent(this.EVENT.clickOnbuttonViewBlockMain)
-    })
 
     this.filterCategoryMain.addEventListener('click', (e) => {
       const target = e.target as HTMLElement;
@@ -349,15 +336,9 @@ class ViewMainPage {
       if (view[0] === 'Big') {
         this.customElement.addChildren(cardInfo, [cardImg, cardData]);
         card.classList.add('cardlist__item-two');
-        this.viewBlock.classList.remove('visible__item-active');
-        this.viewList.classList.remove('visible__item-active');
-        this.viewBlock.classList.add('visible__item-active');
       } else {
         this.customElement.addChildren(cardInfo, [cardImg]);
         card.classList.remove('cardlist__item-two');
-        this.viewBlock.classList.remove('visible__item-active');
-        this.viewList.classList.remove('visible__item-active');
-        this.viewList.classList.add('visible__item-active');
       }
 
       //Заполнение cardData
