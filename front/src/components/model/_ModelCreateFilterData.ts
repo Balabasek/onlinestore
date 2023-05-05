@@ -36,21 +36,21 @@ class CreateFilterData {
     this._filtredData = this.baseData.data;
 
     this._startServerFILTER =
-    {
-      "category": [],
-      "brand": [],
-      "price": this.baseData.price,
-      "stock": this.baseData.stock,
-      "search": [''],
-      "sort": [''],
-      "view": ['Big'],
-    };
+        {
+          "category": [],
+          "brand": [],
+          "price": this.baseData.price,
+          "stock": this.baseData.stock,
+          "search": [''],
+          "sort": [''],
+          "view": ['Big'],
+        };
     this._FILTER = JSON.parse(JSON.stringify(this._startServerFILTER))
     this._FILTERpriceTEXT = [...this.baseData.price]
     this._FILTERstockTEXT = [...this.baseData.stock],
 
 
-      this._startPriceOfFILTER = this._startServerFILTER.price
+        this._startPriceOfFILTER = this._startServerFILTER.price
     this._startStockOfFILTER = this._startServerFILTER.stock
     this._startSearchOfFILTER = this._startServerFILTER.search
 
@@ -122,13 +122,13 @@ class CreateFilterData {
 
       if (text === '') return true
       if (product.title.toLocaleLowerCase().includes(text.toLocaleLowerCase()) ||
-        product.description.toLocaleLowerCase().includes(text.toLocaleLowerCase()) ||
-        product.price.toString().includes(text) ||
-        product.discountPercentage.toString().includes(text) ||
-        product.rating.toString().includes(text) ||
-        product.stock.toString().includes(text) ||
-        product.brand.toLocaleLowerCase().includes(text.toLocaleLowerCase()) ||
-        product.category.toLocaleLowerCase().includes(text.toLocaleLowerCase())
+          product.description.toLocaleLowerCase().includes(text.toLocaleLowerCase()) ||
+          product.price.toString().includes(text) ||
+          product.discountPercentage.toString().includes(text) ||
+          product.rating.toString().includes(text) ||
+          product.stock.toString().includes(text) ||
+          product.brand.toLocaleLowerCase().includes(text.toLocaleLowerCase()) ||
+          product.category.toLocaleLowerCase().includes(text.toLocaleLowerCase())
       ) { return true }
       return false
     })
@@ -174,13 +174,13 @@ class CreateFilterData {
         res.push(product.price)
         return res
       }, price).sort((a, b) => a - b)
-        .filter((item, index, arr) => index === 0 || index === (arr.length - 1))
+          .filter((item, index, arr) => index === 0 || index === (arr.length - 1))
 
       this._FILTERstockTEXT = data.reduce((res, product) => {
         res.push(product.stock)
         return res
       }, stock).sort((a, b) => a - b)
-        .filter((item, index, arr) => index === 0 || index === (arr.length - 1))
+          .filter((item, index, arr) => index === 0 || index === (arr.length - 1))
     }
   }
 
@@ -287,7 +287,6 @@ class CreateFilterData {
 
   // возвращает измененный Объект Фильтра
   public get FILTER() {
-    // this.updateFILTER_Price_Stock()
     return this._FILTER
   }
 
@@ -323,9 +322,9 @@ class CreateFilterData {
   // подметод для формирования стартовых Объектов категорий и бренда а также измененных
   // меняет по измененному filtredData
   private getCategoryAndBrandData(obj: string[],
-    key: "brand" | "category",
-    filtredData: IitemDATA[] = this.startServerData,
-    filter = this._FILTER) {
+                                  key: "brand" | "category",
+                                  filtredData: IitemDATA[] = this.startServerData,
+                                  filter = this._FILTER) {
     const result: numberArrayObject = {}
 
     obj.forEach((categoryValue) => {
@@ -348,7 +347,6 @@ class CreateFilterData {
       }
     })
 
-
     filter.brand.forEach((item) => {
       if (result[item]) {
         result[item][2] += 1
@@ -357,20 +355,18 @@ class CreateFilterData {
     return result
   }
 
-
   // Метод очищающий Объект фильтра до стартового
   // и обновляющий отфильтрованный Объект c данными ПРОДУКТА
   clearFILTER() {
     this._FILTER.category = []
     this._FILTER.brand = []
     this._FILTER.price = [...this.baseData.price],
-    this._FILTER.stock = [...this.baseData.stock],
-    this._FILTER.search = ['']
+        this._FILTER.stock = [...this.baseData.stock],
+        this._FILTER.search = ['']
     this._FILTER.sort = ['']
     this._FILTER.view = ['Big']
     this.updateFiltredData()
   }
-
 }
 
 export default CreateFilterData

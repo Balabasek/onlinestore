@@ -6,7 +6,6 @@ import { IitemDATA, IFilter, IBascetLocalStorage, IPromoList } from '../typingTS
 import CreateFilterData from '../model/_ModelCreateFilterData'
 
 // VIEWS
-
 import ViewHeader from '../view/_ViewHeader';
 import ViewMainPage from '../view/_ViewMainPage';
 import ViewFooter from '../view/_ViewFooter';
@@ -123,12 +122,12 @@ class ControllerMain {
     this.viewOfFILTER = this.MODEL.viewOfFILTER
 
     this.ViewMainPAGE = new ViewMainPage(this.startServerData,
-      this.startCategoryData,
-      this.startBrandData,
-      this.startPriceOfFILTER,
-      this.startStockOfFILTER,
-      this.sortOfFILTER,
-      this.viewOfFILTER
+        this.startCategoryData,
+        this.startBrandData,
+        this.startPriceOfFILTER,
+        this.startStockOfFILTER,
+        this.sortOfFILTER,
+        this.viewOfFILTER
     );
     this.ViewItemCardPAGE = new ViewItemCardPage(this.startServerData[0]);
     this.ViewBASKETPAGE = new ViewBasketPage(this.startServerData);
@@ -179,7 +178,7 @@ class ControllerMain {
     localStorage.setItem('BascetLocalStorage', JSON.stringify(this.BascetLocalStorage));
     localStorage.setItem('listPromo', JSON.stringify(this.promocodeInfo));
     return this.BascetLocalStorage
-  } ///////
+  }
 
   // МЕТОД возврата ОБЪЕКТА ПО ID для КОРЗИНЫ
   convertIDtoBascetObject(id: number): IBascetLocalStorage {
@@ -226,12 +225,12 @@ class ControllerMain {
       this.MAIN.innerHTML = ''
       this.viewMainPAGEupdate()
       this.MAIN.append(this.ViewMainPAGE.create(this.MODEL.filtredData,
-        this.MODEL.filtredCategoryData,
-        this.MODEL.filtredBrandData,
-        this.priceOfFILTER,
-        this.stockOfFILTER,
-        this.sortOfFILTER,
-        this.viewOfFILTER,
+          this.MODEL.filtredCategoryData,
+          this.MODEL.filtredBrandData,
+          this.priceOfFILTER,
+          this.stockOfFILTER,
+          this.sortOfFILTER,
+          this.viewOfFILTER,
       ))
     }
 
@@ -411,6 +410,7 @@ class ControllerMain {
 
     })
 
+
     // Клик по корзине из Хедера и запуск страницы корзины
     this.BODY.addEventListener('clickOnBacket', () => {
       const basketObject = {
@@ -580,9 +580,9 @@ class ControllerMain {
       const inputs = [this.ViewMainPAGE.itemPriceNumberFrom, this.ViewMainPAGE.itemPriceNumberTo];
 
       (this.ViewMainPAGE.silderPrice as noUiSlider.target).noUiSlider?.on('update',
-        function (values: (string | number)[], handle: number): void {
-          inputs[handle].textContent = String(Math.round(Number(values[handle])));
-        });
+          function (values: (string | number)[], handle: number): void {
+            inputs[handle].textContent = String(Math.round(Number(values[handle])));
+          });
 
       (this.ViewMainPAGE.silderPrice as noUiSlider.target).noUiSlider?.on('set', (values) => {
         const valueArray = values.map(el => Math.round(+el))
@@ -623,10 +623,10 @@ class ControllerMain {
       const inputs = [this.ViewMainPAGE.itemStockNumberFrom, this.ViewMainPAGE.itemStockNumberTo];
 
       (this.ViewMainPAGE.silderStock as noUiSlider.target).noUiSlider?.on('update',
-        function (values: (string | number)[], handle: number): void {
-          inputs[handle].textContent = String(Math.round(Number(values[handle])));
+          function (values: (string | number)[], handle: number): void {
+            inputs[handle].textContent = String(Math.round(Number(values[handle])));
 
-        });
+          });
 
       (this.ViewMainPAGE.silderStock as noUiSlider.target).noUiSlider?.on('set', (values) => {
         const valueArray = values.map(el => Math.round(+el))

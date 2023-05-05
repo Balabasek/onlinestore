@@ -4,7 +4,6 @@ import { IitemDATA } from '../typingTS/_interfaces'
 import { createElement } from '../utils/utils';
 import { IBascetLocalStorage } from '../typingTS/_interfaces';
 
-
 class ViewMainPage {
   pageMain: HTMLElement;
   buttonReset: HTMLElement;
@@ -38,12 +37,12 @@ class ViewMainPage {
   EVENT: { [x: string]: Event }
 
   constructor(startServerData: IitemDATA[],
-    startCategoryData: numberArrayObject,
-    startBrandData: numberArrayObject,
-    startPriceOfFILTER: number[],
-    startStockOfFILTER: number[],
-    startSortOfFILTER: string[],
-    startViewOfFILTER: string[],
+              startCategoryData: numberArrayObject,
+              startBrandData: numberArrayObject,
+              startPriceOfFILTER: number[],
+              startStockOfFILTER: number[],
+              startSortOfFILTER: string[],
+              startViewOfFILTER: string[],
   ) {
 
     const readlocalStorage = localStorage.getItem('BascetLocalStorage')
@@ -62,18 +61,13 @@ class ViewMainPage {
     this.startViewOfFILTER = startViewOfFILTER;
 
     this.customElement = new CustomElement();
-
     this.pageMain = this.customElement.createElement('div', { className: 'page-main-one _main-container' });
-
     this.buttonReset = this.customElement.createElement('button', { className: 'stock__reset _btn', textContent: 'Reset Filter' }); // button Reset
     this.buttonCopy = this.customElement.createElement('button', { className: 'stock__copy _btn', textContent: 'Copy Link' }); // button Copy
-
     this.filterCategoryMain = this.customElement.createElement('div', { className: 'filter__item filter__category category filter__item-scroll' }); // Category
     this.filterBrandMain = this.customElement.createElement('div', { className: 'filter__item filter__brand brand filter__item-scroll' }); // Brand
     //------Price------//
-
     this.filterPrice = this.customElement.createElement('div', { className: 'filter__item filter__price price' });
-
     this.silderPrice = this.customElement.createElement('div', { id: 'sliderPrice' }); // No Ui Slider Price
     this.silderStock = this.customElement.createElement('div', { id: 'sliderStock' }); // No Ui Slider Stock
     this.itemPriceNumberFrom = this.customElement.createElement('div', { className: 'item-price__from' }); // Price Text Min
@@ -96,22 +90,22 @@ class ViewMainPage {
       clickOnCategoryMain: new Event('clickOnCategoryMain', { bubbles: true }),
       clickOnBrandMain: new Event('clickOnBrandMain', { bubbles: true }),
       changeOnSearchMain: new Event('changeOnSearchMain', { bubbles: true }),
-      choiceOnSortMain: new Event('choiceOnSortMain', { bubbles: true }),// в процессе 
+      choiceOnSortMain: new Event('choiceOnSortMain', { bubbles: true }),// в процессе
       clickOnСardListMain: new Event('clickOnСardListMain', { bubbles: true }),// Клик на контейнере с Карточками
       clickOnProductAddInBascetMain: new Event('clickOnProductAddInBascetMain', { bubbles: true }),// Клик на кнопке добавить с Карточками
       clickOnbuttonResetMain: new Event('clickOnbuttonResetMain', { bubbles: true }),// Клик на кнопке сброса
-      // clickOnbuttonRViewListMain: new Event('clickOnbuttonRViewListMain', { bubbles: true }),// Клик на кнопке маленьких карточек
+      clickOnbuttonViewBlockMain: new Event('clickOnbuttonViewBlockMain', { bubbles: true }),// Клик на кнопке больших карточек
     }
     this.listenersMainPage();
   }
 
   create(startServerData: IitemDATA[] = this.startServerData,
-    startCategoryData: numberArrayObject = this.startCategoryData,
-    startBrandData: numberArrayObject = this.startBrandData,
-    startPriceOfFILTER: number[] = this.startPriceOfFILTER,
-    startStockOfFILTER: number[] = this.startStockOfFILTER,
-    startSortOfFILTER: string[] = this.startSortOfFILTER,
-    startViewOfFILTER: string[] = this.startViewOfFILTER,
+         startCategoryData: numberArrayObject = this.startCategoryData,
+         startBrandData: numberArrayObject = this.startBrandData,
+         startPriceOfFILTER: number[] = this.startPriceOfFILTER,
+         startStockOfFILTER: number[] = this.startStockOfFILTER,
+         startSortOfFILTER: string[] = this.startSortOfFILTER,
+         startViewOfFILTER: string[] = this.startViewOfFILTER,
   ) {
 
     this.startViewOfFILTER = startViewOfFILTER
@@ -131,11 +125,9 @@ class ViewMainPage {
     this.customElement.addChildren(containerButtons, [this.buttonReset, this.buttonCopy]);
 
     // Добавление Category
-    // this.customElement.addChildren(this.filterCategoryMain, [...this.renderCategoryBlock(startCategoryData)]);
     this.updateCategoryBlock(startCategoryData)
 
-    // Добавление Brand 
-    // this.customElement.addChildren(this.filterBrandMain, [...this.renderBrandBlock(startBrandData)]);
+    // Добавление Brand
     this.updateBrandBlock(startBrandData)
     // Добавление всего в левую часть
     this.customElement.addChildren(mainLeft, [this.filterCategoryMain, this.filterBrandMain]);
@@ -158,11 +150,11 @@ class ViewMainPage {
     this.viewSort.setAttribute('list', 'sorting');
 
     [{ value: "SortABC", textContent: "SortABC" },
-    { value: "SortCBA", textContent: "SortCBA" },
-    { value: "SortByPriceLow", textContent: "SortByPriceLow" },
-    { value: "SortByPriceUp", textContent: "SortByPriceUp" },
-    { value: "SortByRatingLow", textContent: "SortByRatingLow" },
-    { value: "SortByRatingUp", textContent: "SortByRatingUp" }].forEach((atributs) => {
+      { value: "SortCBA", textContent: "SortCBA" },
+      { value: "SortByPriceLow", textContent: "SortByPriceLow" },
+      { value: "SortByPriceUp", textContent: "SortByPriceUp" },
+      { value: "SortByRatingLow", textContent: "SortByRatingLow" },
+      { value: "SortByRatingUp", textContent: "SortByRatingUp" }].forEach((atributs) => {
       const option = this.customElement.createElement('option', atributs)
       if ((option as HTMLOptionElement).value === startSortOfFILTER[0]) {
         (option as HTMLOptionElement).selected = true
@@ -174,6 +166,13 @@ class ViewMainPage {
     const viewFindCount = this.customElement.createElement('p', { className: 'view__find-count', textContent: 'Found:' });
     this.findCount.textContent = `${startServerData.length}`
     this.customElement.addChildren(viewFindCount, [this.findCount]);
+
+    //Вид карточек
+    const viewVisible = this.customElement.createElement('div', { className: 'view__visible visible' });
+    this.customElement.addChildren(viewVisible, [this.viewBlock, this.viewList]);
+
+    // Добавление в правый вернхнюю правую секцию
+    this.customElement.addChildren(rightView, [this.viewSort, viewFindCount, this.viewSearch, viewVisible]);
 
     // Создание ПРАВОЙ НИЖНЕЙ СЕКЦИИ!!!
     this.customElement.addChildren(mainRight, [this.cardList]);
@@ -188,6 +187,15 @@ class ViewMainPage {
   }
 
   listenersMainPage() {
+
+    this.viewBlock.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      target.dispatchEvent(this.EVENT.clickOnbuttonViewBlockMain)
+    })
+    this.viewList.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      target.dispatchEvent(this.EVENT.clickOnbuttonViewBlockMain)
+    })
 
     this.filterCategoryMain.addEventListener('click', (e) => {
       const target = e.target as HTMLElement;
@@ -215,7 +223,7 @@ class ViewMainPage {
       const card = target.closest('.cardlist__item')
       const addToCard = target.closest('._btn_add-to-card')
       if (card && !addToCard) {
-        card.dispatchEvent(this.EVENT.clickOnСardListMain) 
+        card.dispatchEvent(this.EVENT.clickOnСardListMain)
       } else {
         addToCard?.dispatchEvent(this.EVENT.clickOnProductAddInBascetMain);
         this.addProductForButton(e);
@@ -246,13 +254,9 @@ class ViewMainPage {
     }
   }
 
-
-
   // Создание Category
   renderCategoryBlock(dataFilterCategory: numberArrayObject = this.startCategoryData): HTMLElement[] {
     const itemContainer: HTMLElement[] = [];
-    // this.filterCategoryMain.innerHTML = '';
-
     const filterCategoryItemName = this.customElement.createElement('h3', { className: 'filter__item-name category__name', textContent: 'Category' });
     const filterCategory = this.customElement.createElement('div', { className: 'filter__item-container category__container filter__item-container-scroll' });
 
@@ -268,9 +272,6 @@ class ViewMainPage {
   // Создание Brand
   renderBrandBlock(dataFilterBrand: numberArrayObject = this.startBrandData): HTMLElement[] {
     const itemContainer: HTMLElement[] = [];
-    // this.filterBrandMain.innerHTML = '';
-
-
     const filterBrandItemName = this.customElement.createElement('h3', { className: 'filter__item-name brand__name', textContent: 'Brand' });
     const filterBrand = this.customElement.createElement('div', { className: 'filter__item-container brand__container filter__item-container-scroll' });
 
@@ -286,19 +287,15 @@ class ViewMainPage {
   // Создание Price
   renderPriceBlock(dataFilterPrice: number[] = this.startPriceOfFILTER): HTMLElement {
     this.filterPrice.innerHTML = ''
-    // const filterPrice = this.customElement.createElement('div', { className: 'filter__item filter__price price' });
     const filterPriceItemName = this.customElement.createElement('h3', { className: 'filter__item-name price__name', textContent: 'Price' });
     const filterPriceContainer = this.customElement.createElement('div', { className: 'inputRange_container price__container' });
     this.customElement.addChildren(this.filterPrice, [filterPriceItemName, filterPriceContainer]);
-
     const itemPriceNumberContainer = this.customElement.createElement('div', { className: 'filter__item-data item-price' });
     this.customElement.addChildren(filterPriceContainer, [itemPriceNumberContainer, this.silderPrice]);
-
     this.itemPriceNumberFrom.textContent = `${dataFilterPrice[0]}`;
     this.itemPriceNumberTo.textContent = `${dataFilterPrice[1]}`;
     const itemPriceNumberMid = this.customElement.createElement('div', { textContent: '⟷' });
     this.customElement.addChildren(itemPriceNumberContainer, [this.itemPriceNumberFrom, itemPriceNumberMid, this.itemPriceNumberTo]);
-
     return this.filterPrice
   }
 
@@ -338,12 +335,11 @@ class ViewMainPage {
 
       //Заполнение cardButtons
       const buttonItemAdd = this.customElement.createElement('button', { className: '_btn _btn_add-to-card', id: `_btn_add-to-card|${item.id}`, textContent: 'Add to card' });
-      
+
       this.checkProductForButton(buttonItemAdd)
-      
+
       // Кнопка добавления в корзину
       const buttonItemDetails = this.customElement.createElement('button', { className: '_btn', textContent: 'Detais' });  // Кнопка просмотра товара
-
       this.customElement.addChildren(cardButtons, [buttonItemAdd, buttonItemDetails]);
 
       //Заполнение cardInfo
@@ -353,9 +349,15 @@ class ViewMainPage {
       if (view[0] === 'Big') {
         this.customElement.addChildren(cardInfo, [cardImg, cardData]);
         card.classList.add('cardlist__item-two');
+        this.viewBlock.classList.remove('visible__item-active');
+        this.viewList.classList.remove('visible__item-active');
+        this.viewBlock.classList.add('visible__item-active');
       } else {
         this.customElement.addChildren(cardInfo, [cardImg]);
         card.classList.remove('cardlist__item-two');
+        this.viewBlock.classList.remove('visible__item-active');
+        this.viewList.classList.remove('visible__item-active');
+        this.viewList.classList.add('visible__item-active');
       }
 
       //Заполнение cardData

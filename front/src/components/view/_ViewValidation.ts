@@ -1,3 +1,6 @@
+
+
+
 import CustomElement from '../utils/_createCustomElement';
 import visa from './../../assets/img/png/visa.png';
 import defaultPic from './../../assets/img/png/defaultPic.jpg';
@@ -8,14 +11,14 @@ import maestro from './../../assets/img/png/maestro.png';
 class ViewValidation {
   customElement: CustomElement;
   confirmButton: HTMLButtonElement;
-  InputName: HTMLInputElement;
-  InputPhone: HTMLInputElement;
-  InputAdress: HTMLInputElement;
-  InputMail: HTMLInputElement;
+  inputName: HTMLInputElement;
+  inputPhone: HTMLInputElement;
+  inputAdress: HTMLInputElement;
+  inputMail: HTMLInputElement;
 
-  InputCardNumber: HTMLInputElement;
-  InputCardNumberDate: HTMLInputElement;
-  InputCardNumberCVV: HTMLInputElement;
+  inputCardNumber: HTMLInputElement;
+  inputCardNumberDate: HTMLInputElement;
+  inputCardNumberCVV: HTMLInputElement;
 
   creditInputImage: HTMLImageElement;
 
@@ -33,27 +36,23 @@ class ViewValidation {
     this.customElement = new CustomElement();
     this.confirmButton = this.customElement.createElement('button', { className: '_btn confirm__button', type: "submit", textContent: 'Confirm' }) as HTMLButtonElement;
 
-
-
     // ИНПУТЫ
-    this.InputName = this.customElement.createElement('input',
-      { className: '_inp popup__dataInput-name', type: 'text', placeholder: 'Your Name: Lia Maf' }) as HTMLInputElement;
-    this.InputPhone = this.customElement.createElement('input',
-      { className: '_inp popup__dataInput-phone', type: 'text', placeholder: 'Phone number: +123456789' }) as HTMLInputElement;
-    this.InputAdress = this.customElement.createElement('input',
-      { className: '_inp popup__dataInput-adress', type: 'text', placeholder: 'Adress: as1** **c/4 a*s*9' }) as HTMLInputElement;
-    this.InputMail = this.customElement.createElement('input',
-      { className: '_inp popup__dataInput-mail', type: 'email', placeholder: 'E-mail' }) as HTMLInputElement;
-    this.InputCardNumber = this.customElement.createElement('input',
-      { className: '_inp creditInput__cardNumber-number', type: 'text', placeholder: 'Card: 1111222233334444' }) as HTMLInputElement;
-    this.InputCardNumberDate = this.customElement.createElement('input',
-      { className: '_inp creditInput__cardNumber-date', type: 'text', placeholder: 'Date: 01/22' }) as HTMLInputElement;
-    this.InputCardNumberCVV = this.customElement.createElement('input',
-      { className: '_inp creditInput__cardNumber-cvv', type: 'text', placeholder: 'CVV' }) as HTMLInputElement;
+    this.inputName = this.customElement.createElement('input',
+        { className: '_inp popup__dataInput-name', type: 'text', placeholder: 'Your Name: Lia Maf' }) as HTMLInputElement;
+    this.inputPhone = this.customElement.createElement('input',
+        { className: '_inp popup__dataInput-phone', type: 'text', placeholder: 'Phone number: +123456789' }) as HTMLInputElement;
+    this.inputAdress = this.customElement.createElement('input',
+        { className: '_inp popup__dataInput-adress', type: 'text', placeholder: 'Adress: as1** **c/4 a*s*9' }) as HTMLInputElement;
+    this.inputMail = this.customElement.createElement('input',
+        { className: '_inp popup__dataInput-mail', type: 'email', placeholder: 'E-mail' }) as HTMLInputElement;
+    this.inputCardNumber = this.customElement.createElement('input',
+        { className: '_inp creditInput__cardNumber-number', type: 'text', placeholder: 'Card: 1111222233334444' }) as HTMLInputElement;
+    this.inputCardNumberDate = this.customElement.createElement('input',
+        { className: '_inp creditInput__cardNumber-date', type: 'text', placeholder: 'Date: 01/22' }) as HTMLInputElement;
+    this.inputCardNumberCVV = this.customElement.createElement('input',
+        { className: '_inp creditInput__cardNumber-cvv', type: 'text', placeholder: 'CVV' }) as HTMLInputElement;
 
     this.creditInputImage = this.customElement.createElement('img', { className: 'credit-img', src: defaultPic }) as HTMLImageElement;
-
-
 
     //СПАНЫ ДЛЯ ОШИБОК
     this.spanDataInputName = this.customElement.createElement('span', { className: 'span__dataInput-name', textContent: '' });
@@ -88,7 +87,7 @@ class ViewValidation {
     const popup = this.customElement.createElement('div', { className: 'popup' });
     this.customElement.addChildren(popupWrapper, [popup]);
 
-    // Создание popup 
+    // Создание popup
     const popupBlock = this.customElement.createElement('form', { className: 'popup__block' });
     this.customElement.addChildren(popup, [popupBlock]);
 
@@ -104,10 +103,10 @@ class ViewValidation {
     const divDataInputAdress = this.customElement.createElement('div', { className: 'div__dataInput-adress' });
     const divDataInputMail = this.customElement.createElement('div', { className: 'div__dataInput-mail' });
 
-    this.customElement.addChildren(divDataInputName, [this.InputName, this.spanDataInputName]);
-    this.customElement.addChildren(divDataInputPhone, [this.InputPhone, this.spanDataInputPhone]);
-    this.customElement.addChildren(divDataInputAdress, [this.InputAdress, this.spanDataInputAdress]);
-    this.customElement.addChildren(divDataInputMail, [this.InputMail, this.spanDataInputMail]);
+    this.customElement.addChildren(divDataInputName, [this.inputName, this.spanDataInputName]);
+    this.customElement.addChildren(divDataInputPhone, [this.inputPhone, this.spanDataInputPhone]);
+    this.customElement.addChildren(divDataInputAdress, [this.inputAdress, this.spanDataInputAdress]);
+    this.customElement.addChildren(divDataInputMail, [this.inputMail, this.spanDataInputMail]);
 
     this.customElement.addChildren(popupDataInput, [popupPersona, divDataInputName, divDataInputPhone, divDataInputAdress, divDataInputMail]);
 
@@ -120,9 +119,9 @@ class ViewValidation {
     const divInputCardNumber = this.customElement.createElement('div', { className: 'div__InputCardNumber' });
     const divInputCardNumberDate = this.customElement.createElement('div', { className: 'div__InputCardNumberDate' });
     const divInputCardNumberCVV = this.customElement.createElement('div', { className: 'div__InputCardNumberCVV' });
-    this.customElement.addChildren(divInputCardNumber, [this.InputCardNumber, this.spanInputCardNumber]);
-    this.customElement.addChildren(divInputCardNumberDate, [this.InputCardNumberDate, this.spanCardNumberDate]);
-    this.customElement.addChildren(divInputCardNumberCVV, [this.InputCardNumberCVV, this.spanCardNumberCVV]);
+    this.customElement.addChildren(divInputCardNumber, [this.inputCardNumber, this.spanInputCardNumber]);
+    this.customElement.addChildren(divInputCardNumberDate, [this.inputCardNumberDate, this.spanCardNumberDate]);
+    this.customElement.addChildren(divInputCardNumberCVV, [this.inputCardNumberCVV, this.spanCardNumberCVV]);
 
     // Создание creditInputCardNumber
     const creditInputImage = this.customElement.createElement('div', { className: 'creditInput__image' });
@@ -142,12 +141,12 @@ class ViewValidation {
     this.confirmButton.addEventListener('click', (e) => {
       e.preventDefault()
       if ([this.isValidInputName(),
-      this.isValidInputPhone(),
-      this.isValidInputAdress(),
-      this.isValidInputInputMail(),
-      this.isValidInputCardNumber(),
-      this.isValidInputCardNumberDate(),
-      this.isValidInputCardNumberCVV()].every((item) => item)) {
+        this.isValidInputPhone(),
+        this.isValidInputAdress(),
+        this.isValidInputInputMail(),
+        this.isValidInputCardNumber(),
+        this.isValidInputCardNumberDate(),
+        this.isValidInputCardNumberCVV()].every((item) => item)) {
         localStorage.removeItem('BascetLocalStorage');
         this.confirmButton.disabled = true
         this.confirmButton.textContent = 'Order paid'
@@ -157,62 +156,61 @@ class ViewValidation {
       }
     });
 
-
-    this.InputName.addEventListener('keyup', () => {
-      this.InputName.value = this.InputName.value.replace(/[^a-z^A-Z\s^А-ЯЁ^а-яё]/g, "")
+    this.inputName.addEventListener('keyup', () => {
+      this.inputName.value = this.inputName.value.replace(/[^a-z^A-Z\s^А-ЯЁ^а-яё]/g, "")
       if (this.isValidInputName()) {
-        this.InputName.style.borderColor = 'green';
+        this.inputName.style.borderColor = 'green';
       } else {
-        this.InputName.style.borderColor = 'red';
+        this.inputName.style.borderColor = 'red';
       }
-      if (this.InputName.value.length === 0) {
+      if (this.inputName.value.length === 0) {
         this.spanDataInputName.textContent = '';
-        this.InputName.style.borderColor = 'black';
+        this.inputName.style.borderColor = 'black';
       }
     })
 
-    this.InputPhone.addEventListener('keyup', () => {
-      this.InputPhone.value = this.InputPhone.value.replace(/[^0-9+]/g, '')
+    this.inputPhone.addEventListener('keyup', () => {
+      this.inputPhone.value = this.inputPhone.value.replace(/[^0-9+]/g, '')
       if (this.isValidInputPhone()) {
-        this.InputPhone.style.borderColor = 'green';
+        this.inputPhone.style.borderColor = 'green';
       } else {
-        this.InputPhone.style.borderColor = 'red';
+        this.inputPhone.style.borderColor = 'red';
       }
-      if (this.InputPhone.value.length === 0) {
+      if (this.inputPhone.value.length === 0) {
         this.spanDataInputPhone.textContent = '';
-        this.InputPhone.style.borderColor = 'black';
+        this.inputPhone.style.borderColor = 'black';
       }
     })
 
-    this.InputAdress.addEventListener('keyup', () => {
+    this.inputAdress.addEventListener('keyup', () => {
       if (this.isValidInputAdress()) {
-        this.InputAdress.style.borderColor = 'green';
+        this.inputAdress.style.borderColor = 'green';
       } else {
-        this.InputAdress.style.borderColor = 'red';
+        this.inputAdress.style.borderColor = 'red';
       }
-      if (this.InputAdress.value.length === 0) {
+      if (this.inputAdress.value.length === 0) {
         this.spanDataInputAdress.textContent = '';
-        this.InputAdress.style.borderColor = 'black';
+        this.inputAdress.style.borderColor = 'black';
       }
     })
 
-    this.InputMail.addEventListener('keyup', () => {
+    this.inputMail.addEventListener('keyup', () => {
       if (this.isValidInputInputMail()) {
-        this.InputMail.style.borderColor = 'green';
+        this.inputMail.style.borderColor = 'green';
       } else {
-        this.InputMail.style.borderColor = 'red';
+        this.inputMail.style.borderColor = 'red';
       }
-      if (this.InputMail.value.length === 0) {
+      if (this.inputMail.value.length === 0) {
         this.spanDataInputMail.textContent = '';
-        this.InputMail.style.borderColor = 'black';
+        this.inputMail.style.borderColor = 'black';
       }
     })
 
-    this.InputCardNumber.addEventListener('input', () => {
-      const length = this.InputCardNumber.value.length;
-      this.InputCardNumber.value = this.InputCardNumber.value.replace(/[^0-9+]/g, '')
+    this.inputCardNumber.addEventListener('input', () => {
+      const length = this.inputCardNumber.value.length;
+      this.inputCardNumber.value = this.inputCardNumber.value.replace(/[^0-9+]/g, '')
 
-      const fiкstLetter = this.InputCardNumber.value[0] ? this.InputCardNumber.value[0].toString() : ''
+      const fiкstLetter = this.inputCardNumber.value[0] ? this.inputCardNumber.value[0].toString() : ''
 
       switch (fiкstLetter) {
         case '3':
@@ -234,64 +232,64 @@ class ViewValidation {
       }
 
       if (length > 16) {
-        this.InputCardNumber.value = this.InputCardNumber.value.slice(0, 16)
+        this.inputCardNumber.value = this.inputCardNumber.value.slice(0, 16)
       }
       if (this.isValidInputCardNumber()) {
-        this.InputCardNumber.style.borderColor = 'green';
+        this.inputCardNumber.style.borderColor = 'green';
       } else {
-        this.InputCardNumber.style.borderColor = 'red';
+        this.inputCardNumber.style.borderColor = 'red';
       }
-      if (this.InputCardNumber.value.length === 0) {
+      if (this.inputCardNumber.value.length === 0) {
         this.spanInputCardNumber.textContent = '';
-        this.InputCardNumber.style.borderColor = 'black';
+        this.inputCardNumber.style.borderColor = 'black';
       }
     })
 
-    this.InputCardNumberDate.addEventListener('input', () => {
-      const length = this.InputCardNumberDate.value.length;
-      this.InputCardNumberDate.value = this.InputCardNumberDate.value.replace(/[^0-9+/]/g, '')
+    this.inputCardNumberDate.addEventListener('input', () => {
+      const length = this.inputCardNumberDate.value.length;
+      this.inputCardNumberDate.value = this.inputCardNumberDate.value.replace(/[^0-9+/]/g, '')
       if (length === 2) {
-        this.InputCardNumberDate.value = this.InputCardNumberDate.value + '/'
+        this.inputCardNumberDate.value = this.inputCardNumberDate.value + '/'
       }
       if (length > 5) {
-        this.InputCardNumberDate.value = this.InputCardNumberDate.value.slice(0, 5)
+        this.inputCardNumberDate.value = this.inputCardNumberDate.value.slice(0, 5)
       }
       if (this.isValidInputCardNumberDate()) {
-        this.InputCardNumberDate.style.borderColor = 'green';
+        this.inputCardNumberDate.style.borderColor = 'green';
       } else {
-        this.InputCardNumberDate.style.borderColor = 'red';
+        this.inputCardNumberDate.style.borderColor = 'red';
       }
-      if (this.InputCardNumberDate.value.length === 0) {
+      if (this.inputCardNumberDate.value.length === 0) {
         this.spanCardNumberDate.textContent = '';
-        this.InputCardNumberDate.style.borderColor = 'black';
+        this.inputCardNumberDate.style.borderColor = 'black';
       }
     })
 
-    this.InputCardNumberCVV.addEventListener('keyup', () => {
-      this.InputCardNumberCVV.value = this.InputCardNumberCVV.value.replace(/[^0-9]/g, '')
-      if (this.InputCardNumberCVV.value.length > 3) {
-        this.InputCardNumberCVV.value = this.InputCardNumberCVV.value.slice(0, 3)
+    this.inputCardNumberCVV.addEventListener('keyup', () => {
+      this.inputCardNumberCVV.value = this.inputCardNumberCVV.value.replace(/[^0-9]/g, '')
+      if (this.inputCardNumberCVV.value.length > 3) {
+        this.inputCardNumberCVV.value = this.inputCardNumberCVV.value.slice(0, 3)
       }
       if (this.isValidInputCardNumberCVV()) {
-        this.InputCardNumberCVV.style.borderColor = 'green';
+        this.inputCardNumberCVV.style.borderColor = 'green';
       } else {
-        this.InputCardNumberCVV.style.borderColor = 'red';
+        this.inputCardNumberCVV.style.borderColor = 'red';
       }
-      if (this.InputCardNumberCVV.value.length === 0) {
+      if (this.inputCardNumberCVV.value.length === 0) {
         this.spanCardNumberCVV.textContent = '';
-        this.InputCardNumberCVV.style.borderColor = 'black';
+        this.inputCardNumberCVV.style.borderColor = 'black';
       }
     })
   }
 
   setDefauldValueInputs() {
-    this.InputName.value = '';
-    this.InputPhone.value = '';
-    this.InputAdress.value = '';
-    this.InputMail.value = '';
-    this.InputCardNumber.value = '';
-    this.InputCardNumberDate.value = '';
-    this.InputCardNumberCVV.value = ''
+    this.inputName.value = '';
+    this.inputPhone.value = '';
+    this.inputAdress.value = '';
+    this.inputMail.value = '';
+    this.inputCardNumber.value = '';
+    this.inputCardNumberDate.value = '';
+    this.inputCardNumberCVV.value = ''
   }
 
   setDefauldTextSpanError() {
@@ -305,7 +303,7 @@ class ViewValidation {
   }
 
   isValidInputName() {
-    const array = this.InputName.value.split(' ').filter(item => item)
+    const array = this.inputName.value.split(' ').filter(item => item)
     if (array.length > 1 && array.every(item => item.length > 2)) {
       this.spanDataInputName.textContent = '';
       return true
@@ -314,10 +312,10 @@ class ViewValidation {
     return false
   }
 
-  isValidInputPhone(inputPhone = this.InputPhone.value) {
+  isValidInputPhone(inputPhone = this.inputPhone.value) {
     if ((inputPhone[0] === '+') &&
-      (inputPhone.length > 9) &&
-      (inputPhone.replace(/['+']/g, '').length === (inputPhone.length - 1))) {
+        (inputPhone.length > 9) &&
+        (inputPhone.replace(/['+']/g, '').length === (inputPhone.length - 1))) {
       this.spanDataInputPhone.textContent = '';
       return true
     }
@@ -326,7 +324,7 @@ class ViewValidation {
   }
 
   isValidInputAdress() {
-    const array = this.InputAdress.value.split(' ').filter(item => item)
+    const array = this.inputAdress.value.split(' ').filter(item => item)
     if (array.length > 2 && array.every(item => item.length > 4)) {
       this.spanDataInputAdress.textContent = '';
       return true
@@ -337,7 +335,7 @@ class ViewValidation {
 
   isValidInputInputMail() {
     const EMAIL_REGEXP = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
-    if (EMAIL_REGEXP.test(this.InputMail.value)) {
+    if (EMAIL_REGEXP.test(this.inputMail.value)) {
       this.spanDataInputMail.textContent = '';
       return true
     }
@@ -347,7 +345,7 @@ class ViewValidation {
 
   isValidInputCardNumber() {
     const CardNumber_REGEXP = /(\d{4}([-]|)\d{4}([-]|)\d{4}([-]|)\d{4})/;
-    if (CardNumber_REGEXP.test(this.InputCardNumber.value)) {
+    if (CardNumber_REGEXP.test(this.inputCardNumber.value)) {
       this.spanInputCardNumber.textContent = '';
       return true
     }
@@ -358,9 +356,9 @@ class ViewValidation {
   isValidInputCardNumberDate() {
     const CardNumberDate_REGEXP = /^(0[1-9]|1[0-2])\/([0-9]{2})/;
 
-    if (CardNumberDate_REGEXP.test(this.InputCardNumberDate.value)
-      &&
-      +this.InputCardNumberDate.value.split('/')[1] > 22
+    if (CardNumberDate_REGEXP.test(this.inputCardNumberDate.value)
+        &&
+        +this.inputCardNumberDate.value.split('/')[1] > 22
     ) {
       this.spanCardNumberDate.textContent = '';
       return true
@@ -371,7 +369,7 @@ class ViewValidation {
 
   isValidInputCardNumberCVV() {
     const CardNumberCVV_REGEXP = /^\d{3}$/;
-    if (CardNumberCVV_REGEXP.test(this.InputCardNumberCVV.value)) {
+    if (CardNumberCVV_REGEXP.test(this.inputCardNumberCVV.value)) {
       this.spanCardNumberCVV.textContent = '';
       return true
     }

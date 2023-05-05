@@ -142,7 +142,6 @@ class ViewBasketPage {
       </div>`
       return createElement(notFound)
     }
-    // const pageMainBasket = this.customElement.createElement('div', { className: 'page-main-basket _main-container' });
     const popupWrapper = this.customElement.createElement('div', { className: 'popup-wrapper' });
     const mainBasket = this.customElement.createElement('section', { className: 'main-basket _container' });
     this.customElement.addChildren(this.pageMainBasket, [popupWrapper, mainBasket]);
