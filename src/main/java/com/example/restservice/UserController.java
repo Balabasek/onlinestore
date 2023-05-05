@@ -42,7 +42,7 @@ public class UserController {
         try {
             return userService.changePassword(changeUserPasswordDto);
         } catch (Exception e) {
-            System.err.println("Error occurred while change password in user " + changeUserPasswordDto.getId());
+            System.err.println("Error occurred while change password in user " + changeUserPasswordDto.get_Id());
             System.err.println(e.getMessage());
             Arrays.stream(e.getStackTrace()).toList().forEach(System.err::println);
         }

@@ -1,6 +1,3 @@
-
-
-
 import CustomElement from '../utils/_createCustomElement';
 import visa from './../../assets/img/png/visa.png';
 import defaultPic from './../../assets/img/png/defaultPic.jpg';
@@ -248,9 +245,9 @@ class ViewValidation {
       const length = this.inputCardNumber.value.length;
       this.inputCardNumber.value = this.inputCardNumber.value.replace(/[^0-9+]/g, '')
 
-      const fiкstLetter = this.inputCardNumber.value[0] ? this.inputCardNumber.value[0].toString() : ''
+      const firstLetter = this.inputCardNumber.value[0] ? this.inputCardNumber.value[0].toString() : ''
 
-      switch (fiкstLetter) {
+      switch (firstLetter) {
         case '3':
           this.creditInputImage.src = maestro
           break;

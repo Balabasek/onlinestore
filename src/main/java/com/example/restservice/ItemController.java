@@ -1,5 +1,6 @@
 package com.example.restservice;
 
+import com.example.dtos.item.CreateItemDto;
 import com.example.dtos.item.DeleteItemDto;
 import com.example.dtos.item.UpdateStockItemsDto;
 import com.example.model.Item;
@@ -36,9 +37,9 @@ public class ItemController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Item createItem(@RequestBody Item item) {
+    public Item createItem(@RequestBody CreateItemDto createItemDto) {
         try {
-            return itemService.createNewItem(item);
+            return itemService.createNewItem(createItemDto);
         } catch (Exception e) {
             System.err.println("Error occurred while create new item!");
             System.err.println(e.getMessage());
@@ -52,7 +53,7 @@ public class ItemController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public DeleteItemDto deleteItem(@PathVariable(value = "itemId") String id) {
+    public DeleteItemDto deleteItem(@PathVariable(value = "itemId") long id) {
         try {
             return itemService.deleteItem(id);
         } catch (Exception e) {

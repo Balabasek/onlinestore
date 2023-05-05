@@ -1,7 +1,7 @@
 import CustomElement from '../utils/_createCustomElement';
 import { IitemDATA } from '../typingTS/_interfaces';
-import { createElement } from '../utils/utils';
-import { IBascetLocalStorage} from '../typingTS/_interfaces';
+import { createElement, getLocalStorageValue } from '../utils/utils';
+import { IBascetLocalStorage } from '../typingTS/_interfaces';
 
 class ViewItemCardPage {
   customElement: CustomElement;
@@ -16,12 +16,7 @@ class ViewItemCardPage {
   EVENT: { [x: string]: Event }
 
   constructor(product: IitemDATA) {
-    const readlocalStorage = localStorage.getItem('BascetLocalStorage')
-    if (readlocalStorage) {
-      this.BascetLocalStorage = JSON.parse(readlocalStorage)
-    } else {
-      this.BascetLocalStorage = []
-    }
+    this.BascetLocalStorage = getLocalStorageValue('BascetLocalStorage');
 
     this.startServerProduct = product;
     this.customElement = new CustomElement();
@@ -182,12 +177,7 @@ class ViewItemCardPage {
   }
 
   updateBascetFROMLocalStorage() {
-    const readlocalStorage = localStorage.getItem('BascetLocalStorage')
-    if (readlocalStorage) {
-      this.BascetLocalStorage = JSON.parse(readlocalStorage)
-    } else {
-      this.BascetLocalStorage = []
-    }
+    this.BascetLocalStorage = getLocalStorageValue('BascetLocalStorage');
   }
 
   addProductForButton(event: Event) {
