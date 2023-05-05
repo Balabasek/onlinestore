@@ -26,3 +26,5 @@ hs_err_pid*
 node
 target
 /front/dist/
+front/package-lock.json
+/OnlineStore.iml
