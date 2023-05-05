@@ -20,6 +20,7 @@ import CustomElement from '../utils/_createCustomElement';
 import FormatURL from '../utils/_formatUrl';
 import * as noUiSlider from 'nouislider';
 import 'nouislider/dist/nouislider.css';
+import { getLocalStorageValue, getLocalStoragePromo } from '../utils/utils';
 
 class ControllerMain {
 
@@ -70,23 +71,10 @@ class ControllerMain {
 
   constructor() {
 
-    const readlocalStorage = localStorage.getItem('BascetLocalStorage')
-    if (readlocalStorage) {
-      this.BascetLocalStorage = JSON.parse(readlocalStorage)
-    } else {
-      this.BascetLocalStorage = []
-    }
+    this.BascetLocalStorage = getLocalStorageValue('BascetLocalStorage');
 
     // Значение для количества промокодов
-    const readlocalStoragePromoCount = localStorage.getItem('listPromo')
-    if (readlocalStoragePromoCount) {
-      this.promocodeInfo = JSON.parse(readlocalStoragePromoCount);
-    } else {
-      this.promocodeInfo = {
-        count: 0,
-        list: []
-      };
-    }
+    this.promocodeInfo = getLocalStoragePromo('listPromo');
 
     this.customElement = new CustomElement();
     this._formatURL = new FormatURL();
@@ -162,7 +150,6 @@ class ControllerMain {
     };
 
   }
-
   // Конец конструктора
 
   // МЕТОД добавления и удаления  ПО ID из КОРЗИНЫ
@@ -236,7 +223,7 @@ class ControllerMain {
 
     if (document.querySelector('.noUi-base') === null) {
       this.fnSliderPrice(); // Создание noUISlider на цену
-      this.fnSliderStock(); // Создание noUISlider на количество 
+      this.fnSliderStock(); // Создание noUISlider на количество
 
     } else {
       (this.ViewMainPAGE.silderPrice as noUiSlider.target).noUiSlider?.destroy();
@@ -285,24 +272,11 @@ class ControllerMain {
 
 
   updateBascetFROMLocalStorage() {
-    const readlocalStorage = localStorage.getItem('BascetLocalStorage')
-    if (readlocalStorage) {
-      this.BascetLocalStorage = JSON.parse(readlocalStorage)
-    } else {
-      this.BascetLocalStorage = []
-    }
+    this.BascetLocalStorage = getLocalStorageValue('BascetLocalStorage');
   }
 
   updatePromoFROMLocalStorage() {
-    const readlocalStoragePromoCount = localStorage.getItem('listPromo')
-    if (readlocalStoragePromoCount) {
-      this.promocodeInfo = JSON.parse(readlocalStoragePromoCount);
-    } else {
-      this.promocodeInfo = {
-        count: 0,
-        list: []
-      };
-    }
+    this.promocodeInfo = getLocalStoragePromo('listPromo');
   }
 
   // Метод получения товаров в корзину по Списку из ЛОКАЛ СТОРИДЖ
@@ -410,7 +384,6 @@ class ControllerMain {
 
     })
 
-
     // Клик по корзине из Хедера и запуск страницы корзины
     this.BODY.addEventListener('clickOnBacket', () => {
       const basketObject = {
@@ -434,7 +407,7 @@ class ControllerMain {
 
 
     // Клик по карточке для запуска страницы продукта из Мейна
-    this.MAIN.addEventListener('clickOnСardListMain', (e) => {
+    this.MAIN.addEventListener('clickOnCardListMain', (e) => {
       const target = e.target as HTMLElement;
       const id = target.id
       this.MAIN.innerHTML = ''
@@ -506,7 +479,7 @@ class ControllerMain {
   }
 
   updatePromoAdd(event: Event) {
-    // this.updatePromoFROMLocalStorage()
+    this.updatePromoFROMLocalStorage();
     const target = event.target as HTMLElement;
     const summaryInfo = target.closest('.summaryInfo');
     const currentCodeElement = summaryInfo?.querySelector('.summaryInfo__search');
@@ -523,7 +496,7 @@ class ControllerMain {
   }
 
   updatePromoRemove(event: Event) {
-    // this.updatePromoFROMLocalStorage()
+    this.updatePromoFROMLocalStorage();
     const target = event.target as HTMLElement;
     const targetItem = target.closest('.promoItem');
     const targetCode = targetItem?.querySelector('.promoItem__text');
@@ -561,10 +534,10 @@ class ControllerMain {
         start: [this.priceOfFILTER[0], this.priceOfFILTER[1]],
         tooltips: true,
         format: {
-          to: function (value) {
+          to: function (value: string | number) {
             return Math.ceil(+value);
           },
-          from: function (value) {
+          from: function (value: string | number) {
             return Math.ceil(+value);
           }
         },
@@ -584,8 +557,8 @@ class ControllerMain {
             inputs[handle].textContent = String(Math.round(Number(values[handle])));
           });
 
-      (this.ViewMainPAGE.silderPrice as noUiSlider.target).noUiSlider?.on('set', (values) => {
-        const valueArray = values.map(el => Math.round(+el))
+      (this.ViewMainPAGE.silderPrice as noUiSlider.target).noUiSlider?.on('set', (values: (string | number)[]) => {
+        const valueArray = values.map((el: string | number) => Math.round(+el))
         this.MODEL.setPriceOfFILTER(valueArray)
         this.rerenderMainPageComponents()
         this.pushStateFilter()
@@ -604,11 +577,11 @@ class ControllerMain {
         start: [this.stockOfFILTER[0], this.stockOfFILTER[1]],
         tooltips: true,
         format: {
-          to: function (value) {
+          to: function (value: string | number) {
             return Math.ceil(+value);
           },
 
-          from: function (value) {
+          from: function (value: string | number) {
             return Math.ceil(+value);
           }
         },
@@ -628,8 +601,8 @@ class ControllerMain {
 
           });
 
-      (this.ViewMainPAGE.silderStock as noUiSlider.target).noUiSlider?.on('set', (values) => {
-        const valueArray = values.map(el => Math.round(+el))
+      (this.ViewMainPAGE.silderStock as noUiSlider.target).noUiSlider?.on('set', (values: (string | number)[]) => {
+        const valueArray = values.map((el: string | number) => Math.round(+el))
 
         this.MODEL.setStockOfFILTER(valueArray)
         this.rerenderMainPageComponents()

@@ -1,7 +1,7 @@
 import CustomElement from '../utils/_createCustomElement';
 import { numberArrayObject } from '../typingTS/_type';
 import { IitemDATA } from '../typingTS/_interfaces'
-import { createElement } from '../utils/utils';
+import { createElement, getLocalStorageValue } from '../utils/utils';
 import { IBascetLocalStorage } from '../typingTS/_interfaces';
 
 class ViewMainPage {
@@ -45,12 +45,7 @@ class ViewMainPage {
               startViewOfFILTER: string[],
   ) {
 
-    const readlocalStorage = localStorage.getItem('BascetLocalStorage')
-    if (readlocalStorage) {
-      this.BascetLocalStorage = JSON.parse(readlocalStorage)
-    } else {
-      this.BascetLocalStorage = []
-    }
+    this.BascetLocalStorage = getLocalStorageValue('BascetLocalStorage');
 
     this.startServerData = startServerData;
     this.startCategoryData = startCategoryData;
@@ -83,7 +78,6 @@ class ViewMainPage {
     this.viewSort = this.customElement.createElement('select', { className: 'view__sort', name: 'sort', placeholder: 'Sorting', id: "sorting" }) as HTMLSelectElement; // Сортировка
     this.findCount = this.customElement.createElement('span', { className: 'view__find-count-span', textContent: `${this.startServerData.length}` }); // Число найденных совпадений
     this.viewSearch = this.customElement.createElement('input', { className: 'view__search', type: 'search', placeholder: 'Search product' }); // Поиск
-    //------Right Bottom------//
     this.cardList = this.customElement.createElement('div', { className: 'right__list cardlist' }); // Контейнер с карточками
 
     this.EVENT = {
@@ -91,11 +85,11 @@ class ViewMainPage {
       clickOnBrandMain: new Event('clickOnBrandMain', { bubbles: true }),
       changeOnSearchMain: new Event('changeOnSearchMain', { bubbles: true }),
       choiceOnSortMain: new Event('choiceOnSortMain', { bubbles: true }),// в процессе
-      clickOnСardListMain: new Event('clickOnСardListMain', { bubbles: true }),// Клик на контейнере с Карточками
+      clickOnCardListMain: new Event('clickOnCardListMain', { bubbles: true }),// Клик на контейнере с Карточками
       clickOnProductAddInBascetMain: new Event('clickOnProductAddInBascetMain', { bubbles: true }),// Клик на кнопке добавить с Карточками
       clickOnbuttonResetMain: new Event('clickOnbuttonResetMain', { bubbles: true }),// Клик на кнопке сброса
-      clickOnbuttonViewBlockMain: new Event('clickOnbuttonViewBlockMain', { bubbles: true }),// Клик на кнопке больших карточек
     }
+
     this.listenersMainPage();
   }
 
@@ -167,9 +161,6 @@ class ViewMainPage {
     this.findCount.textContent = `${startServerData.length}`
     this.customElement.addChildren(viewFindCount, [this.findCount]);
 
-    // Добавление в правый вернхнюю правую секцию
-    this.customElement.addChildren(rightView, [this.viewSort, viewFindCount, this.viewSearch]);
-
     // Создание ПРАВОЙ НИЖНЕЙ СЕКЦИИ!!!
     this.customElement.addChildren(mainRight, [this.cardList]);
 
@@ -183,7 +174,6 @@ class ViewMainPage {
   }
 
   listenersMainPage() {
-
     this.filterCategoryMain.addEventListener('click', (e) => {
       const target = e.target as HTMLElement;
       if (target.getAttribute('type') === "checkbox") {
@@ -210,7 +200,7 @@ class ViewMainPage {
       const card = target.closest('.cardlist__item')
       const addToCard = target.closest('._btn_add-to-card')
       if (card && !addToCard) {
-        card.dispatchEvent(this.EVENT.clickOnСardListMain)
+        card.dispatchEvent(this.EVENT.clickOnCardListMain)
       } else {
         addToCard?.dispatchEvent(this.EVENT.clickOnProductAddInBascetMain);
         this.addProductForButton(e);
@@ -389,12 +379,7 @@ class ViewMainPage {
   }
 
   updateBascetFROMLocalStorage() {
-    const readlocalStorage = localStorage.getItem('BascetLocalStorage')
-    if (readlocalStorage) {
-      this.BascetLocalStorage = JSON.parse(readlocalStorage)
-    } else {
-      this.BascetLocalStorage = []
-    }
+    this.BascetLocalStorage = getLocalStorageValue('BascetLocalStorage');
   }
 
   addProductForButton(event: Event) {
