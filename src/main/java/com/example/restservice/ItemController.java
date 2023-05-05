@@ -53,7 +53,7 @@ public class ItemController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public DeleteItemDto deleteItem(@PathVariable(value = "itemId") String id) {
+    public DeleteItemDto deleteItem(@PathVariable(value = "itemId") long id) {
         try {
             return itemService.deleteItem(id);
         } catch (Exception e) {

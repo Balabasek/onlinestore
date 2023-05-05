@@ -34,7 +34,7 @@ public class ItemService {
         return itemRepository.save(item);
     }
 
-    public DeleteItemDto deleteItem(String itemId) {
+    public DeleteItemDto deleteItem(long itemId) {
         Item deletedItem = itemRepository.deleteItemById(itemId);
 
         return new DeleteItemDto(deletedItem.getUniqId(), deletedItem.getTitle(), deletedItem.getCategory());
@@ -62,11 +62,14 @@ public class ItemService {
         for (UpdateStockItemsDto dto : updateStockItemsDto) {
             Item item = itemRepository.findItemById(dto.getId());
             if (item == null) {
-                System.out.println("Item " + dto.getId() + " not found!");
+                System.out.println("Item " + dto.get_Id() + " not found!");
                 continue;
             }
 
-            if (item.getStock() >= dto.getCount() && dto.isBuy()) {
+            if (dto.isBuy()) {
+                if (item.getStock() < dto.getCount() ) {
+                    return "Нет в наличии!";
+                }
                 item.setStock(item.getStock() - dto.getCount());
                 itemRepository.save(item);
             } else {

@@ -30,7 +30,7 @@ public class UserService {
     }
 
     public String changePassword(ChangeUserPasswordDto changeUserPasswordDto) {
-        User user = userRepository.findUserById(changeUserPasswordDto.getId());
+        User user = userRepository.findUserById(changeUserPasswordDto.get_Id());
         if (user != null) {
             if (user.getPassword().equals(changeUserPasswordDto.getNewPassword())) {
                 return "New password equals old password";
@@ -38,13 +38,13 @@ public class UserService {
                 user.setPassword(changeUserPasswordDto.getNewPassword());
             }
         } else {
-            return "User " + changeUserPasswordDto.getId() + " not found!";
+            return "User " + changeUserPasswordDto.get_Id() + " not found!";
         }
         return "OK!";
     }
 
     public User deleteUser(DeleteUserDto deleteUserDto) {
-        User user = userRepository.deleteUsersById(deleteUserDto.getId());
+        User user = userRepository.deleteUsersById(deleteUserDto.get_Id());
         System.out.println("User " + user.getFirstName() + user.getSecondName() + user.getMiddleName() + " deleted");
 
         return user;

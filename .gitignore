@@ -28,3 +28,4 @@ target
 /front/dist/
 front/package-lock.json
 /OnlineStore.iml
+/front/src/components/DATA/_products.ts
