@@ -1,17 +1,10 @@
-package com.example.model;
+package com.example.dtos.item;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import com.example.dtos.base.BaseDto;
 
 import java.util.List;
-import java.util.UUID;
 
-@Document
-public class Item {
-    @Id
-    private String uniqId;
-    private long id;
+public class CreateItemDto extends BaseDto {
     private String title;
     private String description;
     private double price;
@@ -21,12 +14,11 @@ public class Item {
     private String brand;
     private String category;
     private String thumbnail;
-    @JsonFormat(shape = JsonFormat.Shape.ARRAY)
+
     private List<String> images;
 
-    public Item(long id, String title, String description, double price, double discountPercentage, double rating, long stock, String brand, String category, String thumbnail, List<String> images) {
-        this.id = id;
-        this.uniqId = UUID.randomUUID().toString();
+    public CreateItemDto(String id, String title, String description, double price, double discountPercentage, double rating, long stock, String brand, String category, String thumbnail, List<String> images) {
+        super(id);
         this.title = title;
         this.description = description;
         this.price = price;
@@ -53,6 +45,14 @@ public class Item {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public double getDiscountPercentage() {
@@ -87,22 +87,6 @@ public class Item {
         this.brand = brand;
     }
 
-    public String getUniqId() {
-        return uniqId;
-    }
-
-    public void setUniqId(String uniqId) {
-        this.uniqId = uniqId;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
     public String getCategory() {
         return category;
     }
@@ -125,13 +109,5 @@ public class Item {
 
     public void setImages(List<String> images) {
         this.images = images;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 }

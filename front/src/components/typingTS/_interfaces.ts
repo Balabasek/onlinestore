@@ -1,4 +1,5 @@
 interface IitemDATA {
+    uniqId: string;
     id: number;
     title: string;
     description: string;
