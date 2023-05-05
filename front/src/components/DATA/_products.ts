@@ -3,7 +3,8 @@ import { IitemDATA } from "../typingTS/_interfaces";
 export const products: Array<IitemDATA> = 
 [
   {
-    "id": "3640cbaa-21f0-424b-b897-0f7978dc8f1e",
+    "uniqId": "e9a7656b-c24b-49b9-b39f-a8cdcc407e3a",
+    "id": 1,
     "title": "iPhone 10",
     "description": "An apple mobile which is nothing like apple",
     "price": 549.0,
@@ -22,7 +23,8 @@ export const products: Array<IitemDATA> =
     ]
   },
   {
-    "id": "335e5fd8-cda5-4c2d-8045-faac934c9aaf",
+    "uniqId": "34c3da3b-b927-4801-a0f4-a3e46ca6aba1",
+    "id": 2,
     "title": "iPhone 9",
     "description": "An apple mobile which is nothing like apple",
     "price": 549.0,

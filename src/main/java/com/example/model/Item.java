@@ -10,7 +10,8 @@ import java.util.UUID;
 @Document
 public class Item {
     @Id
-    private String id;
+    private String uniqId;
+    private long id;
     private String title;
     private String description;
     private double price;
@@ -23,8 +24,9 @@ public class Item {
     @JsonFormat(shape = JsonFormat.Shape.ARRAY)
     private List<String> images;
 
-    public Item(String title, String description, double price, double discountPercentage, double rating, long stock, String brand, String category, String thumbnail, List<String> images) {
-        this.id = UUID.randomUUID().toString();
+    public Item(long id, String title, String description, double price, double discountPercentage, double rating, long stock, String brand, String category, String thumbnail, List<String> images) {
+        this.id = id;
+        this.uniqId = UUID.randomUUID().toString();
         this.title = title;
         this.description = description;
         this.price = price;
@@ -85,12 +87,12 @@ public class Item {
         this.brand = brand;
     }
 
-    public String getId() {
-        return id;
+    public String getUniqId() {
+        return uniqId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setUniqId(String uniqId) {
+        this.uniqId = uniqId;
     }
 
     public double getPrice() {
@@ -123,5 +125,13 @@ public class Item {
 
     public void setImages(List<String> images) {
         this.images = images;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }
