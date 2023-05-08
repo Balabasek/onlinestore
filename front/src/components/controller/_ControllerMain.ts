@@ -511,7 +511,13 @@ class ControllerMain {
     this.updateBascetCountAndTotaPriseHeader();
   }
 
-  updateBascetCountAndTotaPriseHeader() {
+  async updateBascetCountAndTotaPriseHeader() {
+    let response2 = await fetch("http://localhost:8888/itemService/load");
+
+    if (!response2.ok) {
+      alert("Ошибка HTTP: " + response2.status);
+    }
+
     this.updateBascetFROMLocalStorage();
     this.updatePromoFROMLocalStorage();
 

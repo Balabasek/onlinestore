@@ -37,7 +37,6 @@ class ViewValidation {
     const readlocalStorage = localStorage.getItem('BascetLocalStorage')
     if (readlocalStorage) {
       this.BascetLocalStorage = JSON.parse(readlocalStorage)
-      console.log(this.BascetLocalStorage);
     } else {
       this.BascetLocalStorage = []
     }
@@ -148,6 +147,15 @@ class ViewValidation {
 
     this.confirmButton.addEventListener('click', async (e) => {
       e.preventDefault()
+      const readlocalStorage = localStorage.getItem('BascetLocalStorage')
+      if (readlocalStorage) {
+        this.BascetLocalStorage = JSON.parse(readlocalStorage)
+      } else {
+        this.BascetLocalStorage = []
+      }
+      const basketitems = [...this.BascetLocalStorage];
+      console.log(this.BascetLocalStorage);
+      console.log(basketitems);
       if ([this.isValidInputName(),
         this.isValidInputPhone(),
         this.isValidInputAdress(),
@@ -155,40 +163,41 @@ class ViewValidation {
         this.isValidInputCardNumber(),
         this.isValidInputCardNumberDate(),
         this.isValidInputCardNumberCVV()].every((item) => item)) {
+        const requestBody = {
+          items: basketitems.map(item => ({
+            id: item.id,
+            isBuy: true,
+            count: item.count
+          }))
+        };
+        console.log(requestBody);
+        const settings = {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(requestBody.items)
+        };
         localStorage.removeItem('BascetLocalStorage');
         this.confirmButton.disabled = true
         this.confirmButton.textContent = 'Order paid'
-        for (let i = 0; i < this.BascetLocalStorage.length; i++) {
-          const settings = {
-            method: 'POST',
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-            },
-            body: {
-              id: this.BascetLocalStorage[i].id,
-              isBuy: true,
-              count: this.BascetLocalStorage[i].count
-            }
-          };
 
-          let response = await fetch("localhost:8888/itemService/updateStockItems");
+        const response = await fetch("http://localhost:8888/itemService/updateStockItems", settings);
 
-          if (!response.ok) {
-            alert("Ошибка HTTP: " + response.status);
-          }
+        if (!response.ok) {
+          alert("Ошибка HTTP: " + response.status);
         }
-
-        let response2 = await fetch("localhost:8888/itemService/load");
-
-        if (!response2.ok) {
-          alert("Ошибка HTTP: " + response2.status);
-        }
-
-        setTimeout(() => {
-          this.confirmButton.dispatchEvent(this.EVENT.clickOnLogo)
-        }, 3000);
       }
+
+      let response2 = await fetch("http://localhost:8888/itemService/load");
+
+      if (!response2.ok) {
+        alert("Ошибка HTTP: " + response2.status);
+      }
+
+      setTimeout(() => {
+        this.confirmButton.dispatchEvent(this.EVENT.clickOnLogo)
+      }, 3000);
     });
 
     this.inputName.addEventListener('keyup', () => {
