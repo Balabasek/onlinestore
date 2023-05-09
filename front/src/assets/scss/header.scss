@@ -78,6 +78,8 @@
 }
 
 .header__total {
+  margin-left: auto;
+  margin-right: auto;
   color: #FFF;
 }
 
@@ -169,6 +171,14 @@
 }
 
 .header__basket {
+  left: -25px;
+  position: relative;
+  cursor: pointer;
+}
+
+.header__login {
+  right: -4px;
+  bottom: -2px;
   position: relative;
   cursor: pointer;
 }

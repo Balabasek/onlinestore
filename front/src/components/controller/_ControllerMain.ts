@@ -139,6 +139,10 @@ class ControllerMain {
         name: 'Backet',
         routesPage: this.renderBacket.bind(this)
       },
+      '/login': {
+        name: 'Login',
+        routesPage: this.renderLogin.bind(this)
+      },
       '/validation': {
         name: 'Validation',
         routesPage: this.renderValidation.bind(this)
@@ -270,6 +274,11 @@ class ControllerMain {
     this.updateBascetCountAndTotaPriseHeader()
   }
 
+  renderLogin(name: string = 'Backet') {
+    document.title = `Store - ${name}`;
+    const search = new URLSearchParams(window.location.search);
+  }
+
 
   updateBascetFROMLocalStorage() {
     this.BascetLocalStorage = getLocalStorageValue('BascetLocalStorage');
@@ -393,6 +402,11 @@ class ControllerMain {
       const params: URLSearchParams = this._formatURL.createURLSearchParamsBasket(basketObject)
       window.history.pushState({}, '', `/basket?${params}`)
       this.renderBacket()
+    })
+
+    this.BODY.addEventListener('clickOnLogin', () => {
+      window.history.pushState({}, '', `/login`)
+      this.MAIN.innerHTML = ''
     })
 
 

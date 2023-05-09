@@ -1,10 +1,12 @@
 import CustomElement from '../utils/_createCustomElement';
 import basket from '../../assets/img/png/basket.png';
+import login from '../../assets/img/png/login.png';
 
 class ViewHeader {
   headerTotalPrice: HTMLElement
   headerBasket: HTMLElement
   headerBasketCount: HTMLElement
+  headerLogin: HTMLElement
   logoTitle: HTMLElement
   customElement: CustomElement
   EVENT: { [x: string]: Event }
@@ -12,12 +14,14 @@ class ViewHeader {
   constructor() {
     this.customElement = new CustomElement();
     this.headerTotalPrice = this.customElement.createElement('span', { className: 'header__total-span', textContent: '0' });
+    this.headerLogin = this.customElement.createElement('div', { className: 'header__login' });
     this.headerBasket = this.customElement.createElement('div', { className: 'header__basket' });
     this.headerBasketCount = this.customElement.createElement('span', { className: 'header__basket-count', textContent: '0' });
     this.logoTitle = this.customElement.createElement('h1', { className: 'logo__title', textContent: 'Online Store' });
 
     this.headerListeners();
     this.EVENT = {
+      clickOnLogin: new Event('clickOnLogin', { bubbles: true }),
       clickOnBacket: new Event('clickOnBacket', { bubbles: true }),
       clickOnLogo: new Event('clickOnLogo', { bubbles: true })
     }
@@ -30,12 +34,16 @@ class ViewHeader {
     // Основные секции header
     const headerLogo = this.customElement.createElement('a', { className: 'header__logo logo', href: '#' });
     const headerTotal = this.customElement.createElement('p', { className: 'header__total', textContent: 'Total: $' });
-    this.customElement.addChildren(headerContainer, [headerLogo, headerTotal, this.headerBasket])
+    this.customElement.addChildren(headerContainer, [headerLogo, headerTotal, this.headerBasket, this.headerLogin])
 
     // Заполнение headerLogo
     this.customElement.addChildren(headerLogo, [this.logoTitle]);
     // Заполнение headerTotal
     this.customElement.addChildren(headerTotal, [this.headerTotalPrice]);
+    // Заполнение headerLogin
+    const headerLoginImg = this.customElement.createElement('img', { src: login });
+    this.headerLogin.innerHTML = ''
+    this.customElement.addChildren(this.headerLogin, [headerLoginImg, this.headerBasketCount]);
     // Заполнение headerBasket
     const headerBasketImg = this.customElement.createElement('img', { src: basket });
     this.headerBasket.innerHTML = ''
@@ -53,6 +61,10 @@ class ViewHeader {
   }
 
   headerListeners() {
+    this.headerLogin.addEventListener('click', () => {
+      this.headerLogin.dispatchEvent(this.EVENT.clickOnLogin)
+    })
+
     this.headerBasket.addEventListener('click', () => {
       this.headerBasket.dispatchEvent(this.EVENT.clickOnBacket)
     })
