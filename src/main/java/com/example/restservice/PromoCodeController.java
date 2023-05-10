@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 
 @RestController
+@CrossOrigin
 @RequestMapping("promoCodeService")
 public class PromoCodeController {
 	@Autowired
