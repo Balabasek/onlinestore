@@ -430,8 +430,8 @@ class ControllerMain {
         window.history.pushState({}, '', `/userinfo`)
       }else{
         this.MAIN.append(this.ViewLoginPage.create())
-        window.history.pushState({}, '', `/login`)
         this.MAIN.innerHTML = ''
+        window.history.pushState({}, '', `/login`)
       }
     })
 
