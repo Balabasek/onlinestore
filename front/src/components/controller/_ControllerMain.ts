@@ -425,9 +425,9 @@ class ControllerMain {
 
     this.BODY.addEventListener('clickOnLogin', () => {
       if(!localStorage.getItem("token")){
+        this.MAIN.innerHTML = ''
         this.MAIN.append(this.ViewUserInfoPage.create())
         window.history.pushState({}, '', `/userinfo`)
-        this.MAIN.innerHTML = ''
       }else{
         this.MAIN.append(this.ViewLoginPage.create())
         window.history.pushState({}, '', `/login`)
