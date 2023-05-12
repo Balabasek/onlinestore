@@ -161,6 +161,10 @@ class ControllerMain {
         name: 'Home',
         routesPage: this.renderMainPageFromRouter.bind(this)
       },
+      '/successAuthorization': {
+        name: 'successAuthorization',
+        routesPage: this.renderSuccessAuthorization.bind(this)
+      },
     };
 
   }
@@ -298,6 +302,15 @@ class ControllerMain {
     window.history.pushState({}, '', `/userinfo`)
   }
 
+  async renderSuccessAuthorization(name: string = 'successAuthorization') {
+    document.title = `Store - ${name}`;
+    const searchParams = new URLSearchParams(new URL(window.location.href).search);
+    //localStorage.setItem("token", <string>searchParams.get('code'))
+    const response = await fetch("http://localhost:8888/login/github/callback?code=" + <string>searchParams.get('code'));
+    localStorage.setItem("token", await response.text());
+    document.location.href = "http://localhost:8080/userinfo";
+  }
+
 
   updateBascetFROMLocalStorage() {
     this.BascetLocalStorage = getLocalStorageValue('BascetLocalStorage');
@@ -424,7 +437,7 @@ class ControllerMain {
     })
 
     this.BODY.addEventListener('clickOnLogin', () => {
-      if(!localStorage.getItem("token")){
+      if(localStorage.getItem("token")){
         this.MAIN.innerHTML = ''
         this.MAIN.append(this.ViewUserInfoPage.create())
         window.history.pushState({}, '', `/userinfo`)
