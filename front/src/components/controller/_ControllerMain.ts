@@ -295,10 +295,12 @@ class ControllerMain {
     window.history.pushState({}, '', `/login`)
   }
 
-  renderUserInfo(name: string = 'userInfo') {
+  async renderUserInfo(name: string = 'userInfo') {
     document.title = `Store - ${name}`;
+    // const token = localStorage.getItem("token");
     this.MAIN.innerHTML = ''
-    this.MAIN.append(this.ViewUserInfoPage.create())
+    // const response = await fetch("http://localhost:8888/getUser/" + token);
+    this.MAIN.append(this.ViewUserInfoPage.create('hi'));
     window.history.pushState({}, '', `/userinfo`)
   }
 
@@ -436,14 +438,14 @@ class ControllerMain {
       this.renderBacket()
     })
 
-    this.BODY.addEventListener('clickOnLogin', () => {
-      if(localStorage.getItem("token")){
+    this.BODY.addEventListener('clickOnLogin', async () => {
+      const token = localStorage.getItem("token");
+      if (token != null) {
         this.MAIN.innerHTML = ''
-        this.MAIN.append(this.ViewUserInfoPage.create())
         window.history.pushState({}, '', `/userinfo`)
-      }else{
-        this.MAIN.append(this.ViewLoginPage.create())
+      } else {
         this.MAIN.innerHTML = ''
+        this.MAIN.append(this.ViewLoginPage.create());
         window.history.pushState({}, '', `/login`)
       }
     })
@@ -480,6 +482,13 @@ class ControllerMain {
     this.MAIN.addEventListener('clickGithubLogin', async () => {
       const response = await fetch("http://localhost:8888/login/github");
       document.location.href = await response.text();
+    })
+
+    this.MAIN.addEventListener('clickLogout', async () => {
+      const token = localStorage.getItem("token");
+      await fetch("http://localhost:8888/logout/" + token);
+      localStorage.removeItem("token");
+      document.location.href = "http://localhost:8080/login/";
     })
 
     // Клик по карточке для добавления копии продукта из КОРЗИНЫ

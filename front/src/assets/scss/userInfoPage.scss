@@ -1,6 +1,72 @@
-.userinfo__login{
-  font-size: 48px;
+.userinfo__container{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: auto;
+  height: auto;
+  min-height: 500px;
+  min-width: 400px;
+  max-width: 600px;
+  max-height: 750px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #36376D;
+}
+
+.userinfo__text{
+  position: relative;
+  left: 40%;
+  transform: translate(-55%, -200%);
+  font-size: 30px;
+  color: white;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  max-width: 400px;
+}
+
+.userinfo__nickname{
+  position: relative;
+  font-size: 30px;
+  transform: translate(-50%, -0%);
+  color: white;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  max-width: 400px;
+}
+
+.logout_btn {
+  display: block;
+  font-family: 'Roboto', sans-serif;
+  transform: translate(-70%, 300%);
+  width: 120px;
+  font-size: 14px;
   font-weight: 700;
-  align-self: center;
-  margin: 350px 0;
+  line-height: 22.4px;
+  color: $mainColor;
+  padding: 5px 3px;
+  text-transform: uppercase;
+  border-radius: 25px;
+  transition: all 0.5s;
+  background: rgb(242, 242, 242);
+  border: 1px solid rgb(242, 242, 242);
+  cursor: pointer;
+  &:hover {
+    color: #FFF;
+    border: 1px solid rgb(242, 242, 242);;
+    background: $mainColor;
+  }
+  &:active {
+    background: #4B9200;;
+  }
+  &:disabled {
+    background: $secondColor;
+    opacity: 0.5;
+    cursor: default;
+  }
 }
