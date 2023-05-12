@@ -4,7 +4,7 @@ import com.example.dtos.base.BaseDto;
 
 public class DeletePromoCodeDto extends BaseDto {
 
-    public DeletePromoCodeDto(String id) {
-        super(id);
-    }
+	public DeletePromoCodeDto(String id) {
+		super(id);
+	}
 }

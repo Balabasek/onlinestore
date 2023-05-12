@@ -10,21 +10,21 @@ import java.util.List;
 
 @RestController
 public class GitHubController {
-    @PostMapping("/github/repos")
-    public List<String> getUserRepos(HttpSession httpSession) {
-        String accessToken = (String) httpSession.getAttribute("accessToken");
+	@PostMapping("/github/repos")
+	public List<String> getUserRepos(HttpSession httpSession) {
+		String accessToken = (String) httpSession.getAttribute("accessToken");
 
-        if (accessToken != null) {
-            String githubReposUrl = "https://api.github.com/user/repos";
+		if (accessToken != null) {
+			String githubReposUrl = "https://api.github.com/user/repos";
 
-            RestTemplate restTemplate = new RestTemplate();
-            String[] repos = restTemplate.getForObject(githubReposUrl, String[].class);
+			RestTemplate restTemplate = new RestTemplate();
+			String[] repos = restTemplate.getForObject(githubReposUrl, String[].class);
 
-            if (repos != null) {
-                return Arrays.asList(repos);
-            }
-        }
+			if (repos != null) {
+				return Arrays.asList(repos);
+			}
+		}
 
-        return null;
-    }
+		return null;
+	}
 }

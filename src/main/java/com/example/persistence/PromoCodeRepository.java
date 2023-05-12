@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PromoCodeRepository extends MongoRepository<PromoCode, String> {
-    PromoCode findPromoCodeById(String id);
+	PromoCode findPromoCodeById(String id);
 
-    PromoCode deletePromoCodeById(String id);
+	PromoCode deletePromoCodeById(String id);
 }
