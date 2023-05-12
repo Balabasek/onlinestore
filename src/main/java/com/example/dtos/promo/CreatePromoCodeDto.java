@@ -1,14 +1,11 @@
 package com.example.dtos.promo;
 
-import com.example.dtos.base.BaseDto;
-
-public class CreatePromoCodeDto extends BaseDto {
+public class CreatePromoCodeDto {
     private String name;
     private double discount;
     private long count;
 
-    public CreatePromoCodeDto(String id, String name, double discount, long count) {
-        super(id);
+    public CreatePromoCodeDto(String name, double discount, long count) {
         this.name = name;
         this.discount = discount;
         this.count = count;

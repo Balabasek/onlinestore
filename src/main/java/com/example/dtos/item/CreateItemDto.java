@@ -1,10 +1,8 @@
 package com.example.dtos.item;
 
-import com.example.dtos.base.BaseDto;
-
 import java.util.List;
 
-public class CreateItemDto extends BaseDto {
+public class CreateItemDto {
     private String title;
     private String description;
     private double price;
@@ -17,8 +15,7 @@ public class CreateItemDto extends BaseDto {
 
     private List<String> images;
 
-    public CreateItemDto(String id, String title, String description, double price, double discountPercentage, double rating, long stock, String brand, String category, String thumbnail, List<String> images) {
-        super(id);
+    public CreateItemDto(String title, String description, double price, double discountPercentage, double rating, long stock, String brand, String category, String thumbnail, List<String> images) {
         this.title = title;
         this.description = description;
         this.price = price;
