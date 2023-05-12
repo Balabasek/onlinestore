@@ -1,0 +1,62 @@
+.login__container{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: auto;
+  height: auto;
+  min-height: 500px;
+  min-width: 400px;
+  max-width: 600px;
+  max-height: 750px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #36376D;
+}
+
+.login__text{
+  position: relative;
+  left: 50%;
+  transform: translate(-50%, -100%);
+  font-size: 30px;
+  color: white;
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: clip;
+  text-align: center;
+  max-width: 400px;
+}
+
+.githubbutton {
+  position: fixed;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+}
+
+.githubbutton::before {
+  content: "";
+  background-image: url("./assets/img/svg/github.svg");
+  width: 24px;
+  height: 24px;
+  background-size: cover;
+}
+
+.githubbutton::before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.github__textunder {
+  margin-top: 50px;
+  font-size: 14px;
+  color: white;
+}
+
+

@@ -189,7 +189,7 @@ class ViewValidation {
         }
       }
 
-      let response2 = await fetch("http://localhost:8888/itemService/load");
+      const response2 = await fetch("http://localhost:8888/itemService/load");
 
       if (!response2.ok) {
         alert("Ошибка HTTP: " + response2.status);

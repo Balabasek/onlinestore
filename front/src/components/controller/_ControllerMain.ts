@@ -14,6 +14,8 @@ import ViewBasketPage from '../view/_ViewBasketPage';
 import ViewNotFound from '../view/_ViewNotFoundPage';
 import ViewNotBasket from '../view/_ViewNotBasketPage';
 import ViewValidation from '../view/_ViewValidation';
+import ViewLoginPage from '../view/_ViewLoginPage';
+import ViewUserInfoPage from "../view/_ViewUserInfoPage";
 
 // Служебные программки
 import CustomElement from '../utils/_createCustomElement';
@@ -41,6 +43,8 @@ class ControllerMain {
   ViewFOOTER: ViewFooter;
   ViewItemCardPAGE: ViewItemCardPage;
   ViewBASKETPAGE: ViewBasketPage;
+  ViewUserInfoPage: ViewUserInfoPage;
+  ViewLoginPage: ViewLoginPage;
   ViewNotFound: ViewNotFound;
   ViewNotBasket: ViewNotBasket;
   ViewValidation: ViewValidation;
@@ -119,6 +123,8 @@ class ControllerMain {
     );
     this.ViewItemCardPAGE = new ViewItemCardPage(this.startServerData[0]);
     this.ViewBASKETPAGE = new ViewBasketPage(this.startServerData);
+    this.ViewLoginPage = new ViewLoginPage();
+    this.ViewUserInfoPage = new ViewUserInfoPage();
 
     this.ListenersController()
 
@@ -142,6 +148,10 @@ class ControllerMain {
       '/login': {
         name: 'Login',
         routesPage: this.renderLogin.bind(this)
+      },
+      '/userinfo': {
+        name: 'userinfo',
+        routesPage: this.renderUserInfo.bind(this)
       },
       '/validation': {
         name: 'Validation',
@@ -274,9 +284,18 @@ class ControllerMain {
     this.updateBascetCountAndTotaPriseHeader()
   }
 
-  renderLogin(name: string = 'Backet') {
+  renderLogin(name: string = 'login') {
     document.title = `Store - ${name}`;
-    const search = new URLSearchParams(window.location.search);
+    this.MAIN.innerHTML = ''
+    this.MAIN.append(this.ViewLoginPage.create())
+    window.history.pushState({}, '', `/login`)
+  }
+
+  renderUserInfo(name: string = 'userInfo') {
+    document.title = `Store - ${name}`;
+    this.MAIN.innerHTML = ''
+    this.MAIN.append(this.ViewUserInfoPage.create())
+    window.history.pushState({}, '', `/userinfo`)
   }
 
 
@@ -405,8 +424,15 @@ class ControllerMain {
     })
 
     this.BODY.addEventListener('clickOnLogin', () => {
-      window.history.pushState({}, '', `/login`)
-      this.MAIN.innerHTML = ''
+      if(!localStorage.getItem("token")){
+        this.MAIN.append(this.ViewUserInfoPage.create())
+        window.history.pushState({}, '', `/userinfo`)
+        this.MAIN.innerHTML = ''
+      }else{
+        this.MAIN.append(this.ViewLoginPage.create())
+        window.history.pushState({}, '', `/login`)
+        this.MAIN.innerHTML = ''
+      }
     })
 
 
@@ -436,6 +462,11 @@ class ControllerMain {
       const key: boolean = target.id.split('|')[0] === 'button-buy' ? false : true
       this.updateBascetLocalStorage(id, key)
       this.updateBascetCountAndTotaPriseHeader()
+    })
+
+    this.MAIN.addEventListener('clickGithubLogin', async () => {
+      const response = await fetch("http://localhost:8888/login/github");
+      document.location.href = await response.text();
     })
 
     // Клик по карточке для добавления копии продукта из КОРЗИНЫ
@@ -526,7 +557,7 @@ class ControllerMain {
   }
 
   async updateBascetCountAndTotaPriseHeader() {
-    let response2 = await fetch("http://localhost:8888/itemService/load");
+    const response2 = await fetch("http://localhost:8888/itemService/load");
 
     if (!response2.ok) {
       alert("Ошибка HTTP: " + response2.status);
