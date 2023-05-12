@@ -55,7 +55,7 @@ public class SessionService {
 		}
 	}
 
-	public String deleteSession(String token) throws RuntimeException {
+	public String logout(String token) throws RuntimeException {
 		sessionRepository.deleteSessionByCodeToken(token);
 
 		if (!sessionRepository.existsSessionByCodeToken(token)) {

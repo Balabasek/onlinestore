@@ -47,15 +47,15 @@ public class SessionController {
 	}
 
 	@PostMapping(
-			value = "/delete/{token}",
+			value = "/logout/{token}",
 			consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public String deleteSession(@PathVariable(value = "token") String token) {
 		try {
-			return sessionService.deleteSession(token);
+			return sessionService.logout(token);
 		} catch (Exception e) {
-			System.err.println("Error occurred while delete session!");
+			System.err.println("Error occurred logout!");
 			System.err.println(e.getMessage());
 			Arrays.stream(e.getStackTrace()).toList().forEach(System.err::println);
 		}
