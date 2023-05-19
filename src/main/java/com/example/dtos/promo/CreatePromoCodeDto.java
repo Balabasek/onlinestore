@@ -1,10 +1,13 @@
 package com.example.dtos.promo;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 public class CreatePromoCodeDto {
 	private String name;
 	private double discount;
 	private long count;
 
+	@JsonCreator
 	public CreatePromoCodeDto(String name, double discount, long count) {
 		this.name = name;
 		this.discount = discount;
