@@ -297,10 +297,10 @@ class ControllerMain {
 
   async renderUserInfo(name: string = 'userInfo') {
     document.title = `Store - ${name}`;
-    // const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
     this.MAIN.innerHTML = ''
-    // const response = await fetch("http://localhost:8888/getUser/" + token);
-    this.MAIN.append(this.ViewUserInfoPage.create('hi'));
+    const response = await fetch("http://localhost:8888/sessionService/getUser/" + token);
+    this.MAIN.append(this.ViewUserInfoPage.create(await response.text()));
     window.history.pushState({}, '', `/userinfo`)
   }
 
@@ -442,7 +442,7 @@ class ControllerMain {
       const token = localStorage.getItem("token");
       if (token != null) {
         this.MAIN.innerHTML = ''
-        window.history.pushState({}, '', `/userinfo`)
+        document.location.href = "http://localhost:8080/userinfo";
       } else {
         this.MAIN.innerHTML = ''
         this.MAIN.append(this.ViewLoginPage.create());
@@ -486,9 +486,9 @@ class ControllerMain {
 
     this.MAIN.addEventListener('clickLogout', async () => {
       const token = localStorage.getItem("token");
-      await fetch("http://localhost:8888/logout/" + token);
+      await fetch("http://localhost:8888/sessionService/logout/" + token);
       localStorage.removeItem("token");
-      document.location.href = "http://localhost:8080/login/";
+      document.location.href = "http://localhost:8080/login";
     })
 
     // Клик по карточке для добавления копии продукта из КОРЗИНЫ

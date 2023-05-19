@@ -14,7 +14,7 @@ class ViewUserInfoPage {
         };
     }
 
-    create(stringPromise: string) {
+    create(stringPromise: string | null) {
 
         const userInfoContainer = this.customElement.createElement('section', {className: 'userinfo__container'});
 
@@ -35,7 +35,7 @@ class ViewUserInfoPage {
         return userInfoContainer;
     }
 
-    async setNickname(stringPromise: string) {
+    async setNickname(stringPromise: string | null) {
         this.nickname.textContent = await stringPromise;
     }
 }

@@ -9,7 +9,7 @@ import java.util.UUID;
 public class User {
 
 	@Id
-	private final String id;
+	private String id;
 
 	private String firstName;
 
@@ -32,6 +32,10 @@ public class User {
 		this.secondName = secondName;
 		this.login = login;
 		this.password = password;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getId() {

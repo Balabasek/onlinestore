@@ -12,13 +12,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+  text-align: center;
   background-color: #36376D;
 }
 
 .userinfo__text{
   position: relative;
-  left: 40%;
-  transform: translate(-55%, -200%);
+  transform: translate(0%, -100%);
   font-size: 30px;
   color: white;
   white-space: nowrap;
@@ -31,7 +32,7 @@
 .userinfo__nickname{
   position: relative;
   font-size: 30px;
-  transform: translate(-50%, -0%);
+  transform: translate(0%, -10%);
   color: white;
   white-space: nowrap;
   overflow: hidden;
@@ -43,7 +44,7 @@
 .logout_btn {
   display: block;
   font-family: 'Roboto', sans-serif;
-  transform: translate(-70%, 300%);
+  transform: translate(0%, 200%);
   width: 120px;
   font-size: 14px;
   font-weight: 700;

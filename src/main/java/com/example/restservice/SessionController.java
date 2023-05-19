@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 
 @RestController
+@CrossOrigin
 @RequestMapping("sessionService")
 public class SessionController {
 	@Autowired
@@ -30,10 +31,7 @@ public class SessionController {
 		return null;
 	}
 
-	@PostMapping(
-			value = "/getUser/{token}",
-			consumes = MediaType.APPLICATION_JSON_VALUE,
-			produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/getUser/{token}")
 	@ResponseBody
 	public String getUser(@PathVariable(value = "token") String token) {
 		try {
@@ -46,10 +44,7 @@ public class SessionController {
 		return null;
 	}
 
-	@PostMapping(
-			value = "/logout/{token}",
-			consumes = MediaType.APPLICATION_JSON_VALUE,
-			produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/logout/{token}")
 	@ResponseBody
 	public String deleteSession(@PathVariable(value = "token") String token) {
 		try {
