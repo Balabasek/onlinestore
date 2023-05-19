@@ -185,6 +185,18 @@ class ControllerMain {
     return this.BascetLocalStorage
   }
 
+  updateBascetWithoutLocalStorage(id: number, key: boolean = true): IBascetLocalStorage[] {
+    const index = this.BascetLocalStorage.findIndex((el) => {
+      return el.id === id
+    })
+    if (index === -1) {
+      this.BascetLocalStorage.push(this.convertIDtoBascetObject(id))
+    } else if (index !== -1 && key) {
+      this.BascetLocalStorage.splice(index, 1);
+    }
+    return this.BascetLocalStorage
+  }
+
   // МЕТОД возврата ОБЪЕКТА ПО ID для КОРЗИНЫ
   convertIDtoBascetObject(id: number): IBascetLocalStorage {
     return {
@@ -481,6 +493,7 @@ class ControllerMain {
       const target = e.target as HTMLElement;
       const id = +target.id.split('|')[1];
       const key: boolean = target.id.split('|')[0] === 'button-buy' ? false : true
+      let isContain = false;
       if (localStorage.getItem('token') == null) {
         this.updateBascetLocalStorage(id, key)
       } else if(key){
@@ -501,11 +514,13 @@ class ControllerMain {
         if (!response.ok) {
           alert("Ошибка HTTP: " + response.status);
         }
-      }else{
+        this.updateBascetWithoutLocalStorage(id, key);
+      } else {
         const response = await fetch("http://localhost:8888/userService/deleteItem/" + localStorage.getItem('token') + "/" + id);
         if (!response.ok) {
           alert("Ошибка HTTP: " + response.status);
         }
+        this.updateBascetWithoutLocalStorage(id, key);
       }
       this.updateBascetCountAndTotaPriseHeader()
     })
@@ -570,7 +585,7 @@ class ControllerMain {
         localStorage.setItem('BascetLocalStorage', JSON.stringify(twoLocalStorage));
         this.updateBascetCountAndTotaPriseHeader();
       } else {
-        const response = await fetch("http://localhost:8888/userService/updateItemCount/" + localStorage.getItem('token') + "/increase/" + cardId);
+        const response = await fetch("http://localhost:8888/userService/updateItemCount/" + localStorage.getItem('token') + "/decrease/" + cardId);
         if (!response.ok) {
           alert("Ошибка HTTP: " + response.status);
         }
