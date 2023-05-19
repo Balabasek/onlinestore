@@ -7,6 +7,7 @@ import com.example.model.Item;
 import com.example.persistence.ItemRepository;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,11 @@ public class ItemService {
 	@Autowired
 	public ItemService(ItemRepository itemRepository) {
 		this.itemRepository = itemRepository;
+	}
+
+	@PostConstruct
+	public void startup() {
+		loadAllItem();
 	}
 
 	public Item createNewItem(CreateItemDto createItemDto) throws IllegalArgumentException, OptimisticLockingFailureException {
