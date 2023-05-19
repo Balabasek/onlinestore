@@ -8,69 +8,77 @@ import java.util.UUID;
 @Document
 public class User {
 
-    @Id
-    private final String id;
+	@Id
+	private String id;
 
-    private String firstName;
+	private String firstName;
 
-    private String middleName;
+	private String middleName;
 
-    private String secondName;
+	private String secondName;
 
-    private String login;
+	private String login;
 
-    private String password;
+	private String password;
 
-    public User(String firstName, String middleName, String secondName, String login, String password) {
-        this.id = UUID.randomUUID().toString();
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.secondName = secondName;
-        this.login = login;
-        this.password = password;
-    }
+	public User() {
+		this.id = UUID.randomUUID().toString();
+	}
 
-    public String getId() {
-        return id;
-    }
+	public User(String firstName, String middleName, String secondName, String login, String password) {
+		this.id = UUID.randomUUID().toString();
+		this.firstName = firstName;
+		this.middleName = middleName;
+		this.secondName = secondName;
+		this.login = login;
+		this.password = password;
+	}
 
-    public String getFirstName() {
-        return firstName;
-    }
+	public void setId(String id) {
+		this.id = id;
+	}
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+	public String getId() {
+		return id;
+	}
 
-    public String getMiddleName() {
-        return middleName;
-    }
+	public String getFirstName() {
+		return firstName;
+	}
 
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
-    }
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
 
-    public String getSecondName() {
-        return secondName;
-    }
+	public String getMiddleName() {
+		return middleName;
+	}
 
-    public void setSecondName(String secondName) {
-        this.secondName = secondName;
-    }
+	public void setMiddleName(String middleName) {
+		this.middleName = middleName;
+	}
 
-    public String getLogin() {
-        return login;
-    }
+	public String getSecondName() {
+		return secondName;
+	}
 
-    public void setLogin(String login) {
-        this.login = login;
-    }
+	public void setSecondName(String secondName) {
+		this.secondName = secondName;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	public String getLogin() {
+		return login;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	public void setLogin(String login) {
+		this.login = login;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
 }

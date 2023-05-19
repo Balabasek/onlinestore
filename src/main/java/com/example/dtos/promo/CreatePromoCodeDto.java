@@ -1,40 +1,37 @@
 package com.example.dtos.promo;
 
-import com.example.dtos.base.BaseDto;
+public class CreatePromoCodeDto {
+	private String name;
+	private double discount;
+	private long count;
 
-public class CreatePromoCodeDto extends BaseDto {
-    private String name;
-    private double discount;
-    private long count;
+	public CreatePromoCodeDto(String name, double discount, long count) {
+		this.name = name;
+		this.discount = discount;
+		this.count = count;
+	}
 
-    public CreatePromoCodeDto(String id, String name, double discount, long count) {
-        super(id);
-        this.name = name;
-        this.discount = discount;
-        this.count = count;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public double getDiscount() {
+		return discount;
+	}
 
-    public double getDiscount() {
-        return discount;
-    }
+	public void setDiscount(double discount) {
+		this.discount = discount;
+	}
 
-    public void setDiscount(double discount) {
-        this.discount = discount;
-    }
+	public long getCount() {
+		return count;
+	}
 
-    public long getCount() {
-        return count;
-    }
-
-    public void setCount(long count) {
-        this.count = count;
-    }
+	public void setCount(long count) {
+		this.count = count;
+	}
 }

@@ -6,9 +6,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ItemRepository extends MongoRepository<Item, String> {
-    Item deleteItemById(long id);
+	Item deleteItemById(long id);
 
-    Item deleteItemByUniqId(String id);
+	Item deleteItemByUniqId(String id);
 
-    Item findItemById(long id);
+	Item findItemById(long id);
 }
