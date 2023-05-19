@@ -147,7 +147,19 @@ class ViewValidation {
 
     this.confirmButton.addEventListener('click', async (e) => {
       e.preventDefault()
-      const readlocalStorage = localStorage.getItem('BascetLocalStorage')
+      let readlocalStorage = null;
+      if(localStorage.getItem('token') == null){
+        readlocalStorage = localStorage.getItem('BascetLocalStorage')
+      }else{
+        const response = await fetch("http://localhost:8888/userService/getUserBasket/" + localStorage.getItem("token"));
+        readlocalStorage = await response.json()
+
+        if (readlocalStorage) {
+          this.BascetLocalStorage = readlocalStorage
+        } else {
+          this.BascetLocalStorage = []
+        }
+      }
       if (readlocalStorage) {
         this.BascetLocalStorage = JSON.parse(readlocalStorage)
       } else {

@@ -387,10 +387,10 @@ class ViewMainPage {
   async updateBascetFROMLocalStorage() {
     if (localStorage.getItem('token') != null) {
       const response = await fetch("http://localhost:8888/userService/getUserBasket/" + localStorage.getItem("token"));
-      const readlocalStorage = JSON.parse(await response.json())
+      const readlocalStorage = await response.json()
 
       if (readlocalStorage) {
-        this.BascetLocalStorage = JSON.parse(readlocalStorage)
+        this.BascetLocalStorage = readlocalStorage
       } else {
         this.BascetLocalStorage = []
       }

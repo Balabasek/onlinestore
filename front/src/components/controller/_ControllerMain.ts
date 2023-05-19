@@ -319,8 +319,8 @@ class ControllerMain {
       this.BascetLocalStorage = getLocalStorageValue('BascetLocalStorage');
     } else {
       const response = await fetch("http://localhost:8888/userService/getUserBasket/" + localStorage.getItem("token"));
-      const readlocalStorage = JSON.parse(await response.json());
-      this.BascetLocalStorage = JSON.parse(readlocalStorage);
+      const readlocalStorage = await response.json();
+      this.BascetLocalStorage = readlocalStorage;
     }
   }
 
