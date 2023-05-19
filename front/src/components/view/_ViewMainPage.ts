@@ -384,12 +384,23 @@ class ViewMainPage {
     return createElement(temp)
   }
 
-  updateBascetFROMLocalStorage() {
-    const readlocalStorage = localStorage.getItem('BascetLocalStorage')
-    if (readlocalStorage) {
-      this.BascetLocalStorage = JSON.parse(readlocalStorage)
+  async updateBascetFROMLocalStorage() {
+    if (localStorage.getItem('token') != null) {
+      const response = await fetch("http://localhost:8888/userService/getUserBasket/" + localStorage.getItem("token"));
+      const readlocalStorage = JSON.parse(await response.json())
+
+      if (readlocalStorage) {
+        this.BascetLocalStorage = JSON.parse(readlocalStorage)
+      } else {
+        this.BascetLocalStorage = []
+      }
     } else {
-      this.BascetLocalStorage = []
+      const readlocalStorage = localStorage.getItem('BascetLocalStorage')
+      if (readlocalStorage) {
+        this.BascetLocalStorage = JSON.parse(readlocalStorage)
+      } else {
+        this.BascetLocalStorage = []
+      }
     }
   }
 

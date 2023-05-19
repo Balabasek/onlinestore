@@ -314,8 +314,14 @@ class ControllerMain {
   }
 
 
-  updateBascetFROMLocalStorage() {
-    this.BascetLocalStorage = getLocalStorageValue('BascetLocalStorage');
+  async updateBascetFROMLocalStorage() {
+    if (localStorage.getItem('token') == null) {
+      this.BascetLocalStorage = getLocalStorageValue('BascetLocalStorage');
+    } else {
+      const response = await fetch("http://localhost:8888/userService/getUserBasket/" + localStorage.getItem("token"));
+      const readlocalStorage = JSON.parse(await response.json());
+      this.BascetLocalStorage = JSON.parse(readlocalStorage);
+    }
   }
 
   updatePromoFROMLocalStorage() {
@@ -471,11 +477,36 @@ class ControllerMain {
     })
 
     // Клик по карточке для добавления  продукта в КОРЗИНУ из Мейна
-    this.MAIN.addEventListener('clickOnProductAddInBascetMain', (e) => {
+    this.MAIN.addEventListener('clickOnProductAddInBascetMain', async (e) => {
       const target = e.target as HTMLElement;
       const id = +target.id.split('|')[1];
       const key: boolean = target.id.split('|')[0] === 'button-buy' ? false : true
-      this.updateBascetLocalStorage(id, key)
+      if (localStorage.getItem('token') == null) {
+        this.updateBascetLocalStorage(id, key)
+      } else if(key){
+        const requestBody = {
+          id: id
+        };
+        console.log(requestBody);
+        const settings = {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(requestBody)
+        };
+        localStorage.removeItem('BascetLocalStorage');
+
+        const response = await fetch("http://localhost:8888/userService/addNewItem/" + localStorage.getItem('token') , settings);
+        if (!response.ok) {
+          alert("Ошибка HTTP: " + response.status);
+        }
+      }else{
+        const response = await fetch("http://localhost:8888/userService/deleteItem/" + localStorage.getItem('token') + "/" + id);
+        if (!response.ok) {
+          alert("Ошибка HTTP: " + response.status);
+        }
+      }
       this.updateBascetCountAndTotaPriseHeader()
     })
 
@@ -492,7 +523,7 @@ class ControllerMain {
     })
 
     // Клик по карточке для добавления копии продукта из КОРЗИНЫ
-    this.MAIN.addEventListener('clickOnProductPlus', (e) => {
+    this.MAIN.addEventListener('clickOnProductPlus', async (e) => {
       const target = e.target as HTMLElement;
       const card = target.closest('.itemBasket');
       const cardId = Number(card?.id);
@@ -506,13 +537,19 @@ class ControllerMain {
         }
         return item
       });
-
-      localStorage.setItem('BascetLocalStorage', JSON.stringify(oneLocalStorage));
-      this.updateBascetCountAndTotaPriseHeader();
+      if (localStorage.getItem('token') == null) {
+        localStorage.setItem('BascetLocalStorage', JSON.stringify(oneLocalStorage));
+        this.updateBascetCountAndTotaPriseHeader();
+      } else {
+        const response = await fetch("http://localhost:8888/userService/updateItemCount/" + localStorage.getItem('token') + "/increase/" + cardId);
+        if (!response.ok) {
+          alert("Ошибка HTTP: " + response.status);
+        }
+      }
     })
 
     // Клик по карточке для уменьшения количества товаров или удаления
-    this.MAIN.addEventListener('clickOnProductMinus', (e) => {
+    this.MAIN.addEventListener('clickOnProductMinus', async (e) => {
       const target = e.target as HTMLElement;
       const card = target.closest('.itemBasket');
       const cardId = Number(card?.id);
@@ -527,10 +564,18 @@ class ControllerMain {
         return item
       });
 
-      // Обновим LS путем исключения удаленных
-      const twoLocalStorage = oneLocalStorage.filter((item) => item.count !== 0);
-      localStorage.setItem('BascetLocalStorage', JSON.stringify(twoLocalStorage));
-      this.updateBascetCountAndTotaPriseHeader();
+      if (localStorage.getItem('token') == null) {
+        // Обновим LS путем исключения удаленных
+        const twoLocalStorage = oneLocalStorage.filter((item) => item.count !== 0);
+        localStorage.setItem('BascetLocalStorage', JSON.stringify(twoLocalStorage));
+        this.updateBascetCountAndTotaPriseHeader();
+      } else {
+        const response = await fetch("http://localhost:8888/userService/updateItemCount/" + localStorage.getItem('token') + "/increase/" + cardId);
+        if (!response.ok) {
+          alert("Ошибка HTTP: " + response.status);
+        }
+        this.updateBascetCountAndTotaPriseHeader();
+      }
     })
 
     // Клик по карточке для запуска страниц Validation из Мейна
