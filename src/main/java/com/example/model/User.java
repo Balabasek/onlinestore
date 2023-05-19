@@ -1,6 +1,7 @@
 package com.example.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.UUID;
@@ -11,59 +12,34 @@ public class User {
 	@Id
 	private String id;
 
-	private String firstName;
-
-	private String middleName;
-
-	private String secondName;
-
 	private String login;
 
-	private String password;
+	@DBRef
+	private Basket basket;
 
 	public User() {
 		this.id = UUID.randomUUID().toString();
 	}
 
-	public User(String firstName, String middleName, String secondName, String login, String password) {
+	public User(String login) {
 		this.id = UUID.randomUUID().toString();
-		this.firstName = firstName;
-		this.middleName = middleName;
-		this.secondName = secondName;
 		this.login = login;
-		this.password = password;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	public String getId() {
 		return id;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public void setId(String id) {
+		this.id = id;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public Basket getBasket() {
+		return basket;
 	}
 
-	public String getMiddleName() {
-		return middleName;
-	}
-
-	public void setMiddleName(String middleName) {
-		this.middleName = middleName;
-	}
-
-	public String getSecondName() {
-		return secondName;
-	}
-
-	public void setSecondName(String secondName) {
-		this.secondName = secondName;
+	public void setBasket(Basket basket) {
+		this.basket = basket;
 	}
 
 	public String getLogin() {
@@ -72,13 +48,5 @@ public class User {
 
 	public void setLogin(String login) {
 		this.login = login;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 }
