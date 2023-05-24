@@ -207,7 +207,9 @@ class ViewMainPage {
       const addToCard = target.closest('._btn_add-to-card')
       if (card && !addToCard) {
         card.dispatchEvent(this.EVENT.clickOnСardListMain)
+        console.log("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ");
       } else {
+        console.log("MAKRMLQWNRQLNWRQOBrowbeqowib")
         addToCard?.dispatchEvent(this.EVENT.clickOnProductAddInBascetMain);
         this.addProductForButton(e);
       }
@@ -388,12 +390,16 @@ class ViewMainPage {
     if (localStorage.getItem('token') != null) {
       const response = await fetch("http://localhost:8888/userService/getUserBasket/" + localStorage.getItem("token"));
       const readlocalStorage = await response.json()
+      console.log("LAW");
+      console.log(readlocalStorage);
 
       if (readlocalStorage) {
         this.BascetLocalStorage = readlocalStorage
       } else {
         this.BascetLocalStorage = []
       }
+      console.log("BASE");
+      console.log(this.BascetLocalStorage);
     } else {
       const readlocalStorage = localStorage.getItem('BascetLocalStorage')
       if (readlocalStorage) {
@@ -404,24 +410,44 @@ class ViewMainPage {
     }
   }
 
-  addProductForButton(event: Event) {
+  async addProductForButton(event: Event) {
+    await new Promise(resolve => setTimeout(resolve, 1000));
     this.updateBascetFROMLocalStorage();
+
+    if (localStorage.getItem('token') != null) {
+      const response = await fetch("http://localhost:8888/userService/getUserBasket/" + localStorage.getItem("token"));
+      const readlocalStorage = await response.json()
+      console.log("LAW");
+      console.log(readlocalStorage);
+
+      if (readlocalStorage) {
+        this.BascetLocalStorage = readlocalStorage
+      } else {
+        this.BascetLocalStorage = []
+      }
+      console.log("BASE");
+      console.log(this.BascetLocalStorage);
+    }
 
     const target = event.target as HTMLElement;
     if (target.classList.contains('cardlist')) return
 
     const taretId = +target.id.split('|')[1];
 
+    console.log(this.BascetLocalStorage);
     if (!this.BascetLocalStorage.length) {
+      console.log(1);
       target.classList.remove('red-bg');
       target.textContent = 'Add to cart';
     }
 
     this.BascetLocalStorage.forEach((item) => {
       if (item.id === taretId) {
+        console.log("!!!" + item.id);
         target.classList.add('red-bg');
         target.textContent = 'Drop cart';
       } else {
+        console.log(3);
         target.classList.remove('red-bg');
         target.textContent = 'Add to cart';
       }
@@ -430,6 +456,7 @@ class ViewMainPage {
 
   checkProductForButton(button: HTMLElement) {
     this.updateBascetFROMLocalStorage();
+    console.log("CHECKPRODUCT");
     if (!this.BascetLocalStorage) return
 
     const ButtonId = +button.id.split('|')[1];

@@ -333,6 +333,7 @@ class ControllerMain {
       const response = await fetch("http://localhost:8888/userService/getUserBasket/" + localStorage.getItem("token"));
       const readlocalStorage = await response.json();
       this.BascetLocalStorage = readlocalStorage;
+      console.log("second");
     }
   }
 
@@ -492,8 +493,8 @@ class ControllerMain {
     this.MAIN.addEventListener('clickOnProductAddInBascetMain', async (e) => {
       const target = e.target as HTMLElement;
       const id = +target.id.split('|')[1];
-      const key: boolean = target.id.split('|')[0] === 'button-buy' ? false : true
-      let isContain = false;
+      let key: boolean = target.id.split('|')[0] === 'button-buy' ? false : true;
+      key = false;
       if (localStorage.getItem('token') == null) {
         this.updateBascetLocalStorage(id, key)
       } else if(key){
@@ -515,6 +516,7 @@ class ControllerMain {
           alert("Ошибка HTTP: " + response.status);
         }
         this.updateBascetWithoutLocalStorage(id, key);
+        console.log("first");
       } else {
         const response = await fetch("http://localhost:8888/userService/deleteItem/" + localStorage.getItem('token') + "/" + id);
         if (!response.ok) {

@@ -1,5 +1,7 @@
 package com.example.dtos.item;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import java.util.List;
 
 public class CreateItemDto {
@@ -15,6 +17,7 @@ public class CreateItemDto {
 
 	private List<String> images;
 
+	@JsonCreator
 	public CreateItemDto(String title, String description, double price, double discountPercentage, double rating, long stock, String brand, String category, String thumbnail, List<String> images) {
 		this.title = title;
 		this.description = description;

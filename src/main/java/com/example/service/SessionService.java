@@ -4,7 +4,6 @@ import com.example.dtos.session.SaveSessionDto;
 import com.example.model.Session;
 import com.example.model.User;
 import com.example.persistence.SessionRepository;
-import com.example.persistence.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,16 +11,19 @@ import org.springframework.stereotype.Service;
 public class SessionService {
 	private final SessionRepository sessionRepository;
 
-	private final UserRepository userRepository;
+	private final UserService userService;
 
 	@Autowired
-	public SessionService(SessionRepository sessionRepository, UserRepository userRepository) {
+	public SessionService(SessionRepository sessionRepository, UserService userService) {
 		this.sessionRepository = sessionRepository;
-		this.userRepository = userRepository;
+		this.userService = userService;
 	}
 
 	public String saveSession(Session session) throws RuntimeException {
 		sessionRepository.save(session);
+		if (!userService.checkExistUserByLogin(session.getUserName())) {
+			userService.createNewUser(session.getUserName());
+		}
 
 		if (sessionRepository.existsSessionById(session.getId())) {
 			return "Save success";
@@ -34,7 +36,9 @@ public class SessionService {
 		Session activeSession = new Session(saveSessionDto.getUserName(), saveSessionDto.getToken());
 
 		sessionRepository.save(activeSession);
-
+		if (!userService.checkExistUserByLogin(activeSession.getUserName())) {
+			userService.createNewUser(activeSession.getUserName());
+		}
 		if (sessionRepository.existsSessionById(activeSession.getId())) {
 			return "Save success";
 		} else {
@@ -44,14 +48,11 @@ public class SessionService {
 
 	public String getUserBySession(String token) {
 		Session activeSession = sessionRepository.findSessionByCodeToken(token);
-		User activeUser = userRepository.findUserByLogin(activeSession.getUserName());
+		User activeUser = userService.getUserByLogin(activeSession.getUserName());
 		if (activeUser != null) {
 			return activeUser.getLogin();
 		} else {
-			User user = new User();
-			user.setLogin(activeSession.getUserName());
-			userRepository.save(user);
-			return user.getLogin();
+			return "User not authorization";
 		}
 	}
 

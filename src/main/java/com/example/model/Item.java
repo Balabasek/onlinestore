@@ -24,6 +24,10 @@ public class Item {
 	@JsonFormat(shape = JsonFormat.Shape.ARRAY)
 	private List<String> images;
 
+	public Item() {
+		this.uniqId = UUID.randomUUID().toString();
+	}
+
 	public Item(long id, String title, String description, double price, double discountPercentage, double rating, long stock, String brand, String category, String thumbnail, List<String> images) {
 		this.id = id;
 		this.uniqId = UUID.randomUUID().toString();
