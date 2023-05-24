@@ -77,6 +77,10 @@ public class UserService {
 		return basketService.deleteItem(itemId, user);
 	}
 
+	public boolean checkExistUserByLogin(String login) {
+		return userRepository.existsUserByLogin(login);
+	}
+
 	public User getUserByLogin(String login) {
 		return userRepository.findUserByLogin(login);
 	}

@@ -21,6 +21,9 @@ public class SessionService {
 
 	public String saveSession(Session session) throws RuntimeException {
 		sessionRepository.save(session);
+		if (!userService.checkExistUserByLogin(session.getUserName())) {
+			userService.createNewUser(session.getUserName());
+		}
 
 		if (sessionRepository.existsSessionById(session.getId())) {
 			return "Save success";
@@ -33,7 +36,9 @@ public class SessionService {
 		Session activeSession = new Session(saveSessionDto.getUserName(), saveSessionDto.getToken());
 
 		sessionRepository.save(activeSession);
-
+		if (!userService.checkExistUserByLogin(activeSession.getUserName())) {
+			userService.createNewUser(activeSession.getUserName());
+		}
 		if (sessionRepository.existsSessionById(activeSession.getId())) {
 			return "Save success";
 		} else {
@@ -47,7 +52,7 @@ public class SessionService {
 		if (activeUser != null) {
 			return activeUser.getLogin();
 		} else {
-			return userService.createNewUser(activeSession.getUserName()).getLogin();
+			return "User not authorization";
 		}
 	}
 
