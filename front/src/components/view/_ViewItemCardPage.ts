@@ -192,16 +192,20 @@ class ViewItemCardPage {
     const target = event.target as HTMLElement;
     const taretId = +target.id.split('|')[1];
 
+    console.log(this.BascetLocalStorage);
     if (!this.BascetLocalStorage.length) {
+      console.log("Item Card1");
       target.classList.remove('red-bg');
       target.textContent = 'Add to cart';
     }
 
     this.BascetLocalStorage.forEach((item) => {
       if (item.id === taretId) {
+        console.log("Item Card2");
         target.classList.add('red-bg');
         target.textContent = 'Drop cart';
       } else {
+        console.log("Item Card3");
         target.classList.remove('red-bg');
         target.textContent = 'Add to cart';
       }
