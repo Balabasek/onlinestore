@@ -3,11 +3,13 @@ package com.example.service;
 import com.example.dtos.item.CreateItemDto;
 import com.example.dtos.item.DeleteItemDto;
 import com.example.dtos.item.UpdateStockItemsDto;
+import com.example.logger.LoggerProvider;
 import com.example.model.Item;
 import com.example.persistence.ItemRepository;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import jakarta.annotation.PostConstruct;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
@@ -21,14 +23,21 @@ import java.util.List;
 public class ItemService {
 	private final ItemRepository itemRepository;
 
+	private final Logger logger;
+
 	@Autowired
-	public ItemService(ItemRepository itemRepository) {
+	public ItemService(ItemRepository itemRepository, LoggerProvider loggerProvider) {
 		this.itemRepository = itemRepository;
+		this.logger = loggerProvider.getLogger();
 	}
 
 	@PostConstruct
 	public void startup() {
-		loadAllItem();
+		try {
+			loadAllItem();
+		} catch (IOException e) {
+			logger.error("Error occurred startup load item, something is wrong when writing to product_ts", e);
+		}
 	}
 
 	public Item createNewItem(CreateItemDto createItemDto) throws IllegalArgumentException, OptimisticLockingFailureException {
@@ -47,11 +56,12 @@ public class ItemService {
 		return new DeleteItemDto(deletedItem.getUniqId(), deletedItem.getTitle(), deletedItem.getCategory());
 	}
 
-	public String loadAllItem() {
+	public String loadAllItem() throws IOException {
 		File folder = new File("front/src/components/DATA");
 		if (!folder.exists()) {
 			boolean isCreate = folder.mkdir();
 			if (!isCreate) {
+				logger.error("Error occurred load item, folder DATA don't create");
 				return "Error load, DATA don't create";
 			}
 		}
@@ -66,9 +76,6 @@ public class ItemService {
 			file.write("import { IitemDATA } from \"../typingTS/_interfaces\";\n\n".getBytes());
 			file.write("export const products: Array<IitemDATA> = \n".getBytes());
 			file.write(products.getBytes());
-		} catch (IOException e) {
-			e.printStackTrace();
-			return "Error load";
 		}
 		return "Load successes";
 	}
@@ -77,7 +84,7 @@ public class ItemService {
 		for (UpdateStockItemsDto dto : updateStockItemsDto) {
 			Item item = itemRepository.findItemById(dto.getId());
 			if (item == null) {
-				System.out.println("Item " + dto.get_Id() + " not found!");
+				logger.warn("Item " + dto.get_Id() + " not found!");
 				continue;
 			}
 

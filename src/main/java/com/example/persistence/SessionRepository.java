@@ -13,4 +13,6 @@ public interface SessionRepository extends MongoRepository<Session, String> {
 	Boolean existsSessionById(String id);
 
 	Boolean existsSessionByCodeToken(String codeToken);
+
+	Boolean existsSessionByUserName(String userName);
 }

@@ -3,13 +3,14 @@ package com.example.restservice;
 import com.example.dtos.item.CreateItemDto;
 import com.example.dtos.item.DeleteItemDto;
 import com.example.dtos.item.UpdateStockItemsDto;
+import com.example.logger.LoggerProvider;
 import com.example.model.Item;
 import com.example.service.ItemService;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -20,17 +21,22 @@ public class ItemController {
 	@Autowired
 	private ItemService itemService;
 
+	private Logger logger;
+
+	@Autowired
+	public void SetLogger(LoggerProvider loggerProvider) {
+		logger = loggerProvider.getLogger();
+	}
+
 	@GetMapping("/load")
 	@ResponseBody
 	public String loadAllItem() {
 		try {
 			return itemService.loadAllItem();
 		} catch (Exception e) {
-			System.err.println("Error occurred while load all item data");
-			System.err.println(e.getMessage());
-			Arrays.stream(e.getStackTrace()).toList().forEach(System.err::println);
+			logger.error("Error occurred while load all item data", e);
 		}
-		return "Error";
+		return "Error load item";
 	}
 
 	@PostMapping(
@@ -42,9 +48,7 @@ public class ItemController {
 		try {
 			return itemService.createNewItem(createItemDto);
 		} catch (Exception e) {
-			System.err.println("Error occurred while create new item!");
-			System.err.println(e.getMessage());
-			Arrays.stream(e.getStackTrace()).toList().forEach(System.err::println);
+			logger.error("Error occurred while create new item!", e);
 		}
 		return null;
 	}
@@ -58,9 +62,7 @@ public class ItemController {
 		try {
 			return itemService.deleteItem(id);
 		} catch (Exception e) {
-			System.err.println("Error occurred while delete item!");
-			System.err.println(e.getMessage());
-			Arrays.stream(e.getStackTrace()).toList().forEach(System.err::println);
+			logger.error("Error occurred while delete item!", e);
 		}
 		return null;
 	}
@@ -74,10 +76,8 @@ public class ItemController {
 		try {
 			return itemService.updateStockItems(updateStockItemsDto);
 		} catch (Exception e) {
-			System.err.println("Error occurred while update stock item!");
-			System.err.println(e.getMessage());
-			Arrays.stream(e.getStackTrace()).toList().forEach(System.err::println);
-			return null;
+			logger.error("Error occurred while update stock item!", e);
 		}
+		return "Error occurred while update stock item";
 	}
 }

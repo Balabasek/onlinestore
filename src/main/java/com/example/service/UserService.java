@@ -4,10 +4,12 @@ import com.example.dtos.basket.AddNewItemDto;
 import com.example.dtos.basket.ReturnItemBasketDto;
 import com.example.dtos.user.CreateUserDto;
 import com.example.dtos.user.DeleteUserDto;
+import com.example.logger.LoggerProvider;
 import com.example.model.Basket;
 import com.example.model.Item;
 import com.example.model.User;
 import com.example.persistence.UserRepository;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,12 +19,16 @@ import java.util.List;
 @Service
 public class UserService {
 	private final UserRepository userRepository;
+
 	private final BasketService basketService;
 
+	private final Logger logger;
+
 	@Autowired
-	public UserService(UserRepository userRepository, BasketService basketService) {
+	public UserService(UserRepository userRepository, BasketService basketService, LoggerProvider loggerProvider) {
 		this.userRepository = userRepository;
 		this.basketService = basketService;
+		this.logger = loggerProvider.getLogger();
 	}
 
 	public User createNewUser(CreateUserDto createUserDto) {
@@ -33,12 +39,12 @@ public class UserService {
 		return userRepository.save(user);
 	}
 
-	public User createNewUser(String login) {
+	public void createNewUser(String login) {
 		User user = new User(login);
 		Basket basket = basketService.createNewEmptyBasket();
 		user.setBasket(basket);
 
-		return userRepository.save(user);
+		userRepository.save(user);
 	}
 
 	public List<ReturnItemBasketDto> getUserBasket(String userId) {
@@ -91,9 +97,9 @@ public class UserService {
 
 	public User deleteUser(DeleteUserDto deleteUserDto) {
 		User user = userRepository.deleteUsersById(deleteUserDto.get_Id());
-		System.out.println("User " + user.getLogin() + " deleted");
+		logger.info("User " + user.getLogin() + " deleted");
 		if (!basketService.deleteBasket(user.getBasket().getId())) {
-			System.out.println("Error occurred while delete basket in user " + user.getLogin());
+			logger.error("Error occurred while delete basket in user " + user.getLogin());
 		}
 
 		return user;

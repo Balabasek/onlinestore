@@ -4,14 +4,15 @@ import com.example.dtos.basket.AddNewItemDto;
 import com.example.dtos.basket.ReturnItemBasketDto;
 import com.example.dtos.user.CreateUserDto;
 import com.example.dtos.user.DeleteUserDto;
+import com.example.logger.LoggerProvider;
 import com.example.model.User;
 import com.example.service.SessionService;
 import com.example.service.UserService;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -24,6 +25,13 @@ public class UserController {
 	@Autowired
 	private SessionService sessionService;
 
+	private Logger logger;
+
+	@Autowired
+	public void SetLogger(LoggerProvider loggerProvider) {
+		logger = loggerProvider.getLogger();
+	}
+
 	@PostMapping(
 			value = "/create",
 			consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -33,9 +41,7 @@ public class UserController {
 		try {
 			return userService.createNewUser(createUserDto);
 		} catch (Exception e) {
-			System.err.println("Error occurred while create new user!");
-			System.err.println(e.getMessage());
-			Arrays.stream(e.getStackTrace()).toList().forEach(System.err::println);
+			logger.error("Error occurred while create new user!", e);
 		}
 		return null;
 	}
@@ -47,9 +53,7 @@ public class UserController {
 			String userId = userService.getUserIdByLogin(sessionService.getUserBySession(token));
 			return userService.getUserBasket(userId);
 		} catch (Exception e) {
-			System.err.println("Error occurred while create new user!");
-			System.err.println(e.getMessage());
-			Arrays.stream(e.getStackTrace()).toList().forEach(System.err::println);
+			logger.error("Error occurred while get user basket!", e);
 		}
 		return null;
 	}
@@ -61,9 +65,7 @@ public class UserController {
 			String userId = userService.getUserIdByLogin(sessionService.getUserBySession(token));
 			return userService.deleteItem(userId, itemId);
 		} catch (Exception e) {
-			System.err.println("Error occurred while create new user!");
-			System.err.println(e.getMessage());
-			Arrays.stream(e.getStackTrace()).toList().forEach(System.err::println);
+			logger.error("Error occurred while delete item in user basket!", e);
 		}
 		return null;
 	}
@@ -77,9 +79,7 @@ public class UserController {
 			String userId = userService.getUserIdByLogin(sessionService.getUserBySession(token));
 			return userService.updateItemCount(userId, action, itemId);
 		} catch (Exception e) {
-			System.err.println("Error occurred while update count item");
-			System.err.println(e.getMessage());
-			Arrays.stream(e.getStackTrace()).toList().forEach(System.err::println);
+			logger.error("Error occurred while update count item in user basket!", e);
 		}
 		return null;
 	}
@@ -94,9 +94,7 @@ public class UserController {
 			String userId = userService.getUserIdByLogin(sessionService.getUserBySession(token));
 			return userService.addNewItemInBasket(userId, addNewItemDto);
 		} catch (Exception e) {
-			System.err.println("Error occurred while add new item in basket");
-			System.err.println(e.getMessage());
-			Arrays.stream(e.getStackTrace()).toList().forEach(System.err::println);
+			logger.error("Error occurred while add new item in user basket!", e);
 		}
 		return null;
 	}
@@ -110,9 +108,7 @@ public class UserController {
 		try {
 			return userService.deleteUser(deleteUserDto);
 		} catch (Exception e) {
-			System.err.println("Error occurred while delete user!");
-			System.err.println(e.getMessage());
-			Arrays.stream(e.getStackTrace()).toList().forEach(System.err::println);
+			logger.error("Error occurred while delete user!", e);
 		}
 		return null;
 	}
