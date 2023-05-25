@@ -3,7 +3,7 @@
 
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%date [%thread] %myCustomHighlighting(%-5level) %logger{36} - %myCustomHighlighting(%msg) %n</pattern>
+            <pattern>%date [%thread] %myCustomHighlighting(%-5level) - %myCustomHighlighting(%msg) %n</pattern>
         </encoder>
     </appender>
 

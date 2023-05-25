@@ -67,7 +67,7 @@ public class UserController {
 		} catch (Exception e) {
 			logger.error("Error occurred while delete item in user basket!", e);
 		}
-		return null;
+		return "Ошибка сервера!";
 	}
 
 	@GetMapping(value = "/updateItemCount/{token}/{action}/{itemId}")
@@ -81,7 +81,7 @@ public class UserController {
 		} catch (Exception e) {
 			logger.error("Error occurred while update count item in user basket!", e);
 		}
-		return null;
+		return "Ошибка сервера!";
 	}
 
 	@PostMapping(
@@ -96,7 +96,19 @@ public class UserController {
 		} catch (Exception e) {
 			logger.error("Error occurred while add new item in user basket!", e);
 		}
-		return null;
+		return "Ошибка сервера!";
+	}
+
+	@GetMapping(value = "/buying/{token}")
+	@ResponseBody
+	public String updateItemCount(@PathVariable(value = "token") String token) {
+		try {
+			String userId = userService.getUserIdByLogin(sessionService.getUserBySession(token));
+			return userService.buying(userId);
+		} catch (Exception e) {
+			logger.error("Error occurred while update count item in user basket!", e);
+		}
+		return "Ошибка сервера!";
 	}
 
 	@PostMapping(

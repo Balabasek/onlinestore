@@ -80,6 +80,10 @@ public class ItemService {
 		return "Load successes";
 	}
 
+	public void saveItems(List<Item> items) {
+		itemRepository.saveAll(items);
+	}
+
 	public String updateStockItems(List<UpdateStockItemsDto> updateStockItemsDto) {
 		for (UpdateStockItemsDto dto : updateStockItemsDto) {
 			Item item = itemRepository.findItemById(dto.getId());
@@ -100,5 +104,9 @@ public class ItemService {
 			}
 		}
 		return "Ok";
+	}
+
+	public Item findItemById(Long itemId) {
+		return itemRepository.findItemById(itemId);
 	}
 }

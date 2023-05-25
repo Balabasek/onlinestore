@@ -319,7 +319,7 @@ class ViewMainPage {
       this.customElement.addChildren(card, [cardName, cardInfo, cardButtons]);
 
       //Заполнение cardButtons
-      const buttonItemAdd = this.customElement.createElement('button', { className: '_btn _btn_add-to-card', id: `_btn_add-to-card|${item.id}`, textContent: 'Add to card' });
+      const buttonItemAdd = this.customElement.createElement('button', { className: '_btn _btn_add-to-card', id: `_btn_add-to-card|${item.id}`, textContent: 'Add to cart' });
 
       this.checkProductForButton(buttonItemAdd)
 
@@ -411,7 +411,7 @@ class ViewMainPage {
   }
 
   async addProductForButton(event: Event) {
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    // await new Promise(resolve => setTimeout(resolve, 2000));
     this.updateBascetFROMLocalStorage();
 
     if (localStorage.getItem('token') != null) {

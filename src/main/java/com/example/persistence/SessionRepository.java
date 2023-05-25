@@ -8,6 +8,10 @@ import org.springframework.stereotype.Repository;
 public interface SessionRepository extends MongoRepository<Session, String> {
 	Session findSessionByCodeToken(String codeToken);
 
+	Session findSessionByUserName(String userName);
+
+	Session removeSessionByUserName(String userName);
+
 	void deleteSessionByCodeToken(String codeToken);
 
 	Boolean existsSessionById(String id);

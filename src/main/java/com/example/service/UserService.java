@@ -77,6 +77,12 @@ public class UserService {
 		return basketService.updateItemCount(action, itemId, user);
 	}
 
+	public String buying(String userId) throws Exception {
+		User user = userRepository.findUserById(userId);
+
+		return basketService.buying(user.getBasket());
+	}
+
 	public String deleteItem(String userId, Long itemId) {
 		User user = userRepository.findUserById(userId);
 

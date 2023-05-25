@@ -25,27 +25,41 @@ public class SessionService {
 	}
 
 	public String saveSession(Session session) throws RuntimeException {
-		if (sessionRepository.existsSessionByUserName(session.getUserName())) {
+		if (!sessionRepository.existsSessionByUserName(session.getUserName())) {
 			sessionRepository.save(session);
+		} else {
+			if (sessionRepository.removeSessionByUserName(session.getUserName()) != null) {
+				sessionRepository.save(session);
+			} else {
+				logger.error("Error occurred while save session. Duplicate session not deleted!");
+				return null;
+			}
 		}
 		if (!userService.checkExistUserByLogin(session.getUserName())) {
 			userService.createNewUser(session.getUserName());
 		}
 
 		if (sessionRepository.existsSessionById(session.getId())) {
+			logger.info("Save session success " + session.getUserName());
 			return "Save success";
 		} else {
-			return "Error occurred while save";
+			logger.error("Error occurred while save, new session not exist!");
+			return null;
 		}
 	}
 
 	public String getUserBySession(String token) {
 		Session activeSession = sessionRepository.findSessionByCodeToken(token);
+		if (activeSession == null) {
+			logger.warn("Active session doesn't exist");
+			return null;
+		}
 		User activeUser = userService.getUserByLogin(activeSession.getUserName());
 		if (activeUser != null) {
 			return activeUser.getLogin();
 		} else {
-			return "User not authorization";
+			logger.warn("User not authorization");
+			return null;
 		}
 	}
 

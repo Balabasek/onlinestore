@@ -7,6 +7,8 @@ class ViewHeader {
   headerBasket: HTMLElement
   headerBasketCount: HTMLElement
   headerLogin: HTMLElement
+  popup: HTMLElement;
+  textPopup: HTMLElement;
   logoTitle: HTMLElement
   customElement: CustomElement
   EVENT: { [x: string]: Event }
@@ -19,6 +21,8 @@ class ViewHeader {
     this.headerBasketCount = this.customElement.createElement('span', { className: 'header__basket-count', textContent: '0' });
     this.logoTitle = this.customElement.createElement('h1', { className: 'logo__title', textContent: 'Online Store' });
 
+    this.popup = this.customElement.createElement('div', {className: 'popup'});
+    this.textPopup = this.customElement.createElement('span', { className: 'text__popap', textContent: 'unknown' });
     this.headerListeners();
     this.EVENT = {
       clickOnLogin: new Event('clickOnLogin', { bubbles: true }),
@@ -31,11 +35,14 @@ class ViewHeader {
     //Header контейнер
     const headerContainer = this.customElement.createElement('section', { className: 'header _container' });
 
+    const textPopup = this.customElement.createElement('p', {className: 'text__popap', textContent: 'unknown'});
+
     // Основные секции header
     const headerLogo = this.customElement.createElement('a', { className: 'header__logo logo', href: '#' });
     const headerTotal = this.customElement.createElement('p', { className: 'header__total', textContent: 'Total: $' });
-    this.customElement.addChildren(headerContainer, [headerLogo, headerTotal, this.headerBasket, this.headerLogin])
+    this.customElement.addChildren(headerContainer, [headerLogo, headerTotal, this.headerBasket, this.headerLogin, this.popup])
 
+    this.customElement.addChildren(this.popup, [textPopup]);
     // Заполнение headerLogo
     this.customElement.addChildren(headerLogo, [this.logoTitle]);
     // Заполнение headerTotal
@@ -49,6 +56,21 @@ class ViewHeader {
     this.headerBasket.innerHTML = ''
     this.customElement.addChildren(this.headerBasket, [headerBasketImg, this.headerBasketCount]);
     return headerContainer
+  }
+
+  showPopup() {
+    this.popup.classList.add('active');
+  }
+
+  hidePopup() {
+    this.popup.classList.remove('active');
+  }
+
+  async setTextPopup(stringPromise: string | null) {
+    this.textPopup.textContent = await stringPromise;
+    this.showPopup();
+    await new Promise(resolve => setTimeout(resolve, 3000));
+    this.hidePopup();
   }
 
   // фунция обновления счетчика на корзине
