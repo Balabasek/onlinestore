@@ -49,6 +49,7 @@ public class Basket {
 			long count = mapItemCount.get(item.getUniqId());
 			if (count == 1) {
 				mapItemCount.remove(item.getUniqId());
+				itemList.removeIf(item1 -> item1.getUniqId().equals(item.getUniqId()));
 			} else {
 				mapItemCount.put(item.getUniqId(), count - 1);
 			}

@@ -161,7 +161,7 @@ class ViewValidation {
         }
       }
       if (readlocalStorage) {
-        this.BascetLocalStorage = JSON.parse(readlocalStorage)
+        this.BascetLocalStorage = readlocalStorage
       } else {
         this.BascetLocalStorage = []
       }
@@ -175,30 +175,33 @@ class ViewValidation {
         this.isValidInputCardNumber(),
         this.isValidInputCardNumberDate(),
         this.isValidInputCardNumberCVV()].every((item) => item)) {
-        const requestBody = {
-          items: basketitems.map(item => ({
-            id: item.id,
-            isBuy: true,
-            count: item.count
-          }))
-        };
-        console.log(requestBody);
-        const settings = {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(requestBody.items)
-        };
-        localStorage.removeItem('BascetLocalStorage');
+        // const requestBody = {
+        //   items: basketitems.map(item => ({
+        //     id: item.id,
+        //     isBuy: true,
+        //     count: item.count
+        //   }))
+        // };
+        // console.log(requestBody);
+        // const settings = {
+        //   method: 'POST',
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //   },
+        //   body: JSON.stringify(requestBody.items)
+        // };
+
+        // const response = await fetch("http://localhost:8888/itemService/updateStockItems", settings);
+        if (localStorage.getItem('token') != null) {
+          const response = await fetch("http://localhost:8888/userService/buying/" + localStorage.getItem('token'));
+          if (!response.ok) {
+            alert("Ошибка HTTP: " + response.status);
+          }
+        } else {
+          localStorage.removeItem('BascetLocalStorage');
+        }
         this.confirmButton.disabled = true
         this.confirmButton.textContent = 'Order paid'
-
-        const response = await fetch("http://localhost:8888/itemService/updateStockItems", settings);
-
-        if (!response.ok) {
-          alert("Ошибка HTTP: " + response.status);
-        }
       }
 
       const response2 = await fetch("http://localhost:8888/itemService/load");

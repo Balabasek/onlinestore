@@ -185,13 +185,33 @@ class ControllerMain {
     return this.BascetLocalStorage
   }
 
-  updateBascetWithoutLocalStorage(id: number, key: boolean = true): IBascetLocalStorage[] {
+  async updateBascetWithoutLocalStorage(id: number, key: boolean = true): Promise<IBascetLocalStorage[]> {
     const index = this.BascetLocalStorage.findIndex((el) => {
       return el.id === id
     })
     if (index === -1) {
+      const requestBody = {
+        id: id
+      };
+      console.log(requestBody);
+      const settings = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody)
+      };
+      const response = await fetch("http://localhost:8888/userService/addNewItem/" + localStorage.getItem('token'), settings);
+      this.ViewHEADER.setTextPopup(await response.text());
+      if (!response.ok) {
+        alert("Ошибка HTTP: " + response.status);
+      }
       this.BascetLocalStorage.push(this.convertIDtoBascetObject(id))
     } else if (index !== -1 && key) {
+      const response = await fetch("http://localhost:8888/userService/deleteItem/" + localStorage.getItem('token') + "/" + id);
+      if (!response.ok) {
+        alert("Ошибка HTTP: " + response.status);
+      }
       this.BascetLocalStorage.splice(index, 1);
     }
     return this.BascetLocalStorage
@@ -489,39 +509,14 @@ class ControllerMain {
       window.history.pushState({}, '', `/product?id=${id}`)
     })
 
-    // Клик по карточке для добавления  продукта в КОРЗИНУ из Мейна
+    // Клик по карточке для добавления продукта в КОРЗИНУ из Мейна
     this.MAIN.addEventListener('clickOnProductAddInBascetMain', async (e) => {
       const target = e.target as HTMLElement;
       const id = +target.id.split('|')[1];
-      let key: boolean = target.id.split('|')[0] === 'button-buy' ? false : true;
-      key = false;
+      const key: boolean = target.id.split('|')[0] === 'button-buy' ? false : true;
       if (localStorage.getItem('token') == null) {
         this.updateBascetLocalStorage(id, key)
-      } else if(key){
-        const requestBody = {
-          id: id
-        };
-        console.log(requestBody);
-        const settings = {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(requestBody)
-        };
-        localStorage.removeItem('BascetLocalStorage');
-
-        const response = await fetch("http://localhost:8888/userService/addNewItem/" + localStorage.getItem('token') , settings);
-        if (!response.ok) {
-          alert("Ошибка HTTP: " + response.status);
-        }
-        this.updateBascetWithoutLocalStorage(id, key);
-        console.log("first");
       } else {
-        const response = await fetch("http://localhost:8888/userService/deleteItem/" + localStorage.getItem('token') + "/" + id);
-        if (!response.ok) {
-          alert("Ошибка HTTP: " + response.status);
-        }
         this.updateBascetWithoutLocalStorage(id, key);
       }
       this.updateBascetCountAndTotaPriseHeader()
@@ -556,13 +551,13 @@ class ControllerMain {
       });
       if (localStorage.getItem('token') == null) {
         localStorage.setItem('BascetLocalStorage', JSON.stringify(oneLocalStorage));
-        this.updateBascetCountAndTotaPriseHeader();
       } else {
         const response = await fetch("http://localhost:8888/userService/updateItemCount/" + localStorage.getItem('token') + "/increase/" + cardId);
         if (!response.ok) {
           alert("Ошибка HTTP: " + response.status);
         }
       }
+      this.updateBascetCountAndTotaPriseHeader();
     })
 
     // Клик по карточке для уменьшения количества товаров или удаления
@@ -585,14 +580,13 @@ class ControllerMain {
         // Обновим LS путем исключения удаленных
         const twoLocalStorage = oneLocalStorage.filter((item) => item.count !== 0);
         localStorage.setItem('BascetLocalStorage', JSON.stringify(twoLocalStorage));
-        this.updateBascetCountAndTotaPriseHeader();
       } else {
         const response = await fetch("http://localhost:8888/userService/updateItemCount/" + localStorage.getItem('token') + "/decrease/" + cardId);
         if (!response.ok) {
           alert("Ошибка HTTP: " + response.status);
         }
-        this.updateBascetCountAndTotaPriseHeader();
       }
+      this.updateBascetCountAndTotaPriseHeader();
     })
 
     // Клик по карточке для запуска страниц Validation из Мейна
@@ -641,12 +635,7 @@ class ControllerMain {
   }
 
   async updateBascetCountAndTotaPriseHeader() {
-    const response2 = await fetch("http://localhost:8888/itemService/load");
-
-    if (!response2.ok) {
-      alert("Ошибка HTTP: " + response2.status);
-    }
-
+    await new Promise(resolve => setTimeout(resolve, 200));
     this.updateBascetFROMLocalStorage();
     this.updatePromoFROMLocalStorage();
 

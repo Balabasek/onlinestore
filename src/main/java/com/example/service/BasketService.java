@@ -11,18 +11,22 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 @Service
 public class BasketService {
 	private final BasketRepository basketRepository;
 
-	private final ItemRepository itemRepository;
+	private final ItemService itemService;
 
 	private final Logger logger;
 
 	@Autowired
-	public BasketService(BasketRepository basketRepository, ItemRepository itemRepository, LoggerProvider loggerProvider) {
+	public BasketService(BasketRepository basketRepository, ItemService itemService, LoggerProvider loggerProvider) {
 		this.basketRepository = basketRepository;
-		this.itemRepository = itemRepository;
+		this.itemService = itemService;
 		this.logger = loggerProvider.getLogger();
 	}
 
@@ -40,12 +44,12 @@ public class BasketService {
 			return null;
 		}
 
-		Item addItem = itemRepository.findItemById(addNewItemDto.getId());
+		Item addItem = itemService.findItemById(addNewItemDto.getId());
 
 		basket.addNewItem(addItem);
 		updateBasket(basket);
 		logger.info("Add new item success");
-		return "Add new item success";
+		return "Товар успешно добавлен в корзину";
 	}
 
 	public String updateItemCount(String action, Long itemId, User user) {
@@ -56,7 +60,7 @@ public class BasketService {
 			return null;
 		}
 
-		Item item = itemRepository.findItemById(itemId);
+		Item item = itemService.findItemById(itemId);
 		if ("increase".equals(action)) {
 			basket.increaseItemCount(item);
 			updateBasket(basket);
@@ -81,15 +85,39 @@ public class BasketService {
 			return null;
 		}
 
-		Item deleteItem = itemRepository.findItemById(itemId);
+		Item deleteItem = itemService.findItemById(itemId);
 		basket.deleteItem(deleteItem);
 		if (basket.getItemList().contains(deleteItem)) {
 			logger.error("Error occurred while delete item for id " + itemId);
-			return "Error";
+			return "Ошибка сервера!";
 		}
 		updateBasket(basket);
 		logger.info("Delete item success (" + itemId + ")");
-		return "Delete item success";
+		return "Товар убран из корзины";
+	}
+
+	public String buying(Basket basket) throws Exception {
+		List<Item> itemList = basket.getItemList();
+		Map<String, Long> itemMap = basket.getMapItemCount();
+
+		for (Item item : itemList) {
+			if (itemMap.containsKey(item.getUniqId())) {
+				long count = itemMap.get(item.getUniqId());
+				if (item.getStock() >= count) {
+					item.setStock(item.getStock() - count);
+				} else {
+					return "Товара " + item.getTitle() + " нет в наличии!";
+				}
+			} else {
+				logger.error("Error, item not found in basket map. Check this!!! Return null.");
+				return "Ошибка сервера!";
+			}
+		}
+		itemService.saveItems(itemList);
+		itemList.clear();
+		itemMap.clear();
+		basketRepository.save(basket);
+		return "Успешная покупка!";
 	}
 
 	public void updateBasket(Basket basket) {
