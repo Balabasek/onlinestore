@@ -1,9 +1,11 @@
 package com.example.service;
 
 import com.example.dtos.session.SaveSessionDto;
+import com.example.logger.LoggerProvider;
 import com.example.model.Session;
 import com.example.model.User;
 import com.example.persistence.SessionRepository;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,33 +15,24 @@ public class SessionService {
 
 	private final UserService userService;
 
+	private final Logger logger;
+
 	@Autowired
-	public SessionService(SessionRepository sessionRepository, UserService userService) {
+	public SessionService(SessionRepository sessionRepository, UserService userService, LoggerProvider loggerProvider) {
 		this.sessionRepository = sessionRepository;
 		this.userService = userService;
+		this.logger = loggerProvider.getLogger();
 	}
 
 	public String saveSession(Session session) throws RuntimeException {
-		sessionRepository.save(session);
+		if (sessionRepository.existsSessionByUserName(session.getUserName())) {
+			sessionRepository.save(session);
+		}
 		if (!userService.checkExistUserByLogin(session.getUserName())) {
 			userService.createNewUser(session.getUserName());
 		}
 
 		if (sessionRepository.existsSessionById(session.getId())) {
-			return "Save success";
-		} else {
-			return "Error occurred while save";
-		}
-	}
-
-	public String saveSession(SaveSessionDto saveSessionDto) throws RuntimeException {
-		Session activeSession = new Session(saveSessionDto.getUserName(), saveSessionDto.getToken());
-
-		sessionRepository.save(activeSession);
-		if (!userService.checkExistUserByLogin(activeSession.getUserName())) {
-			userService.createNewUser(activeSession.getUserName());
-		}
-		if (sessionRepository.existsSessionById(activeSession.getId())) {
 			return "Save success";
 		} else {
 			return "Error occurred while save";

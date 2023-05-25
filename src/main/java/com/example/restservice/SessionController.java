@@ -15,22 +15,6 @@ public class SessionController {
 	@Autowired
 	private SessionService sessionService;
 
-	@PostMapping(
-			value = "/create",
-			consumes = MediaType.APPLICATION_JSON_VALUE,
-			produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public String saveActiveSession(@RequestBody SaveSessionDto SaveSessionDto) {
-		try {
-			return sessionService.saveSession(SaveSessionDto);
-		} catch (Exception e) {
-			System.err.println("Error occurred while save session!");
-			System.err.println(e.getMessage());
-			Arrays.stream(e.getStackTrace()).toList().forEach(System.err::println);
-		}
-		return null;
-	}
-
 	@GetMapping(value = "/getUser/{token}")
 	@ResponseBody
 	public String getUser(@PathVariable(value = "token") String token) {
