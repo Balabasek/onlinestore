@@ -167,7 +167,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgb(54, 55, 109);
 }
 
 .header__basket {
@@ -195,21 +195,54 @@
 }
 
 
-.popup {
-  position: fixed;
+.popuper {
+  position: absolute;
   top: -100%;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  left: 40%;
+  width: 20%;
+  height: 10%;
+  background-color: rgba(77, 255, 51, 0.64);
   display: flex;
   align-items: center;
+  transform: scale(0.6);
   justify-content: center;
-  transition: top 0.3s ease-in-out;
+  transition: transform 0.15s ease-in-out;
   z-index: 9999; /* Большое значение индекса z для отображения попапа поверх остальных элементов */
 
   &.active {
-    top: 0;
+    top: 6%;
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .content {
+    background-color: #fff;
+    padding: 20px;
+  }
+}
+
+.popuperbad {
+  position: absolute;
+  top: -100%;
+  left: 40%;
+  width: 20%;
+  height: 10%;
+  background-color: rgba(255, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  border: 1px solid #000;
+  justify-content: center;
+  opacity: 0;
+  transform: scale(0.6);
+
+  transition: transform 0.2s ease-in-out;
+  z-index: 9999;
+
+  &.active {
+    top: 6%;
+    opacity: 1;
+    transform: scale(1);
   }
 
   .content {
@@ -221,8 +254,8 @@
 .text__popup{
   position: relative;
   transform: translate(0%, -100%);
-  font-size: 30px;
-  color: white;
+  font-size: 20px;
+  color: rgb(255, 255, 255);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

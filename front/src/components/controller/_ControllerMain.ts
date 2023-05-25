@@ -202,9 +202,14 @@ class ControllerMain {
         body: JSON.stringify(requestBody)
       };
       const response = await fetch("http://localhost:8888/userService/addNewItem/" + localStorage.getItem('token'), settings);
-      this.ViewHEADER.setTextPopup(await response.text());
+
       if (!response.ok) {
         alert("Ошибка HTTP: " + response.status);
+        this.ViewHEADER.setTextPopupBad(await response.text())
+      }else if((await response.text()).trim() === "Ошибка сервера!"){
+        this.ViewHEADER.setTextPopupBad("Ошибка сервера!");
+      }else{
+        this.ViewHEADER.setTextPopupGood(await response.text());
       }
       this.BascetLocalStorage.push(this.convertIDtoBascetObject(id))
     } else if (index !== -1 && key) {

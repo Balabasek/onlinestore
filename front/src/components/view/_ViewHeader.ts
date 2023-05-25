@@ -21,8 +21,8 @@ class ViewHeader {
     this.headerBasketCount = this.customElement.createElement('span', { className: 'header__basket-count', textContent: '0' });
     this.logoTitle = this.customElement.createElement('h1', { className: 'logo__title', textContent: 'Online Store' });
 
-    this.popup = this.customElement.createElement('div', {className: 'popup'});
-    this.textPopup = this.customElement.createElement('span', { className: 'text__popap', textContent: 'unknown' });
+    this.popup = this.customElement.createElement('div', {className: 'popuper'});
+    this.textPopup = this.customElement.createElement('p', { className: 'text__popup', textContent: 'unknown' });
     this.headerListeners();
     this.EVENT = {
       clickOnLogin: new Event('clickOnLogin', { bubbles: true }),
@@ -35,14 +35,14 @@ class ViewHeader {
     //Header контейнер
     const headerContainer = this.customElement.createElement('section', { className: 'header _container' });
 
-    const textPopup = this.customElement.createElement('p', {className: 'text__popap', textContent: 'unknown'});
+    // const textPopup = this.customElement.createElement('p', {className: 'text__popup', textContent: 'unknown'});
 
     // Основные секции header
     const headerLogo = this.customElement.createElement('a', { className: 'header__logo logo', href: '#' });
     const headerTotal = this.customElement.createElement('p', { className: 'header__total', textContent: 'Total: $' });
     this.customElement.addChildren(headerContainer, [headerLogo, headerTotal, this.headerBasket, this.headerLogin, this.popup])
 
-    this.customElement.addChildren(this.popup, [textPopup]);
+    this.customElement.addChildren(this.popup, [this.textPopup]);
     // Заполнение headerLogo
     this.customElement.addChildren(headerLogo, [this.logoTitle]);
     // Заполнение headerTotal
@@ -66,8 +66,17 @@ class ViewHeader {
     this.popup.classList.remove('active');
   }
 
-  async setTextPopup(stringPromise: string | null) {
+  async setTextPopupGood(stringPromise: string | null) {
     this.textPopup.textContent = await stringPromise;
+    this.popup.className = 'popuper'
+    this.showPopup();
+    await new Promise(resolve => setTimeout(resolve, 3000));
+    this.hidePopup();
+  }
+
+  async setTextPopupBad(stringPromise: string | null) {
+    this.textPopup.textContent = await stringPromise;
+    this.popup.className = 'popuperbad'
     this.showPopup();
     await new Promise(resolve => setTimeout(resolve, 3000));
     this.hidePopup();
