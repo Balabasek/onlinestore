@@ -49,7 +49,7 @@ public class BasketService {
 		basket.addNewItem(addItem);
 		updateBasket(basket);
 		logger.info("Add new item success");
-		return "Товар успешно добавлен в корзину";
+		return "Товар добавлен";
 	}
 
 	public String updateItemCount(String action, Long itemId, User user) {
