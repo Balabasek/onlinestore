@@ -1,14 +1,10 @@
 package com.example.restservice;
 
-import com.example.dtos.session.SaveSessionDto;
 import com.example.logger.LoggerProvider;
 import com.example.service.SessionService;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Arrays;
 
 @RestController
 @CrossOrigin

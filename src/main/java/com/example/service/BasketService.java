@@ -6,12 +6,10 @@ import com.example.model.Basket;
 import com.example.model.Item;
 import com.example.model.User;
 import com.example.persistence.BasketRepository;
-import com.example.persistence.ItemRepository;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
