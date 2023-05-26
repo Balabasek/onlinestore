@@ -1,6 +1,5 @@
 package com.example.service;
 
-import com.example.dtos.session.SaveSessionDto;
 import com.example.logger.LoggerProvider;
 import com.example.model.Session;
 import com.example.model.User;
