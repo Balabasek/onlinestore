@@ -202,14 +202,14 @@ class ControllerMain {
         body: JSON.stringify(requestBody)
       };
       const response = await fetch("http://localhost:8888/userService/addNewItem/" + localStorage.getItem('token'), settings);
-
+      const answer = await response.text();
       if (!response.ok) {
         alert("Ошибка HTTP: " + response.status);
-        this.ViewHEADER.setTextPopupBad(await response.text())
-      }else if((await response.text()).trim() === "Ошибка сервера!"){
+        this.ViewHEADER.setTextPopupBad(answer)
+      }else if(answer.trim() === "Ошибка сервера!"){
         this.ViewHEADER.setTextPopupBad("Ошибка сервера!");
       }else{
-        this.ViewHEADER.setTextPopupGood(await response.text());
+        this.ViewHEADER.setTextPopupGood(answer);
       }
       this.BascetLocalStorage.push(this.convertIDtoBascetObject(id))
     } else if (index !== -1 && key) {
@@ -251,11 +251,13 @@ class ControllerMain {
   }
 
   // Рендер главной страницы из роутера
-  renderMainPageFromRouter(name: string) {
+  async renderMainPageFromRouter(name: string) {
     document.title = `Store - ${name}`;
     const search = new URLSearchParams(window.location.search);
     const filter = this._formatURL.createObjectFromURLSearchParams(search)
     this.MODEL.setFILTER(filter)
+    this.ViewItemCardPAGE.updateBascetFROMLocalStorage();
+    await new Promise(resolve => setTimeout(resolve, 100));
     this.rerenderMainPageComponents()
   }
 
@@ -313,23 +315,25 @@ class ControllerMain {
   }
 
   // Рендер корзины
-  renderBacket(name: string = 'Backet') {
+  async renderBacket(name: string = 'Backet') {
     document.title = `Store - ${name}`;
     const search = new URLSearchParams(window.location.search);
     const basketObject = search.toString() ? this._formatURL.createFromURLSearchParams<URLSearchParams>(search) : {
       items: 3,
       pages: 1,
     }
-    this.MAIN.innerHTML = ''
+    this.updateBascetFROMLocalStorage();
+    await new Promise(resolve => setTimeout(resolve, 300));
+    this.MAIN.innerHTML = '';
     this.MAIN.append(this.ViewBASKETPAGE.create(this.generateProductsForBascet(), basketObject)) // НЕ ДОРАБОТАНО нудно  пушить объект
-    this.updateBascetCountAndTotaPriseHeader()
+    this.updateBascetCountAndTotaPriseHeader();
   }
 
   renderLogin(name: string = 'login') {
     document.title = `Store - ${name}`;
     this.MAIN.innerHTML = ''
     this.MAIN.append(this.ViewLoginPage.create())
-    window.history.pushState({}, '', `/login`)
+    this.updateBascetCountAndTotaPriseHeader();
   }
 
   async renderUserInfo(name: string = 'userInfo') {
@@ -338,7 +342,8 @@ class ControllerMain {
     this.MAIN.innerHTML = ''
     const response = await fetch("http://localhost:8888/sessionService/getUser/" + token);
     this.MAIN.append(this.ViewUserInfoPage.create(await response.text()));
-    window.history.pushState({}, '', `/userinfo`)
+    // window.history.pushState({}, '', `/userinfo`)
+    this.updateBascetCountAndTotaPriseHeader();
   }
 
   async renderSuccessAuthorization(name: string = 'successAuthorization') {

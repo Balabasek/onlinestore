@@ -183,7 +183,7 @@ class ViewBasketPage {
   }
 
   // Создание ItemCard корзины
-  renderProductCard(dataServerItem: IitemDATA[]) {
+  async renderProductCard(dataServerItem: IitemDATA[]) {
     const itemContainer: HTMLElement[] = [];
 
     // Проверим корзину на пустоту
@@ -201,7 +201,8 @@ class ViewBasketPage {
 
     for (const item of dataServerItem) {
       // Значения из localStorage
-      this.updateBascetFROMLocalStorage()
+      this.updateBascetFROMLocalStorage();
+      await new Promise(resolve => setTimeout(resolve, 200));
       const count = this.BascetLocalStorage.find(element => element.id === item.id)?.count;
       const total = this.BascetLocalStorage.find(element => element.id === item.id)?.total;
       const numberItem = this.objectItemsPages.items * (this.objectItemsPages.pages - 1) + (dataServerItem.indexOf(item) + 1);
@@ -239,12 +240,16 @@ class ViewBasketPage {
       const basketDataBtnPlus = this.customElement.createElement('button', { className: 'basket-data__count-btnPlus basket-data__count-btn', textContent: '+' });
 
       // Навешиваем обработчики на + и - карточек
-      basketDataBtnMinus.addEventListener('click', (e) => {
+      basketDataBtnMinus.addEventListener('click', async (e) => {
         basketDataBtnMinus.dispatchEvent(this.EVENT.clickOnProductMinus);
+        this.updateBascetFROMLocalStorage();
+        await new Promise(resolve => setTimeout(resolve, 250));
         this.countItemMinus(e);
       })
-      basketDataBtnPlus.addEventListener('click', (e) => {
+      basketDataBtnPlus.addEventListener('click', async (e) => {
         basketDataBtnPlus.dispatchEvent(this.EVENT.clickOnProductPlus);
+        this.updateBascetFROMLocalStorage();
+        await new Promise(resolve => setTimeout(resolve, 250));
         this.countItemPlus(e);
       })
 
@@ -317,12 +322,12 @@ class ViewBasketPage {
     this.customElement.addChildren(this.promolistActive, [...this.renderPromoList()]); // Рендер массив примененных промокодов
   }
 
-  changeItemsForList() {
+  async changeItemsForList() {
     this.productList.innerHTML = '';
     console.log(this.objectItemsPages)
 
     const newListElement = this.serverData.slice((this.objectItemsPages.pages - 1) * this.objectItemsPages.items, Number(this.objectItemsPages.items) * this.objectItemsPages.pages); // Создадим новый массив из старого
-    this.customElement.addChildren(this.productList, [...this.renderProductCard(newListElement)]); // Рендер массив
+    this.customElement.addChildren(this.productList, [...await this.renderProductCard(newListElement)]); // Рендер массив
 
     // Обновляем данные, после изменения одним из методов
     this.pagesCurrent.textContent = String(this.objectItemsPages.pages);
@@ -475,7 +480,7 @@ class ViewBasketPage {
     })
 
     this.serverData = [...newData];
-    this.changeItemsForList();
+    // this.changeItemsForList();
   }
 
   showNewPrice() {
@@ -504,6 +509,7 @@ class ViewBasketPage {
 
   async updateBascetFROMLocalStorage() {
     if (localStorage.getItem('token') != null) {
+      await new Promise(resolve => setTimeout(resolve, 200));
       const response = await fetch("http://localhost:8888/userService/getUserBasket/" + localStorage.getItem("token"));
       const readlocalStorage = await response.json()
 
